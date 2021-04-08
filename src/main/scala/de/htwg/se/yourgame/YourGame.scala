@@ -5,6 +5,6 @@ import de.htwg.se.yourgame.model.Player
 object YourGame {
   def main(args: Array[String]): Unit = {
     val student = Player("Your Name")
-    println("Hellllllllllllllllllo, " + student.name)
+    println("Hellllllllllllllllllllllllo, " + student.name)
   }
 }

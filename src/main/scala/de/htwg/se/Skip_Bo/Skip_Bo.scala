@@ -10,11 +10,6 @@ object Skip_Bo {
   }
   // Test
 
-  case class Card(Colour: String, Number: Int) {
-    override def toString: String = Number + "(" + Colour + ")"
-  }
-
-
 
 
 

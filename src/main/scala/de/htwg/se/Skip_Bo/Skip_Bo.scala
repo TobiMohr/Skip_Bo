@@ -6,9 +6,9 @@ object Skip_Bo {
   def main(args: Array[String]): Unit = {
     val student = Player("Your Name")
     println("Moin, " + student.name)
-    println("Commit test2")
   }
   // Test
+//Klappt der Commit noch?
 
 
 

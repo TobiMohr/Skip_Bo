@@ -7,13 +7,14 @@ class CardSpec extends WordSpec with Matchers {
 
   "A Card" when{
     "new" should{
-      val card1 = new Card("red", 1)
-      val card2 = new Card("green", 6)
-      val card3 = new Card("blue", 12)
+      val card1 = new Card(Colour.red, 1)
+      val card2 = new Card(Colour.green, 6)
+      val card3 = new Card(Colour.blue, 12)
+
       "have a colour" in{
-        card1.colour should be("red")
-        card2.colour should be("green")
-        card3.colour should be("blue")
+        card1.colour should be(Colour.red)
+        card2.colour should be(Colour.green)
+        card3.colour should be(Colour.blue)
       }
       "have a rank" in{
         card1.rank should be(1)

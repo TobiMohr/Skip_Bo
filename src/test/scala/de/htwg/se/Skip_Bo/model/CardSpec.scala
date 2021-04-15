@@ -21,6 +21,9 @@ class CardSpec extends WordSpec with Matchers {
         card2.rank should be(6)
         card3.rank should be(12)
       }
+      "have a rank between 1 and 12" in {
+        card1.accuracy() should be(true)
+      }
       "have a nice String representation" in{
         card1.toString should be("a red 1")
         card2.toString should be("a green 6")

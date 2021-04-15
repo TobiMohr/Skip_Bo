@@ -1,5 +1,10 @@
 package de.htwg.se.Skip_Bo.model
 
-class Card {
+
+case class Card(colour: String, rank: Int){
+
+  val card = Card("red", 1)
+
+
 
 }

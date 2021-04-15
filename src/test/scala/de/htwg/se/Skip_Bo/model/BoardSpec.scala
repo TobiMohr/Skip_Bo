@@ -4,7 +4,5 @@ import org.scalatest.{Matchers, WordSpec}
 
 class BoardSpec extends WordSpec with Matchers {
 
-  "A Board" should{
 
-  }
 }

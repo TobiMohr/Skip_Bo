@@ -6,14 +6,23 @@ import org.scalatest._
 class CardSpec extends WordSpec with Matchers {
 
     "A Card" when{
-      "new"should{
-        val card = Card(String, int)
-        "have value colour" in{
-          card.1 should be(Colour)
+
+      "should consist of a rank and a colour"should{
+        val card= Card("red", 1)
+        "be red" in{
+          card.colour should be("red")
         }
-        "have value int" in {
-          card.2 should be > 0
-          card.2 should be <= 12
+        "be green" in {
+          card.colour should be("green")
+        }
+        "be blue" in{
+          card.colour should be("blue")
+        }
+        "greater 0" in {
+          card.rank should be >= 1
+        }
+        "lesser 13" in{
+          card.rank should be <= 12
         }
       }
     }

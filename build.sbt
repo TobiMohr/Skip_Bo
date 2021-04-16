@@ -7,6 +7,11 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
 
 libraryDependencies += "junit" % "junit" % "4.8" % "test"
 
+//libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+
+//libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5"
+
+
 //*******************************************************************************//
 //Libraries that we will use in later lectures compatible with this scala version
 // uncomment to use!!

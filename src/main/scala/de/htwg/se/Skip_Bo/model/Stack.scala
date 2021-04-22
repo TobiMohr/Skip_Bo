@@ -1,5 +1,6 @@
 package de.htwg.se.Skip_Bo.model
 
-class Stack {
+ case class Stack(lst:List[Card]) {
+  val stacks: List[Card] = lst
 
-}
+  }

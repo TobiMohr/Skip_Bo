@@ -1,5 +1,5 @@
 package de.htwg.se.Skip_Bo.model
 
- case class Stack(List: Card) {
+ case class Stack(lst:List[Card]) {
 
   }

@@ -15,6 +15,7 @@ class StackSpec extends AnyWordSpec with Matchers{
         redStack.topCard() should be("a red 1")
         greenStack.topCard() should be("a green 1")
         blueStack.topCard() should be("a blue 1")
+        mtStack.topCard() should be("Keine Karte im Stapel")
       }
       "or be empty" in {
         mtStack.empty() should be(true)

@@ -1,11 +1,11 @@
 package de.htwg.se.Skip_Bo.model
 
-import org.scalatest._
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 
-@RunWith(classOf[JUnitRunner])
-class PlayerSpec extends WordSpec with Matchers {
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
+
+
+class PlayerSpec extends AnyWordSpec with Matchers {
   "A Player" when { "new" should {
     val player = Player("Your Name")
     "have a name"  in {

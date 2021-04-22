@@ -1,9 +1,10 @@
 package de.htwg.se.Skip_Bo.model
 
 
-import org.scalatest._
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class CardSpec extends WordSpec with Matchers {
+class CardSpec extends AnyWordSpec with Matchers {
 
   "A Card" when{
     "new" should{

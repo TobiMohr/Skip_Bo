@@ -1,8 +1,9 @@
 package de.htwg.se.Skip_Bo.model
 
-import org.scalatest._
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class HandSpec extends WordSpec with Matchers{
+class HandSpec extends AnyWordSpec with Matchers{
 
  //"A Hand" when{
  //  "new" should{

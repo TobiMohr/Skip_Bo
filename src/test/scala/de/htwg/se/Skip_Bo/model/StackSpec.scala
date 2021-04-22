@@ -1,7 +1,8 @@
 package de.htwg.se.Skip_Bo.model
 
-import org.scalatest._
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class StackSpec extends WordSpec with Matchers{
+class StackSpec extends AnyWordSpec with Matchers{
 
 }

@@ -1,15 +1,18 @@
 package de.htwg.se.Skip_Bo
 
-import de.htwg.se.Skip_Bo.model.Player
+import de.htwg.se.Skip_Bo.model.{Player, TUI}
 
 object Skip_Bo {
   def main(args: Array[String]): Unit = {
-    val student = Player("Your Name")
-    println("Moin, " + student.name)
+    println(" Wilkommen zum besten Spiel")
+    val start = "Hallöle " + anmeld(args)
+    println(start)
+    new TUI();
   }
-  // Test
-//Klappt der Commit noch?
 
+  def anmeld(spieler:Array[String]):String ={
+    readLine("Bitte Name eingeben: ")
+  }
 
 
 

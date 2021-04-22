@@ -6,12 +6,21 @@ import org.scalatest.wordspec.AnyWordSpec
 class StackSpec extends AnyWordSpec with Matchers{
   "A Stack" when {
     "new" should {
-      val mtStack: List[Card] = (Nil)
+      val mtStack = Stack(Nil)
+      val redStack = Stack(List(Card(Colour.red, 1), Card(Colour.red, 2)))
+      val greenStack = Stack(List(Card(Colour.green, 1), Card(Colour.green, 2)))
+      val blueStack = Stack(List(Card(Colour.blue, 1), Card(Colour.blue, 2)))
 
-      "be empty" in {
-        mtStack.contains(Card(Colour.red, 1)) should be(false)
-        mtStack.contains() should be(false)
-        mtStack.isEmpty should be(true)
+      "should have a top Card" in {
+        redStack.topCard() should be("a red 1")
+        greenStack.topCard() should be("a green 1")
+        blueStack.topCard() should be("a blue 1")
+      }
+      "or be empty" in {
+        mtStack.empty() should be(true)
+        redStack.empty() should be(false)
+        greenStack.empty() should be(false)
+        blueStack.empty() should be(false)
       }
 
     }

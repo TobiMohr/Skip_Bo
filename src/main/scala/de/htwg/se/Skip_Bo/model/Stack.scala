@@ -12,4 +12,7 @@ package de.htwg.se.Skip_Bo.model
   }
 
   def empty(): Boolean = { stacks.isEmpty}
+
   }
+
+

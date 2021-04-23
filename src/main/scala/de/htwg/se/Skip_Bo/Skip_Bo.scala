@@ -8,8 +8,8 @@ object Skip_Bo {
     val spieler1 = anmeld1(args)
     val spieler2 = anmeld2(args)
 
-    println("Hallöle" + spieler1)
-    println("Hallöle" + spieler2)
+    println("Hallöle " + spieler1)
+    println("Hallöle " + spieler2)
     println( spieler1 + " ist am zug")
     new TUI();
   }

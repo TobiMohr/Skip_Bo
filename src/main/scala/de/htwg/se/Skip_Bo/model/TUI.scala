@@ -1,6 +1,5 @@
 package de.htwg.se.Skip_Bo.model
 
-import de.htwg.se.Skip_Bo.Skip_Bo
 
 class TUI {
   while(true) {
@@ -16,6 +15,7 @@ class TUI {
       case "m3" => println("legt Karte auf 3. Mittel Stack")
       case "m4" => println("legt Karte auf 4. Mittel Stack")
       case "end" => Beenden
+      case "exit" => System.exit(0)
     }
 
     def Beenden: Unit = {

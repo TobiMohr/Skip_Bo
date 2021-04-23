@@ -16,6 +16,20 @@ class TUI {
       case "m4" => println("legt Karte auf 4. Mittel Stack")
       case "end" => Beenden
       case "exit" => System.exit(0)
+      case "help" => printHelp
+    }
+
+    def printHelp: Unit = {
+      println(hilfe)
+    }
+    def hilfe: String = {
+      """-------Hilfe---------
+        || p1 | p2 | p3 | p4 |
+        |
+        || m1 | m2 | m3 | m4 |
+        |---------------------
+        |"""
+        .stripMargin
     }
 
     def Beenden: Unit = {

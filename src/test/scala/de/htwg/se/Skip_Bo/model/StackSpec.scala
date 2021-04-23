@@ -23,7 +23,9 @@ class StackSpec extends AnyWordSpec with Matchers{
         greenStack.empty() should be(false)
         blueStack.empty() should be(false)
       }
-
+      "be able to print what it contains" in {
+        redStack.contains() should be("a red 1, a red 2")
+      }
     }
   }
 }

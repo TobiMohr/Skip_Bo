@@ -15,7 +15,7 @@ class TUI {
       case "m3" => println("legt Karte auf 3. Mittel Stack")
       case "m4" => println("legt Karte auf 4. Mittel Stack")
       case "end" => Beenden
-      case "exit" => System.exit(0)
+      case "exit" => sys.exit
       case "help" => printHelp
     }
 

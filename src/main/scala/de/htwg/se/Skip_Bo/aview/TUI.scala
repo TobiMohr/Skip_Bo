@@ -1,5 +1,4 @@
-package de.htwg.se.Skip_Bo.model
-
+package de.htwg.se.Skip_Bo.aview
 
 class TUI {
   while(true) {

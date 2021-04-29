@@ -1,6 +1,6 @@
 package de.htwg.se.Skip_Bo
 
-import de.htwg.se.Skip_Bo.model.{Player, TUI}
+import de.htwg.se.Skip_Bo.aview.TUI
 
 object Skip_Bo {
   def main(args: Array[String]): Unit = {
@@ -15,11 +15,11 @@ object Skip_Bo {
   }
 
   def anmeld1(spieler:Array[String]):String ={
-    readLine("Spieler1 - Bitte Name eingeben: ")
+    readLine("Spieler 1 - Bitte Name eingeben: ")
   }
 
   def anmeld2(spieler:Array[String]):String ={
-    readLine("Spieler2 - Bitte Name eingeben: ")
+    readLine("Spieler 2 - Bitte Name eingeben: ")
   }
 
 

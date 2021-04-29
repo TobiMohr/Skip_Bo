@@ -20,6 +20,8 @@ package de.htwg.se.Skip_Bo.model
    (for (n <- stacks) yield {
     n.toString
    }).mkString(", ")
+
+
   }
 
  }

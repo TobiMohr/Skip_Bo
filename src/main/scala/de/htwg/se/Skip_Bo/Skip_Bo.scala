@@ -2,7 +2,7 @@ package de.htwg.se.Skip_Bo
 
 import de.htwg.se.Skip_Bo.aview.TUI
 
-object Skip_Bo {
+object  Skip_Bo {
   def main(args: Array[String]): Unit = {
     println(" Wilkommen zum besten Spiel")
     val spieler1 = anmeld1(args)

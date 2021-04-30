@@ -1,21 +1,28 @@
 package de.htwg.se.Skip_Bo.aview
 
-class TUI {
+import de.htwg.se.Skip_Bo.controller.Controller
+import de.htwg.se.Skip_Bo.model.{Card, Colour, Stack}
+import de.htwg.se.Skip_Bo.util.Observer
+
+
+class TUI(controller: Controller) extends Observer{
   while(true) {
     val scanner = new java.util.Scanner(System.in)
     val line = scanner.nextLine
     line match {
-      case "p1" => println("legt Karte auf 1. Spieler Stack")
-      case "p2" => println("legt Karte auf 2. Spieler Stack")
-      case "p3" => println("legt Karte auf 3. Spieler Stack")
-      case "p4" => println("legt Karte auf 4. Spieler Stack")
-      case "m1" => println("legt Karte auf 1. Mittel Stack")
-      case "m2" => println("legt Karte auf 2. Mittel Stack")
-      case "m3" => println("legt Karte auf 3. Mittel Stack")
-      case "m4" => println("legt Karte auf 4. Mittel Stack")
-      case "end" => Beenden
+      case "d" => controller.makeStack(List(Card(Colour.red,1),Card(Colour.green,5)))
+      case "c" => controller.makeCard(Colour.green,2)
+      case "p1" => controller.p1()
+      case "p2" => controller.p2()
+      case "p3" => controller.p3()
+      case "p4" => controller.p4()
+      case "m1" => controller.m1()
+      case "m2" => controller.m2()
+      case "m3" => controller.m3()
+      case "m4" => controller.m4()
+      case "end" => controller.Beenden
       case "exit" => sys.exit
-      case "help" => printHelp
+        case "help" => printHelp
     }
 
     def printHelp: Unit = {
@@ -31,10 +38,8 @@ class TUI {
         .stripMargin
     }
 
-    def Beenden: Unit = {
-      println("Der Zug ist beendet")
-      println("Nächster Spieler ist am Zug")
-    }
 
   }
+
+  override def update: Unit = println(controller.printCard)
 }

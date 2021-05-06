@@ -5,7 +5,7 @@ import de.htwg.se.Skip_Bo.model.{Card, Colour, Stack}
 import de.htwg.se.Skip_Bo.util.Observer
 
 
-class TUI(controller: Controller) extends Observer{
+class TUI(controller: Controller) {
   while(true) {
     val scanner = new java.util.Scanner(System.in)
     val line = scanner.nextLine
@@ -67,5 +67,5 @@ class TUI(controller: Controller) extends Observer{
 
   }
 
-  override def update: Unit = println(controller.printCard)
+  //override def update: Unit = println(controller.printCard)
 }

@@ -1,43 +1,61 @@
 package de.htwg.se.Skip_Bo.controller
 
 import de.htwg.se.Skip_Bo.model.Colour.Colour
-import de.htwg.se.Skip_Bo.model.{Card, Stack}
+import de.htwg.se.Skip_Bo.model.{Card, Game}
 import de.htwg.se.Skip_Bo.util.Observable
+
 import scala.collection.immutable._
 
-class Controller(var stack: Stack, var card: Card) extends Observable{
+class Controller(var game: Game) extends Observable{
 
-  def p1(): Unit = {
-    println("legt Karte auf 1. Spieler Stack")
-    notifyObservers
-  }
-  def p2(): Unit = {
-    println("legt Karte auf 2. Spieler Stack")
-    notifyObservers
-  }
-  def p3(): Unit = {
-    println("legt Karte auf 3. Spieler Stack")
-    notifyObservers
-  }
-  def p4(): Unit = {
-    println("legt Karte auf 4. Spieler Stack")
-    notifyObservers
-  }
-  def m1(): Unit = {
-    println("legt Karte auf 1. Mittel Stack")
+  def startGame(size: Int = 5): Unit ={
+    game = Game(size)
     notifyObservers
   }
 
-  def m2(): Unit = {
-    println("legt Karte auf 2. Mittel Stack")
+  def pushCard1A(s: String): Unit = {
+    val card = game.getCardA(s)
+    game = game.pushCard1A(card)
+    println("legt Karte auf 1. Hilfstapel von Spieler A")
     notifyObservers
   }
-  def m3(): Unit = {
-    println("legt Karte auf 3. Mittel Stack")
+  def pushCard2A(s: String): Unit = {
+    val card = game.getCardA(s)
+    game = game.pushCard2A(card)
+    println("legt Karte auf 2. Hilfstapel von Spieler A")
     notifyObservers
   }
-  def m4(): Unit = {
-    println("legt Karte auf 4. Mittel Stack")
+  def pushCard3A(s: String): Unit = {
+    val card = game.getCardA(s)
+    game = game.pushCard3A(card)
+    println("legt Karte auf 3. Hilfstapel von Spieler A")
+    notifyObservers
+  }
+  def pushCard4A(s: String): Unit = {
+    val card = game.getCardA(s)
+    game = game.pushCard4A(card)
+    println("legt Karte auf 4. Hilfstapel von Spieler A")
+    notifyObservers
+  }
+  def ablegen1A(i: Int): Unit = {
+    game = game.ablegen1A(i)
+    println("legt Karte auf 1. Ablagestapel")
+    notifyObservers
+  }
+
+  def ablegen2A(i: Int): Unit = {
+    game = game.ablegen2A(i)
+    println("legt Karte auf 2. Ablagestapel")
+    notifyObservers
+  }
+  def ablegen3A(i: Int): Unit = {
+    game = game.ablegen3A(i)
+    println("legt Karte auf 3. Ablagestapel")
+    notifyObservers
+  }
+  def ablegen4A(i: Int): Unit = {
+    game = game.ablegen4A(i)
+    println("legt Karte auf 4. Ablagestapel")
     notifyObservers
   }
 
@@ -47,19 +65,19 @@ class Controller(var stack: Stack, var card: Card) extends Observable{
     notifyObservers
   }
 
-  def makeCard(colour: Colour, rank: Int):Unit = {
-    card = Card(colour, rank)
-    notifyObservers
-  }
-
-  def printCard: String = {
-    card.toString
-  }
-
-  def makeStack(lst: List[Card]):Unit = {
-    stack = Stack(lst)
-    notifyObservers
-  }
+//  def makeCard(rank: Value):Unit = {
+//    card = Card(rank)
+//    notifyObservers
+//  }
+//
+//  def printCard: String = {
+//    card.toString
+//  }
+//
+//  def makeStack(lst: List[Card]):Unit = {
+//    stack = Stack(lst)
+//    notifyObservers
+//  }
 
 
 

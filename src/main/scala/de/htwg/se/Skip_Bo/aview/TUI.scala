@@ -9,20 +9,46 @@ class TUI(controller: Controller) extends Observer{
   while(true) {
     val scanner = new java.util.Scanner(System.in)
     val line = scanner.nextLine
-    line match {
-     // case "d" => controller.makeStack(List(Card(Colour.red,1),Card(Colour.green,5)))
-      case "c" => controller.makeCard(Colour.green,2)
-      case "p1" => controller.p1()
-      case "p2" => controller.p2()
-      case "p3" => controller.p3()
-      case "p4" => controller.p4()
-      case "m1" => controller.m1()
-      case "m2" => controller.m2()
-      case "m3" => controller.m3()
-      case "m4" => controller.m4()
+    val l = line.split(" ")
+    l(1) match {
+        //start Game
+      case "s" => controller.startGame()
+      case "c" => controller
+      case "p1" => {
+        val s = l(2)
+        controller.pushCard1A(s)
+      }
+      case "p2" => {
+        val s = l(2)
+        controller.pushCard2A(s)
+      }
+      case "p3" => {
+        val s = l(2)
+        controller.pushCard3A(s)
+      }
+      case "p4" => {
+        val s = l(2)
+        controller.pushCard4A(s)
+      }
+      case "a1" => {
+        val i = l(2).toInt
+        controller.ablegen1A(i)
+      }
+      case "a2" => {
+        val i = l(2).toInt
+        controller.ablegen2A(i)
+      }
+      case "a3" => {
+        val i = l(2).toInt
+        controller.ablegen3A(i)
+      }
+      case "a4" => {
+        val i = l(2).toInt
+        controller.ablegen4A(i)
+      }
       case "end" => controller.Beenden
       case "exit" => sys.exit
-        case "help" => printHelp
+        case "help" => println(" " + hilfe)
     }
 
     def printHelp: Unit = {

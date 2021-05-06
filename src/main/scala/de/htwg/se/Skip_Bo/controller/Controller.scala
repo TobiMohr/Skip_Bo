@@ -60,6 +60,14 @@ class Controller(var stack: Stack, var card: Card) extends Observable{
     notifyObservers
   }
 
+  def BoardtoString: String
+  """-------Hilfe---------
+    || p1 | p2 | p3 | p4 |
+    |
+    || m1 | m2 | m3 | m4 |
+    |---------------------
+    |"""
+    .stripMargin
 
 
 }

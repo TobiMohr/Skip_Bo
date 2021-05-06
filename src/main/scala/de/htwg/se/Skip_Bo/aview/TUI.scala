@@ -22,24 +22,13 @@ class TUI(controller: Controller) extends Observer{
       case "m4" => controller.m4()
       case "end" => controller.Beenden
       case "exit" => sys.exit
-        case "help" => printHelp
-    }
-
-    def printHelp: Unit = {
-      println(hilfe)
-    }
-    def hilfe: String = {
-      """-------Hilfe---------
-        || p1 | p2 | p3 | p4 |
-        |
-        || m1 | m2 | m3 | m4 |
-        |---------------------
-        |"""
-        .stripMargin
     }
 
 
-  }
+    }
 
-  override def update: Unit = println(controller.printCard)
+
+
+
+  override def update: Unit = println(controller.BoardtoString)
 }

@@ -5,6 +5,8 @@ import de.htwg.se.Skip_Bo.controller
 import de.htwg.se.Skip_Bo.controller.Controller
 import de.htwg.se.Skip_Bo.model._
 
+import scala.io.StdIn.readLine
+
 object  Skip_Bo {
   val controller = new Controller(Stack(List(Card(Colour.red,1),Card(Colour.green,5))),Card(Colour.blue,3), new Board)
   def main(args: Array[String]): Unit = {

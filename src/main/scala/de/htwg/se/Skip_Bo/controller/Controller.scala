@@ -3,6 +3,7 @@ package de.htwg.se.Skip_Bo.controller
 import de.htwg.se.Skip_Bo.model.Colour.Colour
 import de.htwg.se.Skip_Bo.model.{Card, Stack}
 import de.htwg.se.Skip_Bo.util.Observable
+import scala.collection.immutable._
 
 class Controller(var stack: Stack, var card: Card) extends Observable{
 

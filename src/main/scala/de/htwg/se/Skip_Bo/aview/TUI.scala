@@ -10,7 +10,7 @@ class TUI(controller: Controller) extends Observer{
     val scanner = new java.util.Scanner(System.in)
     val line = scanner.nextLine
     line match {
-      case "d" => controller.makeStack(List(Card(Colour.red,1),Card(Colour.green,5)))
+     // case "d" => controller.makeStack(List(Card(Colour.red,1),Card(Colour.green,5)))
       case "c" => controller.makeCard(Colour.green,2)
       case "p1" => controller.p1()
       case "p2" => controller.p2()

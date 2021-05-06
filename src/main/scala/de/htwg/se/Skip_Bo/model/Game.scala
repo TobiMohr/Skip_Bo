@@ -165,7 +165,7 @@ case class Game(numOfCards: Int = 5) {
     this
   }
 
-  def pushCard3A(card: Card): Game = {
+  def pushCard3B(card: Card): Game = {
     for (t <- 1 to plBCards.length)
       if (plBCards(t - 1) == (card.value + 1)|| helpBstack1.head ==(card.value + 1)|| helpBstack2.head ==(card.value + 1)||
         helpBstack3.head ==(card.value + 1)|| helpBstack4.head ==(card.value + 1) || plBstack.head == (card.value +1)) {
@@ -220,8 +220,23 @@ case class Game(numOfCards: Int = 5) {
     this
   }
 
-  def getCard (s: String): Card = {
+  def getCardA (s: String): Card = {
     var c=0
-    for(j<- 1 to )
+    for(j<- 1 to plACards.length){
+      if(s.equals(plACards(j-1).toString)){
+        c = j-1
+      }
+    }
+    plACards(c)
+  }
+
+  def getCardB (s: String): Card = {
+    var c=0
+    for(j<- 1 to plBCards.length){
+      if(s.equals(plBCards(j-1).toString)){
+        c = j-1
+      }
+    }
+    plBCards(c)
   }
 }

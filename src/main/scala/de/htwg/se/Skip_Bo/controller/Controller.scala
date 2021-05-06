@@ -1,10 +1,10 @@
 package de.htwg.se.Skip_Bo.controller
 
 import de.htwg.se.Skip_Bo.model.Colour.Colour
-import de.htwg.se.Skip_Bo.model.{Card, Stack}
+import de.htwg.se.Skip_Bo.model.{Board, Card, Stack}
 import de.htwg.se.Skip_Bo.util.Observable
 
-class Controller(var stack: Stack, var card: Card) extends Observable{
+class Controller(var stack: Stack, var card: Card, var board: Board) extends Observable{
 
   def p1(): Unit = {
     println("legt Karte auf 1. Spieler Stack")
@@ -60,15 +60,7 @@ class Controller(var stack: Stack, var card: Card) extends Observable{
     notifyObservers
   }
 
-  def boardtoString: String = {
-    """-------Hilfe---------
-      || p1 | p2 | p3 | p4 |
-      |
-      || m1 | m2 | m3 | m4 |
-      |---------------------
-      |"""
-      .stripMargin
-  }
+  def boardtoString(): String = board.toString()
 
 
 }

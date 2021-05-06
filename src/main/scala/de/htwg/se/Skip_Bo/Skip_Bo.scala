@@ -6,7 +6,7 @@ import de.htwg.se.Skip_Bo.controller.Controller
 import de.htwg.se.Skip_Bo.model._
 
 object  Skip_Bo {
-  val controller = new Controller(Stack(List(Card(Colour.red,1),Card(Colour.green,5))),Card(Colour.blue,3))
+  val controller = new Controller(Stack(List(Card(Colour.red,1),Card(Colour.green,5))),Card(Colour.blue,3), new Board)
   def main(args: Array[String]): Unit = {
     println(" Wilkommen zum besten Spiel")
     val spieler1 = anmeld1(args)

@@ -29,7 +29,6 @@ class TUI(controller: Controller) extends Observer {
       case "m4" => controller.m4()
       case "end" => controller.Beenden
       case "exit" => sys.exit
-      case  _ => println("Wrong input!")
     }
   }
 

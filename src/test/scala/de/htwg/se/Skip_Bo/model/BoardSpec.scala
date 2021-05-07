@@ -5,24 +5,20 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class BoardSpec extends AnyWordSpec with Matchers {
 
- "A Board" when{
-   "new" should {
-     val midStack1 = Stack(Nil)
-     val midStack2 = Stack(Nil)
-     val midStack3 = Stack(Nil)
-     val midStack4 = Stack(Nil)
+  "A Board" when{
+    "new" should {
+      val board = new Board
 
-     val p1Stack1 = Stack(Nil)
-     val p1Stack2 = Stack(Nil)
-     val p1Stack3 = Stack(Nil)
-     val p1Stack4 = Stack(Nil)
+      "have a String representation" in {
+        board.toString() should be("""-------Hilfe---------
+| p1 | p2 | p3 | p4 |
 
-     val p2Stack1 = Stack(Nil)
-     val p2Stack2 = Stack(Nil)
-     val p2Stack3 = Stack(Nil)
-     val p2Stack4 = Stack(Nil)
+| m1 | m2 | m3 | m4 |
+---------------------
+""")
+      }
 
+    }
 
-   }
- }
+  }
 }

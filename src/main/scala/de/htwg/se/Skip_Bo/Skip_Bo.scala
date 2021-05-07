@@ -1,6 +1,8 @@
 package de.htwg.se.Skip_Bo
 
 import de.htwg.se.Skip_Bo.aview.TUI
+import de.htwg.se.Skip_Bo.controller.Controller
+import de.htwg.se.Skip_Bo.model.Game
 
 object  Skip_Bo {
   def main(args: Array[String]): Unit = {
@@ -11,7 +13,10 @@ object  Skip_Bo {
     println("Hallöle " + spieler1)
     println("Hallöle " + spieler2)
     println( spieler1 + " ist am zug")
-    new TUI();
+
+    val controller = new Controller(Game())
+    val tui = new TUI(controller)
+    controller.notifyObservers
   }
 
   def anmeld1(spieler:Array[String]):String ={

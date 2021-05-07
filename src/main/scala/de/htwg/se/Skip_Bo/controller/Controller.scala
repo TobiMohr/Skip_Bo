@@ -1,7 +1,7 @@
 package de.htwg.se.Skip_Bo.controller
 
-import de.htwg.se.Skip_Bo.model.Colour.Colour
-import de.htwg.se.Skip_Bo.model.{Card, Game}
+
+import de.htwg.se.Skip_Bo.model.{Game}
 import de.htwg.se.Skip_Bo.util.Observable
 
 import scala.collection.immutable._
@@ -13,9 +13,9 @@ class Controller(var game: Game) extends Observable{
     notifyObservers
   }
 
-  def pushCard1A(s: String): Unit = {
-    val card = game.getCardA(s)
-    game = game.pushCard1A(card)
+  def pushCard1A(s: Int): Unit = {
+    //val card = game.getCardA(s)
+    game = game.pushCard1A(s)
     println("legt Karte auf 1. Hilfstapel von Spieler A")
     notifyObservers
   }
@@ -63,6 +63,18 @@ class Controller(var game: Game) extends Observable{
     println("Der Zug ist beendet")
     println("Nächster Spieler ist am Zug")
     notifyObservers
+  }
+
+  def gameToString: String = game.toString
+
+  def hilfe: String = {
+    """-------Hilfe---------
+      || p1 | p2 | p3 | p4 |
+      |
+      || m1 | m2 | m3 | m4 |
+      |---------------------
+      |"""
+      .stripMargin
   }
 
 //  def makeCard(rank: Value):Unit = {

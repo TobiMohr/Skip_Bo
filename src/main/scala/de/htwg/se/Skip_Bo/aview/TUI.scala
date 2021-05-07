@@ -13,9 +13,8 @@ class TUI(controller: Controller) {
     l(1) match {
         //start Game
       case "s" => controller.startGame()
-      case "c" => controller
       case "p1" => {
-        val s = l(2)
+        val s = l(2).toInt
         controller.pushCard1A(s)
       }
       case "p2" => {
@@ -48,21 +47,12 @@ class TUI(controller: Controller) {
       }
       case "end" => controller.Beenden
       case "exit" => sys.exit
-        case "help" => println(" " + hilfe)
+        case "help" => println(controller.hilfe)
     }
 
-    def printHelp: Unit = {
-      println(hilfe)
-    }
-    def hilfe: String = {
-      """-------Hilfe---------
-        || p1 | p2 | p3 | p4 |
-        |
-        || m1 | m2 | m3 | m4 |
-        |---------------------
-        |"""
-        .stripMargin
-    }
+    def update: Boolean = {println(controller.gameToString);true}
+
+
 
 
   }

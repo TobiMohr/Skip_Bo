@@ -68,20 +68,16 @@ case class Game(numOfCards: Int = 5) {
   }
 
   //legt Karte auf Ablegestapel von Spieler A
-  def pushCard1A(card: Card): Game = {
-    for (t <- 1 to plACards.length)
-      if (plACards(t - 1) == (card.value + 1)|| helpAstack1.head ==(card.value + 1)|| helpAstack2.head ==(card.value + 1)||
-        helpAstack3.head ==(card.value + 1)|| helpAstack4.head ==(card.value + 1)|| plAstack.head == (card.value +1)) {
-        stack1 = plACards(t - 1) +: stack1
-        plACards = plACards.take(t - 1) ++ plACards.drop(t)
-      }
+  def pushCard1A(int: Int): Game = {
+        stack1 = plACards(int) +: stack1
+        plACards = plACards.take(int - 1) ++ plACards.drop(int)
     this
   }
 
   def pushCard2A(card: Card): Game = {
     for (t <- 1 to plACards.length)
-      if (plACards(t - 1) == (card.value + 1)|| helpAstack1.head ==(card.value + 1)|| helpAstack2.head ==(card.value + 1)||
-        helpAstack3.head ==(card.value + 1)|| helpAstack4.head ==(card.value + 1)|| plAstack.head == (card.value +1)) {
+      if (plACards(t - 1) == (card.value)|| helpAstack1.head ==(card.value)|| helpAstack2.head ==(card.value)||
+        helpAstack3.head ==(card.value)|| helpAstack4.head ==(card.value)|| plAstack.head == (card.value)) {
         stack2 = plACards(t - 1) +: stack2
         plACards = plACards.take(t - 1) ++ plACards.drop(t)
       }
@@ -90,8 +86,8 @@ case class Game(numOfCards: Int = 5) {
 
   def pushCard3A(card: Card): Game = {
     for (t <- 1 to plACards.length)
-      if (plACards(t - 1) == (card.value + 1)|| helpAstack1.head ==(card.value + 1)|| helpAstack2.head ==(card.value + 1)||
-        helpAstack3.head ==(card.value + 1)|| helpAstack4.head ==(card.value + 1) || plAstack.head == (card.value +1)) {
+      if (plACards(t - 1) == (card.value)|| helpAstack1.head ==(card.value )|| helpAstack2.head ==(card.value )||
+        helpAstack3.head ==(card.value)|| helpAstack4.head ==(card.value ) || plAstack.head == (card.value )) {
         stack3 = plACards(t - 1) +: stack3
         plACards = plACards.take(t - 1) ++ plACards.drop(t)
       }
@@ -100,8 +96,8 @@ case class Game(numOfCards: Int = 5) {
 
   def pushCard4A(card: Card): Game = {
     for (t <- 1 to plACards.length)
-      if (plACards(t - 1) == (card.value + 1)|| helpAstack1.head ==(card.value + 1)|| helpAstack2.head ==(card.value + 1)||
-        helpAstack3.head ==(card.value + 1)|| helpAstack4.head ==(card.value + 1)|| plAstack.head == (card.value +1)) {
+      if (plACards(t - 1) == (card.value )|| helpAstack1.head ==(card.value )|| helpAstack2.head ==(card.value )||
+        helpAstack3.head ==(card.value)|| helpAstack4.head ==(card.value )|| plAstack.head == (card.value )) {
         stack4 = plACards(t - 1) +: stack4
         plACards = plACards.take(t - 1) ++ plACards.drop(t)
       }
@@ -147,8 +143,8 @@ case class Game(numOfCards: Int = 5) {
   //legt Karte auf Ablegestapel von Spieler B
   def pushCard1B(card: Card): Game = {
     for (t <- 1 to plBCards.length)
-      if (plBCards(t - 1) == (card.value + 1)|| helpBstack1.head ==(card.value + 1)|| helpBstack2.head ==(card.value + 1)||
-        helpBstack3.head ==(card.value + 1)|| helpBstack4.head ==(card.value + 1)|| plBstack.head == (card.value +1)) {
+      if (plBCards(t - 1) == (card.value)|| helpBstack1.head ==(card.value)|| helpBstack2.head ==(card.value)||
+        helpBstack3.head ==(card.value)|| helpBstack4.head ==(card.value )|| plBstack.head == (card.value)) {
         stack1 = plBCards(t - 1) +: stack1
         plBCards = plBCards.take(t - 1) ++ plBCards.drop(t)
       }
@@ -157,8 +153,8 @@ case class Game(numOfCards: Int = 5) {
 
   def pushCard2B(card: Card): Game = {
     for (t <- 1 to plBCards.length)
-      if (plBCards(t - 1) == (card.value + 1)|| helpBstack1.head ==(card.value + 1)|| helpBstack2.head ==(card.value + 1)||
-        helpBstack3.head ==(card.value + 1)|| helpBstack4.head ==(card.value + 1)|| plBstack.head == (card.value +1)) {
+      if (plBCards(t - 1) == (card.value )|| helpBstack1.head ==(card.value )|| helpBstack2.head ==(card.value)||
+        helpBstack3.head ==(card.value )|| helpBstack4.head ==(card.value )|| plBstack.head == (card.value )) {
         stack2 = plBCards(t - 1) +: stack2
         plBCards = plBCards.take(t - 1) ++ plBCards.drop(t)
       }
@@ -167,8 +163,8 @@ case class Game(numOfCards: Int = 5) {
 
   def pushCard3B(card: Card): Game = {
     for (t <- 1 to plBCards.length)
-      if (plBCards(t - 1) == (card.value + 1)|| helpBstack1.head ==(card.value + 1)|| helpBstack2.head ==(card.value + 1)||
-        helpBstack3.head ==(card.value + 1)|| helpBstack4.head ==(card.value + 1) || plBstack.head == (card.value +1)) {
+      if (plBCards(t - 1) == (card.value )|| helpBstack1.head ==(card.value )|| helpBstack2.head ==(card.value )||
+        helpBstack3.head ==(card.value )|| helpBstack4.head ==(card.value) || plBstack.head == (card.value )) {
         stack3 = plBCards(t - 1) +: stack3
         plBCards = plBCards.take(t - 1) ++ plBCards.drop(t)
       }
@@ -177,8 +173,8 @@ case class Game(numOfCards: Int = 5) {
 
   def pushCard4B(card: Card): Game = {
     for (t <- 1 to plBCards.length)
-      if (plBCards(t - 1) == (card.value + 1)|| helpBstack1.head ==(card.value + 1)|| helpBstack2.head ==(card.value + 1)||
-        helpBstack3.head ==(card.value + 1)|| helpBstack4.head ==(card.value + 1)|| plBstack.head == (card.value +1)) {
+      if (plBCards(t - 1) == (card.value)|| helpBstack1.head ==(card.value)|| helpBstack2.head ==(card.value)||
+        helpBstack3.head ==(card.value)|| helpBstack4.head ==(card.value )|| plBstack.head == (card.value)) {
         stack4 = plBCards(t - 1) +: stack4
         plBCards = plBCards.take(t - 1) ++ plBCards.drop(t)
       }
@@ -238,5 +234,26 @@ case class Game(numOfCards: Int = 5) {
       }
     }
     plBCards(c)
+  }
+
+  override def toString: String = {
+    var a, b, c, d, e, f, g, h, j, k = " "
+    for (i <- 1 to plACards.length) {
+      var a = ("| " + plACards(i - 1).toString + " | ")
+    }
+    b = ("| " + plAstack.head.toString + " | ")
+    c = ("| " + helpAstack1.head.toString + " | ")
+    d = ("| " + helpAstack2.head.toString + " | ")
+    e = ("| " + helpAstack3.head.toString + " | ")
+    f = ("| " + helpAstack4.head.toString + " | ")
+    g = ("| " + stack1.head.toString + " | ")
+    h = ("| " + stack2.head.toString + " | ")
+    j = ("| " + stack3.head.toString + " | ")
+    k = ("| " + stack4.head.toString + " | ")
+
+    val playField = a + "\t" + b + "\t" + c + "\t" + d + "\t" + e + "\t" + f + "\t" + g + "\n\n" +
+      h + "\t" + j + "\t" + k + "\t"
+
+    playField
   }
 }

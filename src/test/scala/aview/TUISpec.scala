@@ -19,10 +19,12 @@ class TUISpec extends AnyWordSpec with Matchers {
       "make a Stack with input d" in {
         tui.processInputLine("d")
         controller.makeStack(List(Card(Colour.red, 1), Card(Colour.green, 1))) should be()
+        controller.stack should be(Stack(List(Card(Colour.red, 1), Card(Colour.green, 1))))
       }
       "make a Card with inoput c" in {
         tui.processInputLine("c")
         controller.makeCard(Colour.blue, 2) should be()
+        controller.card should be(Card(Colour.blue, 2))
       }
       "put a card on player stapel 1 with input p1" in {
         tui.processInputLine("p1")

@@ -5,13 +5,20 @@ import de.htwg.se.Skip_Bo.model.{Card, Colour, Stack}
 import de.htwg.se.Skip_Bo.util.Observer
 
 
-class TUI(controller: Controller) extends Observer{
-  while(true) {
-    val scanner = new java.util.Scanner(System.in)
-    val line = scanner.nextLine
-    line match {
-      case "d" => controller.makeStack(List(Card(Colour.red,1),Card(Colour.green,5)))
-      case "c" => controller.makeCard(Colour.green,2)
+
+
+class TUI(controller: Controller) extends Observer {
+
+
+  controller.add(this)
+  val stack = List(Card(Colour.red, 1), Card(Colour.green, 5))
+
+  def processInputLine(input: String): Unit = {
+
+
+    input match {
+      case "d" => controller.makeStack(stack)
+      case "c" => controller.makeCard(Colour.green, 2)
       case "p1" => controller.p1()
       case "p2" => controller.p2()
       case "p3" => controller.p3()
@@ -22,12 +29,9 @@ class TUI(controller: Controller) extends Observer{
       case "m4" => controller.m4()
       case "end" => controller.Beenden
       case "exit" => sys.exit
+      case  _ => println("Wrong input!")
     }
-
-
-    }
-
-
+  }
 
 
   override def update: Unit = println(controller.boardtoString)

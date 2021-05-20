@@ -1,10 +1,10 @@
-package de.htwg.se.Skip_Bo.model
-
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
-
-class StackSpec extends AnyWordSpec with Matchers{
-  "A Stack" when {
+//package de.htwg.se.Skip_Bo.model
+//
+//import org.scalatest.matchers.should.Matchers
+//import org.scalatest.wordspec.AnyWordSpec
+//
+//class StackSpec extends AnyWordSpec with Matchers{
+// "A Stack" when {
 //
 //    "new" should {
 //      val mtStack = new Stack(Nil)
@@ -26,4 +26,4 @@ class StackSpec extends AnyWordSpec with Matchers{
 //        redStack.contains() should be("1, 2")
 //      }
 //    }
-}
+//}

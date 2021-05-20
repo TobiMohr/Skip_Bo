@@ -19,9 +19,9 @@ class Controller(var game: Game) extends Observable{
     println("legt Karte auf 1. Hilfstapel von Spieler A")
     notifyObservers
   }
-  def pushCard2A(s: String): Unit = {
-    val card = game.getCardA(s)
-    game = game.pushCard2A(card)
+  def pushCard2A(s: Int): Unit = {
+    //val card = game.getCardA(s)
+    game = game.pushCard2A(s)
     println("legt Karte auf 2. Hilfstapel von Spieler A")
     notifyObservers
   }

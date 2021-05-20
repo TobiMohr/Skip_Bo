@@ -36,7 +36,15 @@ case class Game(numOfCards: Int = 5) {
     //erstellt Karten
     var cards = new ListBuffer[Card]()
     for (value <- Value.values) {
-      cards += Card(value)
+      if(value == Value.Joker){
+        for(_<-0 to 17){
+          cards += Card(value)
+        }
+      }else{
+        for(_<-0 to 143){
+          cards += Card(value)
+        }
+      }
     }
 
     //legt Karten auf "Aufnehmstapel"
@@ -74,13 +82,9 @@ case class Game(numOfCards: Int = 5) {
     this
   }
 
-  def pushCard2A(card: Card): Game = {
-    for (t <- 1 to plACards.length)
-      if (plACards(t - 1) == (card.value)|| helpAstack1.head ==(card.value)|| helpAstack2.head ==(card.value)||
-        helpAstack3.head ==(card.value)|| helpAstack4.head ==(card.value)|| plAstack.head == (card.value)) {
-        stack2 = plACards(t - 1) +: stack2
-        plACards = plACards.take(t - 1) ++ plACards.drop(t)
-      }
+  def pushCard2A(int: Int): Game = {
+        stack2 = plACards(int) +: stack2
+        plACards = plACards.take(int - 1) ++ plACards.drop(int)
     this
   }
 

@@ -22,15 +22,28 @@ class TUI(controller: Controller) extends Observer{
       }
       case "ph2" => {
         val s = l(1).toInt
-        controller.pushCardHand2A(s)
+        if(controller.checkCardHand(s)){
+          controller.pushCardHand2A(s)
+        } else {
+          println("Diese Karte kannst du nicht ablegen.")
+        }
       }
+
       case "ph3" => {
         val s = l(1).toInt
-        controller.pushCardHand3A(s)
+        if(controller.checkCardHand(s)){
+          controller.pushCardHand3A(s)
+        } else {
+          println("Diese Karte kannst du nicht ablegen.")
+        }
       }
       case "ph4" => {
         val s = l(1).toInt
-        controller.pushCardHand4A(s)
+        if(controller.checkCardHand(s)){
+          controller.pushCardHand4A(s)
+        } else {
+          println("Diese Karte kannst du nicht ablegen.")
+        }
       }
       case "a1" => {
         val i = l(1).toInt

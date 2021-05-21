@@ -12,21 +12,25 @@ class TUI(controller: Controller) extends Observer{
     l(0) match {
       //start Game
       case "s" => controller.startGame()
-      case "p1" => {
+      case "ph1" => {
         val s = l(1).toInt
-        controller.pushCard1A(s)
+        if(controller.checkCardHand(s)){
+          controller.pushCardHand1A(s)
+        } else {
+          println("Diese Karte kannst du nicht ablegen.")
+        }
       }
-      case "p2" => {
+      case "ph2" => {
         val s = l(1).toInt
-        controller.pushCard2A(s)
+        controller.pushCardHand2A(s)
       }
-      case "p3" => {
+      case "ph3" => {
         val s = l(1).toInt
-        controller.pushCard3A(s)
+        controller.pushCardHand3A(s)
       }
-      case "p4" => {
+      case "ph4" => {
         val s = l(1).toInt
-        controller.pushCard4A(s)
+        controller.pushCardHand4A(s)
       }
       case "a1" => {
         val i = l(1).toInt
@@ -43,6 +47,18 @@ class TUI(controller: Controller) extends Observer{
       case "a4" => {
         val i = l(1).toInt
         controller.ablegen4A(i)
+      }
+      case "pS1" => {
+        controller.pushCardStapel1A()
+      }
+      case "pS2" => {
+        controller.pushCardStapel2A()
+      }
+      case "pS3" => {
+        controller.pushCardStapel3A()
+      }
+      case "pS4" => {
+        controller.pushCardStapel4A()
       }
       case "end" => controller.Beenden
       case "help" => println(controller.hilfe)

@@ -129,32 +129,31 @@ case class Game(numOfCards: Int = 5) {
   }
 
   //legt Karte auf Ablegestapel von Spieler A
-  def pushCard1A(int: Int): Game = {
+  def pushCardHand1A(int: Int): Game = {
         stack1 = plACards(int) +: stack1
         plACards = plACards.take(int) ++ plACards.drop(int + 1)
     this
   }
 
-  def pushCard2A(int: Int): Game = {
+  def pushCardHand2A(int: Int): Game = {
         stack2 = plACards(int) +: stack2
         plACards = plACards.take(int) ++ plACards.drop(int + 1)
     this
   }
 
-  def pushCard3A(int :Int): Game = {
+  def pushCardHand3A(int :Int): Game = {
         stack3 = plACards(int) +: stack3
         plACards = plACards.take(int) ++ plACards.drop(int + 1)
     this
   }
 
-  def pushCard4A(int: Int): Game = {
+  def pushCardHand4A(int: Int): Game = {
         stack4 = plACards(int) +: stack4
         plACards = plACards.take(int) ++ plACards.drop(int + 1)
     this
   }
 
   //legt Karte auf Hilfsstapel von Spieler A
-
   def ablegen1A(stapel: Int): Game={
     helpAstack1 = plACards(stapel) +: helpAstack1
     plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
@@ -176,6 +175,31 @@ case class Game(numOfCards: Int = 5) {
   def ablegen4A(stapel: Int): Game={
     helpAstack4 = plACards(stapel) +: helpAstack1
     plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
+    this
+  }
+
+  //legt Karte vom Spielerstapel auf Ablegestapel ab
+  def pushCardStapel1A(): Game = {
+    stack1 = plAstack.head +: stack1
+    plAstack = plAstack.drop(1)
+    this
+  }
+
+  def pushCardStapel2A(): Game = {
+    stack2 = plAstack.head +: stack2
+    plAstack = plAstack.drop(1)
+    this
+  }
+
+  def pushCardStapel3A(): Game = {
+    stack3 = plAstack.head +: stack3
+    plAstack = plAstack.drop(1)
+    this
+  }
+
+  def pushCardStapel4A(): Game = {
+    stack4 = plAstack.head +: stack4
+    plAstack = plAstack.drop(1)
     this
   }
 
@@ -249,7 +273,7 @@ case class Game(numOfCards: Int = 5) {
   }
 
   //check Karte ob erlaubt zu legen
-  def checkCard(i: Int): Boolean={
+  def checkCardHand(i: Int): Boolean={
     if(plACards(i).toString != "J") {
       if (((plACards(i).toString.toInt) - 1 == stack1.head.toString.toInt) || ((plACards(i).toString.toInt) - 1 == stack2.head.toString.toInt)
         || ((plACards(i).toString.toInt) - 1 == stack3.head.toString.toInt) || ((plACards(i).toString.toInt) - 1 == stack4.head.toString.toInt)) {

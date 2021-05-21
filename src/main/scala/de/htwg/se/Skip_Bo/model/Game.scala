@@ -2,6 +2,7 @@ package de.htwg.se.Skip_Bo.model
 
 import scala.collection.mutable.ListBuffer
 import de.htwg.se.Skip_Bo.model.{Colour, Value}
+import scala.util.Random
 
 case class Game(numOfCards: Int = 5) {
   //"Aufnehmstapel"
@@ -16,46 +17,94 @@ case class Game(numOfCards: Int = 5) {
   var plBstack = new ListBuffer[Card]()
   // Ablegestapel
   var stack1 = new ListBuffer[Card]()
+  stack1 += Card(Value.One)
   var stack2 = new ListBuffer[Card]()
+  stack2 += Card(Value.One)
   var stack3 = new ListBuffer[Card]()
+  stack3 += Card(Value.One)
   var stack4 = new ListBuffer[Card]()
+  stack4 += Card(Value.One)
   //"Hilfsstapel" des Spielers A
   var helpAstack1 = new ListBuffer[Card]()
+  helpAstack1 += Card(Value.One)
   var helpAstack2 = new ListBuffer[Card]()
+  helpAstack2 += Card(Value.One)
   var helpAstack3 = new ListBuffer[Card]()
+  helpAstack3 += Card(Value.One)
   var helpAstack4 = new ListBuffer[Card]()
+  helpAstack4 += Card(Value.One)
   //"Hilfsstapel" des Spielers B
   var helpBstack1 = new ListBuffer[Card]()
+  helpBstack1 += Card(Value.One)
   var helpBstack2 = new ListBuffer[Card]()
+  helpBstack2 += Card(Value.One)
   var helpBstack3 = new ListBuffer[Card]()
+  helpBstack3 += Card(Value.One)
   var helpBstack4 = new ListBuffer[Card]()
+  helpBstack4 += Card(Value.One)
   startGame(numOfCards)
 
   //baut Grundspiel auf
   def startGame(numOfPlayerCards: Int): Unit = {
-    //erstellt Karten
-    var cards = new ListBuffer[Card]()
+    //erstellt Kartendeck
     for (value <- Value.values) {
       if(value == Value.Joker){
         for(_<-0 to 17){
-          cards += Card(value)
+          cardsCovered += Card(value)
         }
-      }else{
-        for(_<-0 to 143){
-          cards += Card(value)
+      }else if (value == Value.One){
+        for(_<-0 to 11){
+          cardsCovered += Card(value)
+        }
+      }else if (value == Value.Two){
+        for(_<-0 to 11){
+          cardsCovered += Card(value)
+        }
+      }else if (value == Value.Three){
+        for(_<-0 to 11){
+          cardsCovered += Card(value)
+        }
+      }else if (value == Value.Four){
+        for(_<-0 to 11){
+          cardsCovered += Card(value)
+        }
+      }else if (value == Value.Five){
+        for(_<-0 to 11){
+          cardsCovered += Card(value)
+        }
+      }else if (value == Value.Six){
+        for(_<-0 to 11){
+          cardsCovered += Card(value)
+        }
+      }else if (value == Value.Seven){
+        for(_<-0 to 11){
+          cardsCovered += Card(value)
+        }
+      }else if (value == Value.Eight){
+        for(_<-0 to 11){
+          cardsCovered += Card(value)
+        }
+      }else if (value == Value.Nine){
+        for(_<-0 to 11){
+          cardsCovered += Card(value)
+        }
+      }else if (Value == Value.Ten){
+        for(_<-0 to 11){
+          cardsCovered += Card(value)
+        }
+      }else if (value == Value.Eleven){
+        for(_<-0 to 11){
+          cardsCovered += Card(value)
+        }
+      }else if (value == Value.Twelve){
+        for(_<-0 to 11){
+          cardsCovered += Card(value)
         }
       }
     }
 
-    //legt Karten auf "Aufnehmstapel"
-    var i = 162
-    for (_ <- 0 to 161) {
-      val r = new scala.util.Random
-      val p = 1 + r.nextInt(i)
-      cardsCovered = cards(p - 1) +: cardsCovered
-      cards = cards.take(p - 1) ++ cards.drop(p)
-      i -= 1
-    }
+    //Mischelt Kartendeck (Aufnehmstapel)
+    cardsCovered= Random.shuffle(cardsCovered)
 
     //erstellt Handkarten für Spieler A und B
     for (a <- 1 to numOfPlayerCards) {
@@ -64,6 +113,8 @@ case class Game(numOfCards: Int = 5) {
       plBCards = cardsCovered.head +: plBCards
       cardsCovered = cardsCovered.drop(1)
     }
+
+    println(plACards)
 
     //erstellt Spielerstapel für Spieler A und B
     for (a <- 1 to 30){
@@ -136,7 +187,7 @@ case class Game(numOfCards: Int = 5) {
 
   //füllt Karten auf, so dass Spieler A wieder 5 Karten hat
   def pullA() : Game ={
-    while(plACards.length<5){
+    while(plACards.length<=5){
       plACards += Card(cardsCovered.head.value)
       cardsCovered = cardsCovered.drop(1)
     }
@@ -243,19 +294,19 @@ case class Game(numOfCards: Int = 5) {
   override def toString: String = {
     var a, b, c, d, e, f, g, h, j, k = " "
     for (i <- 1 to plACards.length) {
-      var a = ("| " + plACards(i - 1).toString + " | ")
+       a = ("| " + plACards(i - 1).toString + " | ")
     }
-    b = ("| " + plAstack.head.toString + " | ")
-    c = ("| " + helpAstack1.head.toString + " | ")
-    d = ("| " + helpAstack2.head.toString + " | ")
-    e = ("| " + helpAstack3.head.toString + " | ")
-    f = ("| " + helpAstack4.head.toString + " | ")
+    b = ("| " + helpAstack1.head.toString + " | ")
+    c = ("| " + helpAstack2.head.toString + " | ")
+    d = ("| " + helpAstack3.head.toString + " | ")
+    e = ("| " + helpAstack4.head.toString + " | ")
+    f = ("| " + plAstack.head.toString + " | ")
     g = ("| " + stack1.head.toString + " | ")
     h = ("| " + stack2.head.toString + " | ")
     j = ("| " + stack3.head.toString + " | ")
     k = ("| " + stack4.head.toString + " | ")
 
-    val playField = a + "\t" + b + "\t" + c + "\t" + d + "\t" + e + "\t" + f + "\t" + g + "\n\n" +
+    val playField = a + "\n" + b + "\t" + c + "\t" + d + "\t" + e + "\t" + f + "\n\n" + g + "\t" +
       h + "\t" + j + "\t" + k + "\t"
 
     playField

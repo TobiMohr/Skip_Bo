@@ -5,10 +5,10 @@ import de.htwg.se.Skip_Bo.model.{Card, Colour, Stack}
 import de.htwg.se.Skip_Bo.util.Observer
 
 
-class TUI(controller: Controller) {
+class TUI(controller: Controller) extends Observer{
   controller.add(this)
   def processInputLine(input: String): Unit = {
-    val l:Array[String] = input.split("\t ")
+    val l:Array[String] = input.split(" ")
     l(0) match {
       //start Game
       case "s" => controller.startGame()
@@ -46,15 +46,13 @@ class TUI(controller: Controller) {
       }
       case "end" => controller.Beenden
       case "help" => println(controller.hilfe)
+      case "q"=>
     }
 
-//    override def update: Boolean = {
-//      println(controller.gameToString);
-//      true
-//    }
+
 
 
   }
 
- //override def update: Boolean = {println(controller.gameToString);true}
+ override def update: Unit = println(controller.gameToString)
 }

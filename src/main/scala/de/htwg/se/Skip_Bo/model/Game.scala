@@ -248,6 +248,7 @@ case class Game(numOfCards: Int = 5) {
     this
   }
 
+  //check Karte ob erlaubt zu legen
   def checkCard(i: Int): Boolean={
     if(plACards(i).toString != "J") {
       if (((plACards(i).toString.toInt) - 1 == stack1.head.toString.toInt) || ((plACards(i).toString.toInt) - 1 == stack2.head.toString.toInt)

@@ -20,6 +20,7 @@ import de.htwg.se.Skip_Bo.model.Value.Values
         case Value.Eleven =>"11"
         case Value.Twelve =>"12"
         case Value.Joker => "J"
+        case Value.Null => "0"
       }
 
     }

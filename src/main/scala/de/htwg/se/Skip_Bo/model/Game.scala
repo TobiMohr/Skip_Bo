@@ -17,31 +17,31 @@ case class Game(numOfCards: Int = 5) {
   var plBstack = new ListBuffer[Card]()
   // Ablegestapel
   var stack1 = new ListBuffer[Card]()
-  stack1 += Card(Value.One)
+  stack1 += Card(Value.Null)
   var stack2 = new ListBuffer[Card]()
-  stack2 += Card(Value.One)
+  stack2 += Card(Value.Null)
   var stack3 = new ListBuffer[Card]()
-  stack3 += Card(Value.One)
+  stack3 += Card(Value.Null)
   var stack4 = new ListBuffer[Card]()
-  stack4 += Card(Value.One)
+  stack4 += Card(Value.Null)
   //"Hilfsstapel" des Spielers A
   var helpAstack1 = new ListBuffer[Card]()
-  helpAstack1 += Card(Value.One)
+  helpAstack1 += Card(Value.Null)
   var helpAstack2 = new ListBuffer[Card]()
-  helpAstack2 += Card(Value.One)
+  helpAstack2 += Card(Value.Null)
   var helpAstack3 = new ListBuffer[Card]()
-  helpAstack3 += Card(Value.One)
+  helpAstack3 += Card(Value.Null)
   var helpAstack4 = new ListBuffer[Card]()
-  helpAstack4 += Card(Value.One)
+  helpAstack4 += Card(Value.Null)
   //"Hilfsstapel" des Spielers B
   var helpBstack1 = new ListBuffer[Card]()
-  helpBstack1 += Card(Value.One)
+  helpBstack1 += Card(Value.Null)
   var helpBstack2 = new ListBuffer[Card]()
-  helpBstack2 += Card(Value.One)
+  helpBstack2 += Card(Value.Null)
   var helpBstack3 = new ListBuffer[Card]()
-  helpBstack3 += Card(Value.One)
+  helpBstack3 += Card(Value.Null)
   var helpBstack4 = new ListBuffer[Card]()
-  helpBstack4 += Card(Value.One)
+  helpBstack4 += Card(Value.Null)
   startGame(numOfCards)
 
   //baut Grundspiel auf
@@ -103,6 +103,8 @@ case class Game(numOfCards: Int = 5) {
       }
     }
 
+    println(cardsCovered)
+
     //Mischelt Kartendeck (Aufnehmstapel)
     cardsCovered= Random.shuffle(cardsCovered)
 
@@ -129,25 +131,25 @@ case class Game(numOfCards: Int = 5) {
   //legt Karte auf Ablegestapel von Spieler A
   def pushCard1A(int: Int): Game = {
         stack1 = plACards(int) +: stack1
-        plACards = plACards.take(int - 1) ++ plACards.drop(int)
+        plACards = plACards.take(int) ++ plACards.drop(int + 1)
     this
   }
 
   def pushCard2A(int: Int): Game = {
         stack2 = plACards(int) +: stack2
-        plACards = plACards.take(int - 1) ++ plACards.drop(int)
+        plACards = plACards.take(int) ++ plACards.drop(int + 1)
     this
   }
 
   def pushCard3A(int :Int): Game = {
         stack3 = plACards(int) +: stack3
-        plACards = plACards.take(int - 1) ++ plACards.drop(int)
+        plACards = plACards.take(int) ++ plACards.drop(int + 1)
     this
   }
 
   def pushCard4A(int: Int): Game = {
         stack4 = plACards(int) +: stack4
-        plACards = plACards.take(int - 1) ++ plACards.drop(int)
+        plACards = plACards.take(int) ++ plACards.drop(int + 1)
     this
   }
 
@@ -155,31 +157,31 @@ case class Game(numOfCards: Int = 5) {
 
   def ablegen1A(stapel: Int): Game={
     helpAstack1 = plACards(stapel) +: helpAstack1
-    plACards = plACards.take(stapel-1) ++ plACards.drop(stapel)
+    plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
     this
   }
 
   def ablegen2A(stapel: Int): Game={
     helpAstack2 = plACards(stapel) +: helpAstack1
-    plACards = plACards.take(stapel-1) ++ plACards.drop(stapel)
+    plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
     this
   }
 
   def ablegen3A(stapel: Int): Game={
     helpAstack3 = plACards(stapel) +: helpAstack1
-    plACards = plACards.take(stapel-1) ++ plACards.drop(stapel)
+    plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
     this
   }
 
   def ablegen4A(stapel: Int): Game={
     helpAstack4 = plACards(stapel) +: helpAstack1
-    plACards = plACards.take(stapel-1) ++ plACards.drop(stapel)
+    plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
     this
   }
 
   //füllt Karten auf, so dass Spieler A wieder 5 Karten hat
   def pullA() : Game ={
-    while(plACards.length<=5){
+    while(plACards.length<5){
       plACards += Card(cardsCovered.head.value)
       cardsCovered = cardsCovered.drop(1)
     }
@@ -190,50 +192,50 @@ case class Game(numOfCards: Int = 5) {
   //legt Karte auf Ablegestapel von Spieler B
   def pushCard1B(int: Int): Game = {
         stack1 = plBCards(int) +: stack1
-        plBCards = plBCards.take(int - 1) ++ plBCards.drop(int)
+        plBCards = plBCards.take(int) ++ plBCards.drop(int + 1)
     this
   }
 
   def pushCard2B(int: Int): Game = {
         stack2 = plBCards(int) +: stack2
-        plBCards = plBCards.take(int - 1) ++ plBCards.drop(int)
+        plBCards = plBCards.take(int) ++ plBCards.drop(int + 1)
     this
   }
 
   def pushCard3B(int: Int): Game = {
         stack3 = plBCards(int) +: stack3
-        plBCards = plBCards.take(int - 1) ++ plBCards.drop(int)
+        plBCards = plBCards.take(int) ++ plBCards.drop(int + 1)
     this
   }
 
   def pushCard4B(int: Int): Game = {
         stack4 = plBCards(int) +: stack4
-        plBCards = plBCards.take(int - 1) ++ plBCards.drop(int)
+        plBCards = plBCards.take(int) ++ plBCards.drop(int + 1)
     this
   }
 
   //legt Karte auf Hilfsstapel von Spieler B
   def ablegen1B(stapel: Int): Game={
     helpBstack1 = plBCards(stapel) +: helpBstack1
-    plBCards = plBCards.take(stapel-1) ++ plBCards.drop(stapel)
+    plBCards = plBCards.take(stapel) ++ plBCards.drop(stapel + 1)
     this
   }
 
   def ablegen2B(stapel: Int): Game={
     helpBstack2 = plBCards(stapel) +: helpBstack1
-    plBCards = plBCards.take(stapel-1) ++ plBCards.drop(stapel)
+    plBCards = plBCards.take(stapel) ++ plBCards.drop(stapel + 1)
     this
   }
 
   def ablegen3B(stapel: Int): Game={
     helpBstack3 = plBCards(stapel) +: helpBstack1
-    plACards = plACards.take(stapel-1) ++ plACards.drop(stapel)
+    plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
     this
   }
 
   def ablegen4B(stapel: Int): Game={
     helpBstack4 = plBCards(stapel) +: helpBstack1
-    plBCards = plBCards.take(stapel-1) ++ plBCards.drop(stapel)
+    plBCards = plBCards.take(stapel) ++ plBCards.drop(stapel + 1)
     this
   }
 
@@ -246,24 +248,17 @@ case class Game(numOfCards: Int = 5) {
     this
   }
 
-  def getCardA (s: String): Card = {
-    var c=0
-    for(j<- 1 to plACards.length){
-      if(s.equals(plACards(j-1).toString)){
-        c = j-1
+  def checkCard(i: Int): Boolean={
+    if(plACards(i).toString != "J") {
+      if (((plACards(i).toString.toInt) - 1 == stack1.head.toString.toInt) || ((plACards(i).toString.toInt) - 1 == stack2.head.toString.toInt)
+        || ((plACards(i).toString.toInt) - 1 == stack3.head.toString.toInt) || ((plACards(i).toString.toInt) - 1 == stack4.head.toString.toInt)) {
+        return true;
       }
     }
-    plACards(c)
-  }
-
-  def getCardB (s: String): Card = {
-    var c=0
-    for(j<- 1 to plBCards.length){
-      if(s.equals(plBCards(j-1).toString)){
-        c = j-1
-      }
+    if(plACards(i).toString == "J") {
+     return true
     }
-    plBCards(c)
+    false
   }
 
   override def toString: String = {

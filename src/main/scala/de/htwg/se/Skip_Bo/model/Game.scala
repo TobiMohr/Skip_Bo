@@ -139,23 +139,15 @@ case class Game(numOfCards: Int = 5) {
     this
   }
 
-  def pushCard3A(card: Card): Game = {
-    for (t <- 1 to plACards.length)
-      if (plACards(t - 1) == (card.value)|| helpAstack1.head ==(card.value )|| helpAstack2.head ==(card.value )||
-        helpAstack3.head ==(card.value)|| helpAstack4.head ==(card.value ) || plAstack.head == (card.value )) {
-        stack3 = plACards(t - 1) +: stack3
-        plACards = plACards.take(t - 1) ++ plACards.drop(t)
-      }
+  def pushCard3A(int :Int): Game = {
+        stack3 = plACards(int) +: stack3
+        plACards = plACards.take(int - 1) ++ plACards.drop(int)
     this
   }
 
-  def pushCard4A(card: Card): Game = {
-    for (t <- 1 to plACards.length)
-      if (plACards(t - 1) == (card.value )|| helpAstack1.head ==(card.value )|| helpAstack2.head ==(card.value )||
-        helpAstack3.head ==(card.value)|| helpAstack4.head ==(card.value )|| plAstack.head == (card.value )) {
-        stack4 = plACards(t - 1) +: stack4
-        plACards = plACards.take(t - 1) ++ plACards.drop(t)
-      }
+  def pushCard4A(int: Int): Game = {
+        stack4 = plACards(int) +: stack4
+        plACards = plACards.take(int - 1) ++ plACards.drop(int)
     this
   }
 
@@ -196,48 +188,31 @@ case class Game(numOfCards: Int = 5) {
 
 
   //legt Karte auf Ablegestapel von Spieler B
-  def pushCard1B(card: Card): Game = {
-    for (t <- 1 to plBCards.length)
-      if (plBCards(t - 1) == (card.value)|| helpBstack1.head ==(card.value)|| helpBstack2.head ==(card.value)||
-        helpBstack3.head ==(card.value)|| helpBstack4.head ==(card.value )|| plBstack.head == (card.value)) {
-        stack1 = plBCards(t - 1) +: stack1
-        plBCards = plBCards.take(t - 1) ++ plBCards.drop(t)
-      }
+  def pushCard1B(int: Int): Game = {
+        stack1 = plBCards(int) +: stack1
+        plBCards = plBCards.take(int - 1) ++ plBCards.drop(int)
     this
   }
 
-  def pushCard2B(card: Card): Game = {
-    for (t <- 1 to plBCards.length)
-      if (plBCards(t - 1) == (card.value )|| helpBstack1.head ==(card.value )|| helpBstack2.head ==(card.value)||
-        helpBstack3.head ==(card.value )|| helpBstack4.head ==(card.value )|| plBstack.head == (card.value )) {
-        stack2 = plBCards(t - 1) +: stack2
-        plBCards = plBCards.take(t - 1) ++ plBCards.drop(t)
-      }
+  def pushCard2B(int: Int): Game = {
+        stack2 = plBCards(int) +: stack2
+        plBCards = plBCards.take(int - 1) ++ plBCards.drop(int)
     this
   }
 
-  def pushCard3B(card: Card): Game = {
-    for (t <- 1 to plBCards.length)
-      if (plBCards(t - 1) == (card.value )|| helpBstack1.head ==(card.value )|| helpBstack2.head ==(card.value )||
-        helpBstack3.head ==(card.value )|| helpBstack4.head ==(card.value) || plBstack.head == (card.value )) {
-        stack3 = plBCards(t - 1) +: stack3
-        plBCards = plBCards.take(t - 1) ++ plBCards.drop(t)
-      }
+  def pushCard3B(int: Int): Game = {
+        stack3 = plBCards(int) +: stack3
+        plBCards = plBCards.take(int - 1) ++ plBCards.drop(int)
     this
   }
 
-  def pushCard4B(card: Card): Game = {
-    for (t <- 1 to plBCards.length)
-      if (plBCards(t - 1) == (card.value)|| helpBstack1.head ==(card.value)|| helpBstack2.head ==(card.value)||
-        helpBstack3.head ==(card.value)|| helpBstack4.head ==(card.value )|| plBstack.head == (card.value)) {
-        stack4 = plBCards(t - 1) +: stack4
-        plBCards = plBCards.take(t - 1) ++ plBCards.drop(t)
-      }
+  def pushCard4B(int: Int): Game = {
+        stack4 = plBCards(int) +: stack4
+        plBCards = plBCards.take(int - 1) ++ plBCards.drop(int)
     this
   }
 
   //legt Karte auf Hilfsstapel von Spieler B
-
   def ablegen1B(stapel: Int): Game={
     helpBstack1 = plBCards(stapel) +: helpBstack1
     plBCards = plBCards.take(stapel-1) ++ plBCards.drop(stapel)
@@ -292,21 +267,20 @@ case class Game(numOfCards: Int = 5) {
   }
 
   override def toString: String = {
-    var a, b, c, d, e, f, g, h, j, k = " "
-    for (i <- 1 to plACards.length) {
-       a = ("| " + plACards(i - 1).toString + " | ")
-    }
-    b = ("| " + helpAstack1.head.toString + " | ")
-    c = ("| " + helpAstack2.head.toString + " | ")
-    d = ("| " + helpAstack3.head.toString + " | ")
-    e = ("| " + helpAstack4.head.toString + " | ")
-    f = ("| " + plAstack.head.toString + " | ")
-    g = ("| " + stack1.head.toString + " | ")
-    h = ("| " + stack2.head.toString + " | ")
-    j = ("| " + stack3.head.toString + " | ")
-    k = ("| " + stack4.head.toString + " | ")
 
-    val playField = a + "\n" + b + "\t" + c + "\t" + d + "\t" + e + "\t" + f + "\n\n" + g + "\t" +
+    val l = for (i <- 1 to plACards.length) yield
+        ("| " + plACards(i - 1).toString + " | ")
+    val b = ("| " + helpAstack1.head.toString + " | ")
+    val c = ("| " + helpAstack2.head.toString + " | ")
+    val d = ("| " + helpAstack3.head.toString + " | ")
+    val e = ("| " + helpAstack4.head.toString + " | ")
+    val f = ("| " + plAstack.head.toString + " | ")
+    val g = ("| " + stack1.head.toString + " | ")
+    val h = ("| " + stack2.head.toString + " | ")
+    val j = ("| " + stack3.head.toString + " | ")
+    val k = ("| " + stack4.head.toString + " | ")
+
+    val playField = l + "\n" + b + "\t" + c + "\t" + d + "\t" + e + "\t" + f + "\n\n" + g + "\t" +
       h + "\t" + j + "\t" + k + "\t"
 
     playField

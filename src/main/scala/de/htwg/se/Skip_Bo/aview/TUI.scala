@@ -21,11 +21,11 @@ class TUI(controller: Controller) extends Observer{
         controller.pushCard2A(s)
       }
       case "p3" => {
-        val s = l(1)
+        val s = l(1).toInt
         controller.pushCard3A(s)
       }
       case "p4" => {
-        val s = l(1)
+        val s = l(1).toInt
         controller.pushCard4A(s)
       }
       case "a1" => {

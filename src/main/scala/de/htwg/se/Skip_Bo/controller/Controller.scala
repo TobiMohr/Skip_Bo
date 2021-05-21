@@ -14,26 +14,23 @@ class Controller(var game: Game) extends Observable{
   }
 
   def pushCard1A(s: Int): Unit = {
-    //val card = game.getCardA(s)
     game = game.pushCard1A(s)
     println("legt Karte auf 1. Hilfstapel von Spieler A")
     notifyObservers
   }
   def pushCard2A(s: Int): Unit = {
-    //val card = game.getCardA(s)
     game = game.pushCard2A(s)
     println("legt Karte auf 2. Hilfstapel von Spieler A")
     notifyObservers
   }
-  def pushCard3A(s: String): Unit = {
-    val card = game.getCardA(s)
-    game = game.pushCard3A(card)
+
+  def pushCard3A(s: Int): Unit = {
+    game = game.pushCard3A(s)
     println("legt Karte auf 3. Hilfstapel von Spieler A")
     notifyObservers
   }
-  def pushCard4A(s: String): Unit = {
-    val card = game.getCardA(s)
-    game = game.pushCard4A(card)
+  def pushCard4A(s: Int): Unit = {
+    game = game.pushCard4A(s)
     println("legt Karte auf 4. Hilfstapel von Spieler A")
     notifyObservers
   }

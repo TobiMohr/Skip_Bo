@@ -103,8 +103,6 @@ case class Game(numOfCards: Int = 5) {
       }
     }
 
-    println(cardsCovered)
-
     //Mischelt Kartendeck (Aufnehmstapel)
     cardsCovered= Random.shuffle(cardsCovered)
 
@@ -116,7 +114,6 @@ case class Game(numOfCards: Int = 5) {
       cardsCovered = cardsCovered.drop(1)
     }
 
-    println(plACards)
 
     //erstellt Spielerstapel für Spieler A und B
     for (a <- 1 to 30){
@@ -134,19 +131,16 @@ case class Game(numOfCards: Int = 5) {
         plACards = plACards.take(int) ++ plACards.drop(int + 1)
     this
   }
-
   def pushCardHand2A(int: Int): Game = {
         stack2 = plACards(int) +: stack2
         plACards = plACards.take(int) ++ plACards.drop(int + 1)
     this
   }
-
   def pushCardHand3A(int :Int): Game = {
         stack3 = plACards(int) +: stack3
         plACards = plACards.take(int) ++ plACards.drop(int + 1)
     this
   }
-
   def pushCardHand4A(int: Int): Game = {
         stack4 = plACards(int) +: stack4
         plACards = plACards.take(int) ++ plACards.drop(int + 1)
@@ -159,19 +153,16 @@ case class Game(numOfCards: Int = 5) {
     plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
     this
   }
-
   def ablegen2A(stapel: Int): Game={
     helpAstack2 = plACards(stapel) +: helpAstack1
     plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
     this
   }
-
   def ablegen3A(stapel: Int): Game={
     helpAstack3 = plACards(stapel) +: helpAstack1
     plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
     this
   }
-
   def ablegen4A(stapel: Int): Game={
     helpAstack4 = plACards(stapel) +: helpAstack1
     plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
@@ -184,22 +175,101 @@ case class Game(numOfCards: Int = 5) {
     plAstack = plAstack.drop(1)
     this
   }
-
   def pushCardStapel2A(): Game = {
     stack2 = plAstack.head +: stack2
     plAstack = plAstack.drop(1)
     this
   }
-
   def pushCardStapel3A(): Game = {
     stack3 = plAstack.head +: stack3
     plAstack = plAstack.drop(1)
     this
   }
-
   def pushCardStapel4A(): Game = {
     stack4 = plAstack.head +: stack4
     plAstack = plAstack.drop(1)
+    this
+  }
+
+  //legt Karte von Hilfstapel auf Ablegestapel
+  def pushCardH1A1A(): Game = {
+    stack1 = helpAstack1.head +: stack1
+    helpAstack1 = helpAstack1.drop(1)
+    this
+  }
+  def pushCardH1A2A(): Game = {
+    stack2 = helpAstack1.head +: stack2
+    helpAstack1 = helpAstack1.drop(1)
+    this
+  }
+  def pushCardH1A3A(): Game = {
+    stack3 = helpAstack1.head +: stack3
+    helpAstack1 = helpAstack1.drop(1)
+    this
+  }
+  def pushCardH1A4A(): Game = {
+    stack4 = helpAstack1.head +: stack4
+    helpAstack1 = helpAstack1.drop(1)
+    this
+  }
+  def pushCardH2A1A(): Game = {
+    stack1 = helpAstack2.head +: stack1
+    helpAstack1 = helpAstack2.drop(1)
+    this
+  }
+  def pushCardH2A2A(): Game = {
+    stack2 = helpAstack2.head +: stack2
+    helpAstack1 = helpAstack2.drop(1)
+    this
+  }
+  def pushCardH2A3A(): Game = {
+    stack3 = helpAstack2.head +: stack3
+    helpAstack1 = helpAstack2.drop(1)
+    this
+  }
+  def pushCardH2A4A(): Game = {
+    stack4 = helpAstack2.head +: stack4
+    helpAstack1 = helpAstack2.drop(1)
+    this
+  }
+  def pushCardH3A1A(): Game = {
+    stack1 = helpAstack3.head +: stack1
+    helpAstack1 = helpAstack3.drop(1)
+    this
+  }
+  def pushCardH3A2A(): Game = {
+    stack2 = helpAstack3.head +: stack2
+    helpAstack1 = helpAstack3.drop(1)
+    this
+  }
+  def pushCardH3A3A(): Game = {
+    stack3 = helpAstack3.head +: stack3
+    helpAstack1 = helpAstack3.drop(1)
+    this
+  }
+  def pushCardH3A4A(): Game = {
+    stack4 = helpAstack3.head +: stack4
+    helpAstack1 = helpAstack3.drop(1)
+    this
+  }
+  def pushCardH4A1A(): Game = {
+    stack1 = helpAstack4.head +: stack1
+    helpAstack1 = helpAstack4.drop(1)
+    this
+  }
+  def pushCardH4A2A(): Game = {
+    stack2 = helpAstack4.head +: stack2
+    helpAstack1 = helpAstack4.drop(1)
+    this
+  }
+  def pushCardH4A3A(): Game = {
+    stack3 = helpAstack4.head +: stack3
+    helpAstack1 = helpAstack4.drop(1)
+    this
+  }
+  def pushCardH4A4A(): Game = {
+    stack4 = helpAstack4.head +: stack4
+    helpAstack1 = helpAstack4.drop(1)
     this
   }
 
@@ -300,7 +370,7 @@ case class Game(numOfCards: Int = 5) {
     val j = ("| " + stack3.head.toString + " | ")
     val k = ("| " + stack4.head.toString + " | ")
 
-    val playField = l + "\n" + b + "\t" + c + "\t" + d + "\t" + e + "\t" + f + "\n\n" + g + "\t" +
+    val playField = l + "\n\n" + b + "\t" + c + "\t" + d + "\t" + e + "\t" + f + "\n\n" + g + "\t" +
       h + "\t" + j + "\t" + k + "\t"
 
     playField

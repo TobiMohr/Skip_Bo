@@ -12,7 +12,7 @@ class TUI(controller: Controller) extends Observer{
     l(0) match {
       //start Game
       case "s" => controller.startGame()
-      case "ph1" => {
+      case "p1" => {
         val s = l(1).toInt
         if(controller.checkCardHand(s)){
           controller.pushCardHand1A(s)
@@ -20,7 +20,7 @@ class TUI(controller: Controller) extends Observer{
           println("Diese Karte kannst du nicht ablegen.")
         }
       }
-      case "ph2" => {
+      case "p2" => {
         val s = l(1).toInt
         if(controller.checkCardHand(s)){
           controller.pushCardHand2A(s)
@@ -29,7 +29,7 @@ class TUI(controller: Controller) extends Observer{
         }
       }
 
-      case "ph3" => {
+      case "p3" => {
         val s = l(1).toInt
         if(controller.checkCardHand(s)){
           controller.pushCardHand3A(s)
@@ -37,7 +37,7 @@ class TUI(controller: Controller) extends Observer{
           println("Diese Karte kannst du nicht ablegen.")
         }
       }
-      case "ph4" => {
+      case "p4" => {
         val s = l(1).toInt
         if(controller.checkCardHand(s)){
           controller.pushCardHand4A(s)
@@ -61,18 +61,27 @@ class TUI(controller: Controller) extends Observer{
         val i = l(1).toInt
         controller.ablegen4A(i)
       }
-      case "pS1" => {
-        controller.pushCardStapel1A()
-      }
-      case "pS2" => {
-        controller.pushCardStapel2A()
-      }
-      case "pS3" => {
-        controller.pushCardStapel3A()
-      }
-      case "pS4" => {
-        controller.pushCardStapel4A()
-      }
+      case "ps1" => controller.pushCardStapel1A()
+      case "ps2" => controller.pushCardStapel2A()
+      case "ps3" => controller.pushCardStapel3A()
+      case "ps4" => controller.pushCardStapel4A()
+      case "ph1a1" => controller.pushCardH1A1A()
+      case "ph1a2" => controller.pushCardH1A2A()
+      case "ph1a3" => controller.pushCardH1A3A()
+      case "ph1a4" => controller.pushCardH1A4A()
+      case "ph2a1" => controller.pushCardH2A1A()
+      case "ph2a2" => controller.pushCardH2A2A()
+      case "ph2a3" => controller.pushCardH2A3A()
+      case "ph2a4" => controller.pushCardH2A4A()
+      case "ph3a1" => controller.pushCardH3A1A()
+      case "ph3a2" => controller.pushCardH3A2A()
+      case "ph3a3" => controller.pushCardH3A3A()
+      case "ph3a4" => controller.pushCardH3A4A()
+      case "ph4a1" => controller.pushCardH4A1A()
+      case "ph4a2" => controller.pushCardH4A2A()
+      case "ph4a3" => controller.pushCardH4A3A()
+      case "ph4a4" => controller.pushCardH4A4A()
+
       case "end" => controller.Beenden
       case "help" => println(controller.hilfe)
       case "q"=>

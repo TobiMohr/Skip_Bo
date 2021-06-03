@@ -170,7 +170,7 @@ class Controller(var game: Game) extends Observable{
       |p1-4 = legt Handkarte auf Ablegestapel
       |ps1-4 = legt Karte vom Spielerstapel auf Ablegestapel ab
       |ph1-4a1-4 = legt Karte vom Hilfstapel auf Ablegestapel ab
-      |a1-4 = legt Karte vom Spielerstapel auf Ablegestapel ab
+      |a1-4 = legt Karte auf den Hilfestapel
       |"""
       .stripMargin
   }

@@ -54,10 +54,10 @@ class Controller(var game: Game=Game()) extends Observable{
     }
   }
 
-  def beenden: Unit = {
-    game = game.pullA()
-    println("Der Zug ist beendet")
-    println("Nächster Spieler ist am Zug")
+  def beenden(n:Int): Unit = {
+    game = game.pull(n)
+    println("Spieler(" + n +") hat seinen Zug beendet")
+    println("Spieler(" + (n + 1) +") ist am Zug")
     notifyObservers
   }
 

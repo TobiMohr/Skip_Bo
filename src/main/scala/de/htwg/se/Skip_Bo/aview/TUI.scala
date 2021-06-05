@@ -36,7 +36,10 @@ class TUI(controller: Controller) extends Observer{
 
       case "u" => controller.undo
       case "r" => controller.redo
-      case "end" => controller.beenden
+      case "end" =>  {
+        val n = l(1).toInt
+          controller.beenden(n)
+      }
       case "help" => println(controller.hilfe)
       case "q"=>
     }

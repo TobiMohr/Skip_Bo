@@ -50,13 +50,18 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
   }
 
   //legt Karte vom Hilfsstapel auf Ablegestapel
-  def pushCardHelp(i: Int,j:Int) : Game={
-    val h = helpstack(i)
+  def pushCardHelp(i: Int,j:Int,n: Int) : Try[Game] ={
     val s = stack(j)
-    if()
-    val e = h.head +: s
-    val h2 = h.drop(1)
-    copy(helpstack=helpstack.updated(j,h2),stack=stack.updated(j,e))
+    val p = player(n)
+    p.helpCard(i) match {
+      case Failure(exception) => Failure(exception)
+      case Success((card, newpl)) =>
+        if(!checkCardHand(card, s)){
+          Failure(InvalidMove)
+        }
+        val s2 = card +: s
+        Success(copy(stack=stack.updated(j, s2), player=player.updated(n,newpl)))
+    }
   }
 
   def pushCardPlayer(i: Int, n: Int): Try[Game] = {
@@ -65,7 +70,9 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
     p.stackCard() match{
       case Failure(exception) => Failure(exception)
       case Success((card, newpl)) =>
-        if(!checkCardHand(card, s)) return Failure(InvalidMove)
+        if(!checkCardHand(card, s)){
+          Failure(InvalidMove)
+        }
         val s2 = card +: s
         Success(copy(stack=stack.updated(i, s2), player=player.updated(n, newpl)))
     }

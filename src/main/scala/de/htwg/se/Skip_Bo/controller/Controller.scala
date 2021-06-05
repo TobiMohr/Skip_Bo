@@ -24,10 +24,20 @@ class Controller(var game: Game=Game()) extends Observable{
       case Success(value) =>
         game = value
         if (helpst) {
-          println("legt Karte auf " + i + 1 + ". Hilfestapel")
+          println("Spieler(" + n + ") legt Karte auf " + i + 1 + ". Hilfestapel")
         } else {
           println("legt Karte auf" + i + 1 + ". Ablagestapel")
         }
+        notifyObservers
+    }
+  }
+
+  def pushCardHelp(i: Int, j:Int, n: Int): Unit = {
+    game.pushCardHelp(i, j, n) match {
+      case Failure(exception) => onError(exception)
+      case Success(value) =>
+        game = value
+        println("Spieler(" + n + ") legt Karte vom " + j + 1  + ". Hilfestapel auf den " +  i + 1 + ". Ablagestapel")
         notifyObservers
     }
   }
@@ -37,8 +47,8 @@ class Controller(var game: Game=Game()) extends Observable{
       case Failure(exception) => onError(exception)
       case Success(value) =>
         game = value
-        println("legt karte vom Spielerstapel auf " + i + 1 + ". Ablagestapel")
-    notifyObservers
+        println("Spieler(" + n + ") legt karte vom Spielerstapel auf " + i + 1 + ". Ablagestapel")
+        notifyObservers
     }
   }
 

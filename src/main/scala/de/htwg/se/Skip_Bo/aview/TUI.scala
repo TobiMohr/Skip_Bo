@@ -20,26 +20,16 @@ class TUI(controller: Controller) extends Observer{
           controller.pushCardHand(i, j, n, helpst)
       }
       case "ps" => {
-        val i = l(1).toInt
-        val n = l(2).toInt
+        val i = l(1).toInt //Welcher Ablagestapel (Index)
+        val n = l(2).toInt //Welcher Spieler
           controller.pushCardPlayer(i, n)
       }
-      case "ph1a1" => controller.pushCardH1A1A()
-      case "ph1a2" => controller.pushCardH1A2A()
-      case "ph1a3" => controller.pushCardH1A3A()
-      case "ph1a4" => controller.pushCardH1A4A()
-      case "ph2a1" => controller.pushCardH2A1A()
-      case "ph2a2" => controller.pushCardH2A2A()
-      case "ph2a3" => controller.pushCardH2A3A()
-      case "ph2a4" => controller.pushCardH2A4A()
-      case "ph3a1" => controller.pushCardH3A1A()
-      case "ph3a2" => controller.pushCardH3A2A()
-      case "ph3a3" => controller.pushCardH3A3A()
-      case "ph3a4" => controller.pushCardH3A4A()
-      case "ph4a1" => controller.pushCardH4A1A()
-      case "ph4a2" => controller.pushCardH4A2A()
-      case "ph4a3" => controller.pushCardH4A3A()
-      case "ph4a4" => controller.pushCardH4A4A()
+      case "philfe" => {
+        val i = l(1).toInt //Welcher Hilfestapel (Index)
+        val j = l(2).toInt //Welcher Ablagestapel (Index)
+        val n = l(3).toInt //Welcher Spieler
+          controller.pushCardHelp(i, j, n)
+      }
 
       case "u" => controller.undo
       case "r" => controller.redo

@@ -25,5 +25,11 @@ case class Player(name: String,
       val x = Util.listRemoveAt(stack, 0)
       Success (card, copy(stack = x))
    }
+
+   def helpCard(int: Int): Try[(Card, Player)] = {
+      val card = helpstack(int).head
+      val x = Util.listRemoveAt(helpstack(int), 0)
+      Success (card, copy(helpstack = helpstack.updated(int, x)))
+   }
 }
 

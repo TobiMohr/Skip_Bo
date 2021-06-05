@@ -18,8 +18,8 @@ class Controller(var game: Game=Game()) extends Observable{
   }
 
   //legt Handkarte auf Ablegestapel
-  def pushCardHand1A(i: Int, j: Int,n: Int,helpst: Boolean ): Unit = {
-    game.pushCardHand1A(i, j, n, helpst) match{
+  def pushCardHand(i: Int, j: Int,n: Int,helpst: Boolean ): Unit = {
+    game.pushCardHand(i, j, n, helpst) match{
       case Failure(exception) => onError(exception)
       case Success(value)=>
         game = value

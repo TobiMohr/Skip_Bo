@@ -1,7 +1,7 @@
 package de.htwg.se.Skip_Bo.model
 
-import scala.collection.mutable.ListBuffer
-import de.htwg.se.Skip_Bo.model.{Colour, Value}
+
+import de.htwg.se.Skip_Bo.model.{Value}
 
 import scala.util.{Failure, Random, Success, Try}
 
@@ -34,7 +34,8 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
   }
 
   //legt Karte auf Ablegestapel oder Hilfstapel von Spieler A
-  def pushCardHand1A(i: Int,j: Int,n: Int,helpst :Boolean): Try[Game] = {
+  //i=Welcher Hilfs- oder Ablagestapel (Index), j=Index Handkarten, n=Spieler, helpst=(true=Hilfsstapel),(false=Ablegestapel)
+  def pushCardHand(i: Int,j: Int,n: Int,helpst :Boolean): Try[Game] = {
     val s = if(helpst) helpstack(i) else stack(i)
     val p = player(n)
     p.getCard(j) match{
@@ -47,6 +48,7 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
         else copy(stack=stack.updated(i,s2), player=player.updated(n,newpl)))
     }
   }
+
 
   //legt Karte vom Spielerstapel auf Ablegestapel ab
   def pushCardStapel1A(): Game = {

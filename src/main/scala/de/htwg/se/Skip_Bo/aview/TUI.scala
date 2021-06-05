@@ -12,6 +12,7 @@ class TUI(controller: Controller) extends Observer{
     l(0) match {
       //start Game
       case "s" => controller.startGame()
+      //legt Handkarte auf Ablegestapel oder Hilfstapel von Spieler
       case "ph" => {
         val i = l(1).toInt //Welcher Hilfs- oder Ablagestapel (Index)
         val j = l(2).toInt //Welche Handkarte (Index)
@@ -19,11 +20,13 @@ class TUI(controller: Controller) extends Observer{
         val helpst = l(4).toBoolean //true=Hilfsstapel, false=Ablagestapel
           controller.pushCardHand(i, j, n, helpst)
       }
+      //legt Karte vom Hilfsstapel auf Ablegestapel
       case "ps" => {
         val i = l(1).toInt //Welcher Ablagestapel (Index)
         val n = l(2).toInt //Welcher Spieler
           controller.pushCardPlayer(i, n)
       }
+      //legt Karte vom Spielerstapel auf Ablegestapel
       case "philfe" => {
         val i = l(1).toInt //Welcher Hilfestapel (Index)
         val j = l(2).toInt //Welcher Ablagestapel (Index)

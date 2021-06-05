@@ -1,357 +1,115 @@
 package de.htwg.se.Skip_Bo.model
 
-import scala.collection.mutable.ListBuffer
-import de.htwg.se.Skip_Bo.model.{Colour, Value}
-import scala.util.Random
 
-case class Game(numOfCards: Int = 5) {
-  //"Aufnehmstapel"
-  var cardsCovered = new ListBuffer[Card]()
-  //Handkarten Spieler A
-  var plACards = new ListBuffer[Card]()
-  // Handkarten Spieler B
-  var plBCards = new ListBuffer[Card]()
-  //Spielerstapel des Spielers A
-  var plAstack = new ListBuffer[Card]()
-  //Spielerstapel des SpielersB
-  var plBstack = new ListBuffer[Card]()
-  // Ablegestapel
-  var stack1 = new ListBuffer[Card]()
-  stack1 += Card(Value.Null)
-  var stack2 = new ListBuffer[Card]()
-  stack2 += Card(Value.Null)
-  var stack3 = new ListBuffer[Card]()
-  stack3 += Card(Value.Null)
-  var stack4 = new ListBuffer[Card]()
-  stack4 += Card(Value.Null)
-  //"Hilfsstapel" des Spielers A
-  var helpAstack1 = new ListBuffer[Card]()
-  helpAstack1 += Card(Value.Null)
-  var helpAstack2 = new ListBuffer[Card]()
-  helpAstack2 += Card(Value.Null)
-  var helpAstack3 = new ListBuffer[Card]()
-  helpAstack3 += Card(Value.Null)
-  var helpAstack4 = new ListBuffer[Card]()
-  helpAstack4 += Card(Value.Null)
-  //"Hilfsstapel" des Spielers B
-  var helpBstack1 = new ListBuffer[Card]()
-  helpBstack1 += Card(Value.Null)
-  var helpBstack2 = new ListBuffer[Card]()
-  helpBstack2 += Card(Value.Null)
-  var helpBstack3 = new ListBuffer[Card]()
-  helpBstack3 += Card(Value.Null)
-  var helpBstack4 = new ListBuffer[Card]()
-  helpBstack4 += Card(Value.Null)
-  startGame(numOfCards)
+import de.htwg.se.Skip_Bo.model.{Value}
+
+import scala.util.{Failure, Random, Success, Try}
+
+case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
+                 helpstack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
+                 player:List[Player] = List.empty,
+                 cardsCovered:List[Card] = List.empty
+               ) {
 
   //baut Grundspiel auf
-  def startGame(numOfPlayerCards: Int): Unit = {
+  def startGame(numOfPlayerCards: Int): Game = {
     //erstellt Kartendeck
-    for (value <- Value.values) {
-      if(value == Value.Joker){
-        for(_<-0 to 17){
-          cardsCovered += Card(value)
+    val c = Random.shuffle(Value.values.toList.flatMap(v => {
+      val count = v match {
+        case Value.Joker => 18
+        case _ => 12
+      }
+      (1 to count).map(_ => Card(v))
+    }))
+
+    // erstellt Handkarten und Spielerstapel von den Spielern
+    val (cards,player) = List("A","B").foldLeft((c,List.empty[Player]))((t,plname)=>{
+      val (plcards,cards)= t._1.splitAt(numOfPlayerCards)
+      val (plstack,cards2)= cards.splitAt(30)
+      val p = Player(name=plname,cards=plcards,stack=plstack)
+      (cards2, t._2:+p)
+    })
+
+    copy(cardsCovered=cards,player=player)
+  }
+
+  //legt Handkarte auf Ablegestapel oder Hilfstapel von Spieler
+  //i=Welcher Hilfs- oder Ablagestapel (Index), j=Index Handkarten, n=Spieler, helpst=(true=Hilfsstapel),(false=Ablegestapel)
+  def pushCardHand(i: Int,j: Int,n: Int,helpst :Boolean): Try[Game] = {
+    val s = if(helpst) helpstack(i) else stack(i)
+    val p = player(n)
+    p.getCard(j) match{
+      case Failure(exception) => Failure(exception)
+      case Success((card, newpl))=>
+        if(!checkCardHand(card,s)){
+          Failure(InvalidMove)
         }
-      }else if (value == Value.One){
-        for(_<-0 to 11){
-          cardsCovered += Card(value)
+        val s2 = card +: s
+        Success(if(helpst) {
+          copy(helpstack=helpstack.updated(i,s2), player=player.updated(n,newpl))
+        } else {
+          copy(stack=stack.updated(i,s2), player=player.updated(n,newpl))
+        })
+    }
+  }
+
+  //legt Karte vom Hilfsstapel auf Ablegestapel
+  def pushCardHelp(i: Int,j:Int,n: Int) : Try[Game] ={
+    val s = stack(j)
+    val p = player(n)
+    p.helpCard(i) match {
+      case Failure(exception) => Failure(exception)
+      case Success((card, newpl)) =>
+        if(!checkCardHand(card, s)){
+          Failure(InvalidMove)
         }
-      }else if (value == Value.Two){
-        for(_<-0 to 11){
-          cardsCovered += Card(value)
+        val s2 = card +: s
+        Success(copy(stack=stack.updated(j, s2), player=player.updated(n,newpl)))
+    }
+  }
+
+  //legt Karte vom Spielerstapel auf Ablegestapel
+  def pushCardPlayer(i: Int, n: Int): Try[Game] = {
+    val s = stack(i)
+    val p = player(n)
+    p.stackCard() match{
+      case Failure(exception) => Failure(exception)
+      case Success((card, newpl)) =>
+        if(!checkCardHand(card, s)){
+          Failure(InvalidMove)
         }
-      }else if (value == Value.Three){
-        for(_<-0 to 11){
-          cardsCovered += Card(value)
+        val s2 = card +: s
+        Success(copy(stack=stack.updated(i, s2), player=player.updated(n, newpl)))
+    }
+  }
+
+  def pull(n: Int): Game ={
+    val p = player(n)
+    while(p.cards.length < 5){
+      p.cards += Card(cardsCovered.head.value).toString
+      cardsCovered.drop(1)
+    }
+    this
+  }
+
+  def checkCardHand(card: Card, stack: List[Card]): Boolean={
+    if(card.toString != "J"){
+      if(stack.head.toString != "J") {
+        if (card.toString.toInt - 1 == stack.head.toString.toInt) {
+          return true
         }
-      }else if (value == Value.Four){
-        for(_<-0 to 11){
-          cardsCovered += Card(value)
-        }
-      }else if (value == Value.Five){
-        for(_<-0 to 11){
-          cardsCovered += Card(value)
-        }
-      }else if (value == Value.Six){
-        for(_<-0 to 11){
-          cardsCovered += Card(value)
-        }
-      }else if (value == Value.Seven){
-        for(_<-0 to 11){
-          cardsCovered += Card(value)
-        }
-      }else if (value == Value.Eight){
-        for(_<-0 to 11){
-          cardsCovered += Card(value)
-        }
-      }else if (value == Value.Nine){
-        for(_<-0 to 11){
-          cardsCovered += Card(value)
-        }
-      }else if (Value == Value.Ten){
-        for(_<-0 to 11){
-          cardsCovered += Card(value)
-        }
-      }else if (value == Value.Eleven){
-        for(_<-0 to 11){
-          cardsCovered += Card(value)
-        }
-      }else if (value == Value.Twelve){
-        for(_<-0 to 11){
-          cardsCovered += Card(value)
+      } else {
+        if(card.toString.toInt - 2 == stack(1).toString.toInt){
+          return true
         }
       }
     }
-
-    //Mischelt Kartendeck (Aufnehmstapel)
-    cardsCovered= Random.shuffle(cardsCovered)
-
-    //erstellt Handkarten für Spieler A und B
-    for (a <- 1 to numOfPlayerCards) {
-      plACards = cardsCovered.head +: plACards
-      cardsCovered = cardsCovered.drop(1)
-      plBCards = cardsCovered.head +: plBCards
-      cardsCovered = cardsCovered.drop(1)
-    }
-
-
-    //erstellt Spielerstapel für Spieler A und B
-    for (a <- 1 to 30){
-      plAstack = cardsCovered.head +: plAstack
-      cardsCovered = cardsCovered.drop(1)
-      plBstack = cardsCovered.head +: plBstack
-      cardsCovered = cardsCovered.drop(1)
-    }
-
-  }
-
-  //legt Karte auf Ablegestapel von Spieler A
-  def pushCardHand1A(int: Int): Game = {
-        stack1 = plACards(int) +: stack1
-        plACards = plACards.take(int) ++ plACards.drop(int + 1)
-    this
-  }
-  def pushCardHand2A(int: Int): Game = {
-        stack2 = plACards(int) +: stack2
-        plACards = plACards.take(int) ++ plACards.drop(int + 1)
-    this
-  }
-  def pushCardHand3A(int :Int): Game = {
-        stack3 = plACards(int) +: stack3
-        plACards = plACards.take(int) ++ plACards.drop(int + 1)
-    this
-  }
-  def pushCardHand4A(int: Int): Game = {
-        stack4 = plACards(int) +: stack4
-        plACards = plACards.take(int) ++ plACards.drop(int + 1)
-    this
-  }
-
-  //legt Karte auf Hilfsstapel von Spieler A
-  def ablegen1A(stapel: Int): Game={
-    helpAstack1 = plACards(stapel) +: helpAstack1
-    plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
-    this
-  }
-  def ablegen2A(stapel: Int): Game={
-    helpAstack2 = plACards(stapel) +: helpAstack1
-    plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
-    this
-  }
-  def ablegen3A(stapel: Int): Game={
-    helpAstack3 = plACards(stapel) +: helpAstack1
-    plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
-    this
-  }
-  def ablegen4A(stapel: Int): Game={
-    helpAstack4 = plACards(stapel) +: helpAstack1
-    plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
-    this
-  }
-
-  //legt Karte vom Spielerstapel auf Ablegestapel ab
-  def pushCardStapel1A(): Game = {
-    stack1 = plAstack.head +: stack1
-    plAstack = plAstack.drop(1)
-    this
-  }
-  def pushCardStapel2A(): Game = {
-    stack2 = plAstack.head +: stack2
-    plAstack = plAstack.drop(1)
-    this
-  }
-  def pushCardStapel3A(): Game = {
-    stack3 = plAstack.head +: stack3
-    plAstack = plAstack.drop(1)
-    this
-  }
-  def pushCardStapel4A(): Game = {
-    stack4 = plAstack.head +: stack4
-    plAstack = plAstack.drop(1)
-    this
-  }
-
-  //legt Karte von Hilfstapel auf Ablegestapel
-  def pushCardH1A1A(): Game = {
-    stack1 = helpAstack1.head +: stack1
-    helpAstack1 = helpAstack1.drop(1)
-    this
-  }
-  def pushCardH1A2A(): Game = {
-    stack2 = helpAstack1.head +: stack2
-    helpAstack1 = helpAstack1.drop(1)
-    this
-  }
-  def pushCardH1A3A(): Game = {
-    stack3 = helpAstack1.head +: stack3
-    helpAstack1 = helpAstack1.drop(1)
-    this
-  }
-  def pushCardH1A4A(): Game = {
-    stack4 = helpAstack1.head +: stack4
-    helpAstack1 = helpAstack1.drop(1)
-    this
-  }
-  def pushCardH2A1A(): Game = {
-    stack1 = helpAstack2.head +: stack1
-    helpAstack1 = helpAstack2.drop(1)
-    this
-  }
-  def pushCardH2A2A(): Game = {
-    stack2 = helpAstack2.head +: stack2
-    helpAstack1 = helpAstack2.drop(1)
-    this
-  }
-  def pushCardH2A3A(): Game = {
-    stack3 = helpAstack2.head +: stack3
-    helpAstack1 = helpAstack2.drop(1)
-    this
-  }
-  def pushCardH2A4A(): Game = {
-    stack4 = helpAstack2.head +: stack4
-    helpAstack1 = helpAstack2.drop(1)
-    this
-  }
-  def pushCardH3A1A(): Game = {
-    stack1 = helpAstack3.head +: stack1
-    helpAstack1 = helpAstack3.drop(1)
-    this
-  }
-  def pushCardH3A2A(): Game = {
-    stack2 = helpAstack3.head +: stack2
-    helpAstack1 = helpAstack3.drop(1)
-    this
-  }
-  def pushCardH3A3A(): Game = {
-    stack3 = helpAstack3.head +: stack3
-    helpAstack1 = helpAstack3.drop(1)
-    this
-  }
-  def pushCardH3A4A(): Game = {
-    stack4 = helpAstack3.head +: stack4
-    helpAstack1 = helpAstack3.drop(1)
-    this
-  }
-  def pushCardH4A1A(): Game = {
-    stack1 = helpAstack4.head +: stack1
-    helpAstack1 = helpAstack4.drop(1)
-    this
-  }
-  def pushCardH4A2A(): Game = {
-    stack2 = helpAstack4.head +: stack2
-    helpAstack1 = helpAstack4.drop(1)
-    this
-  }
-  def pushCardH4A3A(): Game = {
-    stack3 = helpAstack4.head +: stack3
-    helpAstack1 = helpAstack4.drop(1)
-    this
-  }
-  def pushCardH4A4A(): Game = {
-    stack4 = helpAstack4.head +: stack4
-    helpAstack1 = helpAstack4.drop(1)
-    this
-  }
-
-  //füllt Karten auf, so dass Spieler A wieder 5 Karten hat
-  def pullA() : Game ={
-    while(plACards.length<5){
-      plACards += Card(cardsCovered.head.value)
-      cardsCovered = cardsCovered.drop(1)
-    }
-    this
-  }
-
-
-  //legt Karte auf Ablegestapel von Spieler B
-  def pushCard1B(int: Int): Game = {
-        stack1 = plBCards(int) +: stack1
-        plBCards = plBCards.take(int) ++ plBCards.drop(int + 1)
-    this
-  }
-
-  def pushCard2B(int: Int): Game = {
-        stack2 = plBCards(int) +: stack2
-        plBCards = plBCards.take(int) ++ plBCards.drop(int + 1)
-    this
-  }
-
-  def pushCard3B(int: Int): Game = {
-        stack3 = plBCards(int) +: stack3
-        plBCards = plBCards.take(int) ++ plBCards.drop(int + 1)
-    this
-  }
-
-  def pushCard4B(int: Int): Game = {
-        stack4 = plBCards(int) +: stack4
-        plBCards = plBCards.take(int) ++ plBCards.drop(int + 1)
-    this
-  }
-
-  //legt Karte auf Hilfsstapel von Spieler B
-  def ablegen1B(stapel: Int): Game={
-    helpBstack1 = plBCards(stapel) +: helpBstack1
-    plBCards = plBCards.take(stapel) ++ plBCards.drop(stapel + 1)
-    this
-  }
-
-  def ablegen2B(stapel: Int): Game={
-    helpBstack2 = plBCards(stapel) +: helpBstack1
-    plBCards = plBCards.take(stapel) ++ plBCards.drop(stapel + 1)
-    this
-  }
-
-  def ablegen3B(stapel: Int): Game={
-    helpBstack3 = plBCards(stapel) +: helpBstack1
-    plACards = plACards.take(stapel) ++ plACards.drop(stapel + 1)
-    this
-  }
-
-  def ablegen4B(stapel: Int): Game={
-    helpBstack4 = plBCards(stapel) +: helpBstack1
-    plBCards = plBCards.take(stapel) ++ plBCards.drop(stapel + 1)
-    this
-  }
-
-  //füllt Karten auf, so dass Spieler A wieder 5 Karten hat
-  def pullB() : Game ={
-    while(plBCards.length<5){
-      plBCards += Card(cardsCovered.head.value)
-      cardsCovered = cardsCovered.drop(1)
-    }
-    this
-  }
-
-  //check Karte ob erlaubt zu legen
-  def checkCardHand(i: Int): Boolean={
-    if(plACards(i).toString != "J") {
-      if (((plACards(i).toString.toInt) - 1 == stack1.head.toString.toInt) || ((plACards(i).toString.toInt) - 1 == stack2.head.toString.toInt)
-        || ((plACards(i).toString.toInt) - 1 == stack3.head.toString.toInt) || ((plACards(i).toString.toInt) - 1 == stack4.head.toString.toInt)) {
-        return true;
+    if(card.toString == "J"){
+      if(stack.head.toString == "J") {
+        return false
+      } else {
+        return true
       }
-    }
-    if(plACards(i).toString == "J") {
-     return true
     }
     false
   }

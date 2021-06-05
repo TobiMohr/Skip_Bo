@@ -2,6 +2,7 @@ package de.htwg.se.Skip_Bo.util
 
 trait Observer {
   def update: Unit
+  def error(throwable: Throwable): Unit
 }
 
 class Observable {
@@ -12,6 +13,8 @@ class Observable {
   def remove(s: Observer): Unit = subscribers = subscribers.filterNot(o => o == s)
 
   def notifyObservers: Unit = subscribers.foreach(o => o.update)
+
+  def onError(throwable:Throwable): Unit = subscribers.foreach(o => o.error(throwable))
 }
 
 

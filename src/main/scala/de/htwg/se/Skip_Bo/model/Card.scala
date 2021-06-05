@@ -1,6 +1,6 @@
 package de.htwg.se.Skip_Bo.model
 
-import de.htwg.se.Skip_Bo.model.Colour.Colour
+import .Colour
 import de.htwg.se.Skip_Bo.model.Value.Values
 
   case class Card( value: Values){
@@ -20,7 +20,6 @@ import de.htwg.se.Skip_Bo.model.Value.Values
         case Value.Eleven =>"11"
         case Value.Twelve =>"12"
         case Value.Joker => "J"
-        case Value.Null => "0"
       }
 
     }

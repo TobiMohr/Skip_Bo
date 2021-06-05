@@ -1,156 +1,60 @@
 package de.htwg.se.Skip_Bo.controller
 
 
-import de.htwg.se.Skip_Bo.model.{Game}
-import de.htwg.se.Skip_Bo.util.Observable
+import de.htwg.se.Skip_Bo.model.Game
+import de.htwg.se.Skip_Bo.util.{Observable, UndoManager}
 
-import scala.collection.immutable._
+import scala.util.{Failure, Success, Try}
 
-class Controller(var game: Game) extends Observable{
+
+
+class Controller(var game: Game=Game()) extends Observable{
+
+  private val undoManager = new UndoManager
 
   def startGame(size: Int = 5): Unit ={
-    game = Game(size)
+    game = game.startGame(size)
     notifyObservers
   }
 
   //legt Handkarte auf Ablegestapel
-  def pushCardHand1A(s: Int): Unit = {
-    game = game.pushCardHand1A(s)
-    println("legt Karte auf 1. Ablegestapel")
-    notifyObservers
-  }
-  def pushCardHand2A(s: Int): Unit = {
-    game = game.pushCardHand2A(s)
-    println("legt Karte auf 2. Ablegestapel")
-    notifyObservers
-  }
-  def pushCardHand3A(s: Int): Unit = {
-    game = game.pushCardHand3A(s)
-    println("legt Karte auf 3. Ablegestapel")
-    notifyObservers
-  }
-  def pushCardHand4A(s: Int): Unit = {
-    game = game.pushCardHand4A(s)
-    println("legt Karte auf 4. Ablegestapel")
-    notifyObservers
+  def pushCardHand(i: Int, j: Int,n: Int,helpst: Boolean ): Unit = {
+    game.pushCardHand(i, j, n, helpst) match {
+      case Failure(exception) => onError(exception)
+      case Success(value) =>
+        game = value
+        if (helpst) {
+          println("Spieler(" + n + ") legt Karte auf " + i + 1 + ". Hilfestapel")
+        } else {
+          println("legt Karte auf" + i + 1 + ". Ablagestapel")
+        }
+        notifyObservers
+    }
   }
 
-  //legt Handkarte auf Hilfsstapel
-  def ablegen1A(i: Int): Unit = {
-    game = game.ablegen1A(i)
-    println("legt Karte auf 1. Hilfstapel von Spieler A")
-    notifyObservers
-  }
-  def ablegen2A(i: Int): Unit = {
-    game = game.ablegen2A(i)
-    println("legt Karte auf 2. Hilfstapel von Spieler A")
-    notifyObservers
-  }
-  def ablegen3A(i: Int): Unit = {
-    game = game.ablegen3A(i)
-    println("legt Karte auf 3. Hilfstapel von Spieler A")
-    notifyObservers
-  }
-  def ablegen4A(i: Int): Unit = {
-    game = game.ablegen4A(i)
-    println("legt Karte auf 4. Hilfstapel von Spieler A")
-    notifyObservers
+  //legt Karte vom Hilfsstapel auf Ablegestapel
+  def pushCardHelp(i: Int, j:Int, n: Int): Unit = {
+    game.pushCardHelp(i, j, n) match {
+      case Failure(exception) => onError(exception)
+      case Success(value) =>
+        game = value
+        println("Spieler(" + n + ") legt Karte vom " + j + 1  + ". Hilfestapel auf den " +  i + 1 + ". Ablagestapel")
+        notifyObservers
+    }
   }
 
-  //legt Karte vom Spielerstapel auf Ablegestapel ab
-  def pushCardStapel1A(): Unit = {
-    game = game.pushCardStapel1A()
-    println("legt Karte vom Spielerstapel auf 1. Ablegestapel")
-    notifyObservers
-  }
-  def pushCardStapel2A(): Unit = {
-    game = game.pushCardStapel2A()
-    println("legt Karte vom Spielerstapel auf 1. Ablegestapel")
-    notifyObservers
-  }
-  def pushCardStapel3A(): Unit = {
-    game = game.pushCardStapel3A()
-    println("legt Karte vom Spielerstapel auf 1. Ablegestapel")
-    notifyObservers
-  }
-  def pushCardStapel4A(): Unit = {
-    game = game.pushCardStapel4A()
-    println("legt Karte vom Spielerstapel auf 1. Ablegestapel")
-    notifyObservers
+  //legt Karte vom Spielerstapel auf Ablegestapel
+  def pushCardPlayer(i: Int, n: Int):Unit = {
+    game.pushCardPlayer(i, n) match {
+      case Failure(exception) => onError(exception)
+      case Success(value) =>
+        game = value
+        println("Spieler(" + n + ") legt karte vom Spielerstapel auf " + i + 1 + ". Ablagestapel")
+        notifyObservers
+    }
   }
 
-  //legt Karte von Hilfstapel auf Ablegestapel
-  def pushCardH1A1A(): Unit = {
-    game = game.pushCardH1A1A()
-    println("legt Karte vom 1. Hilfstapel auf 1. Ablegestapel")
-  }
-  def pushCardH1A2A(): Unit = {
-    game = game.pushCardH1A2A()
-    println("legt Karte vom 1. Hilfstapel auf 2. Ablegestapel")
-  }
-  def pushCardH1A3A(): Unit = {
-    game = game.pushCardH1A3A()
-    println("legt Karte vom 1. Hilfstapel auf 3. Ablegestapel")
-  }
-  def pushCardH1A4A(): Unit = {
-    game = game.pushCardH1A4A()
-    println("legt Karte vom 1. Hilfstapel auf 4. Ablegestapel")
-  }
-  def pushCardH2A1A(): Unit = {
-    game = game.pushCardH2A1A()
-    println("legt Karte vom 2. Hilfstapel auf 1. Ablegestapel")
-  }
-  def pushCardH2A2A(): Unit = {
-    game = game.pushCardH2A2A()
-    println("legt Karte vom 2. Hilfstapel auf 2. Ablegestapel")
-  }
-  def pushCardH2A3A(): Unit = {
-    game = game.pushCardH2A3A()
-    println("legt Karte vom 2. Hilfstapel auf 3. Ablegestapel")
-  }
-  def pushCardH2A4A(): Unit = {
-    game = game.pushCardH2A1A()
-    println("legt Karte vom 2. Hilfstapel auf 4. Ablegestapel")
-  }
-  def pushCardH3A1A(): Unit = {
-    game = game.pushCardH3A1A()
-    println("legt Karte vom 3. Hilfstapel auf 1. Ablegestapel")
-  }
-  def pushCardH3A2A(): Unit = {
-    game = game.pushCardH3A2A()
-    println("legt Karte vom 3. Hilfstapel auf 2. Ablegestapel")
-  }
-  def pushCardH3A3A(): Unit = {
-    game = game.pushCardH3A3A()
-    println("legt Karte vom 3. Hilfstapel auf 3. Ablegestapel")
-  }
-  def pushCardH3A4A(): Unit = {
-    game = game.pushCardH3A4A()
-    println("legt Karte vom 3. Hilfstapel auf 4. Ablegestapel")
-  }
-  def pushCardH4A1A(): Unit = {
-    game = game.pushCardH4A1A()
-    println("legt Karte vom 4. Hilfstapel auf 1. Ablegestapel")
-  }
-  def pushCardH4A2A(): Unit = {
-    game = game.pushCardH4A2A()
-    println("legt Karte vom 4. Hilfstapel auf 2. Ablegestapel")
-  }
-  def pushCardH4A3A(): Unit = {
-    game = game.pushCardH4A3A()
-    println("legt Karte vom 4. Hilfstapel auf 3. Ablegestapel")
-  }
-  def pushCardH4A4A(): Unit = {
-    game = game.pushCardH4A4A()
-    println("legt Karte vom 4. Hilfstapel auf 4. Ablegestapel")
-  }
-
-
-  def checkCardHand(i : Int): Boolean ={
-    game.checkCardHand(i)
-  }
-
-  def Beenden: Unit = {
+  def beenden: Unit = {
     game = game.pullA()
     println("Der Zug ist beendet")
     println("Nächster Spieler ist am Zug")
@@ -158,6 +62,16 @@ class Controller(var game: Game) extends Observable{
   }
 
   def gameToString: String = game.toString
+
+  def undo: Unit={
+    undoManager.undoStep
+    notifyObservers
+  }
+
+  def redo: Unit = {
+    undoManager.redoStep
+    notifyObservers
+  }
 
   def hilfe: String = {
     """---------Hilfe-----------
@@ -170,7 +84,7 @@ class Controller(var game: Game) extends Observable{
       |p1-4 = legt Handkarte auf Ablegestapel
       |ps1-4 = legt Karte vom Spielerstapel auf Ablegestapel ab
       |ph1-4a1-4 = legt Karte vom Hilfstapel auf Ablegestapel ab
-      |a1-4 = legt Karte auf den Hilfestapel
+      |a1-4 = legt Karte vom Spielerstapel auf Hilfstapel ab
       |"""
       .stripMargin
   }

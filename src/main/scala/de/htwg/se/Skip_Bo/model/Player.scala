@@ -10,6 +10,7 @@ case class Player(name: String,
                   stack: List[Card]) {
    override def toString:String = name
 
+   //int=Index welche Handkarte
    def getCard(int :Int): Try[(Card, Player)] ={
       if(int>=cards.size)
          return Failure(InvalidHandCard(int))

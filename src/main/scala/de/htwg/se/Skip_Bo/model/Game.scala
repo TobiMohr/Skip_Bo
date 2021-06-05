@@ -33,7 +33,7 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
     copy(cardsCovered=cards,player=player)
   }
 
-  //legt Karte auf Ablegestapel oder Hilfstapel von Spieler A
+  //legt Handkarte auf Ablegestapel oder Hilfstapel von Spieler
   //i=Welcher Hilfs- oder Ablagestapel (Index), j=Index Handkarten, n=Spieler, helpst=(true=Hilfsstapel),(false=Ablegestapel)
   def pushCardHand(i: Int,j: Int,n: Int,helpst :Boolean): Try[Game] = {
     val s = if(helpst) helpstack(i) else stack(i)
@@ -49,6 +49,15 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
     }
   }
 
+  //legt Karte vom Hilfsstapel auf Ablegestapel
+  def pushCardHelp(i: Int,j:Int) : Game={
+    val h = helpstack(i)
+    val s = stack(j)
+    if()
+    val e = h.head +: s
+    val h2 = h.drop(1)
+    copy(helpstack=helpstack.updated(j,h2),stack=stack.updated(j,e))
+  }
 
   //legt Karte vom Spielerstapel auf Ablegestapel ab
   def pushCardStapel1A(): Game = {

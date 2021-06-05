@@ -19,12 +19,11 @@ class TUI(controller: Controller) extends Observer{
         val helpst = l(4).toBoolean //true=Hilfsstapel, false=Ablagestapel
           controller.pushCardHand(i, j, n, helpst)
       }
-
-
-      case "ps1" => controller.pushCardStapel1A()
-      case "ps2" => controller.pushCardStapel2A()
-      case "ps3" => controller.pushCardStapel3A()
-      case "ps4" => controller.pushCardStapel4A()
+      case "ps" => {
+        val i = l(1).toInt
+        val n = l(2).toInt
+          controller.pushCardPlayer(i, n)
+      }
       case "ph1a1" => controller.pushCardH1A1A()
       case "ph1a2" => controller.pushCardH1A2A()
       case "ph1a3" => controller.pushCardH1A3A()

@@ -96,16 +96,24 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
     this
   }
 
-  //check Karte ob erlaubt zu legen
   def checkCardHand(card: Card, stack: List[Card]): Boolean={
-    if(plACards(i).toString != "J") {
-      if (((plACards(i).toString.toInt) - 1 == stack1.head.toString.toInt) || ((plACards(i).toString.toInt) - 1 == stack2.head.toString.toInt)
-        || ((plACards(i).toString.toInt) - 1 == stack3.head.toString.toInt) || ((plACards(i).toString.toInt) - 1 == stack4.head.toString.toInt)) {
-        return true;
+    if(card.toString != "J"){
+      if(stack.head.toString != "J") {
+        if (card.toString.toInt - 1 == stack.head.toString.toInt) {
+          return true
+        }
+      } else {
+        if(card.toString.toInt - 2 == stack(1).toString.toInt){
+          return true
+        }
       }
     }
-    if(plACards(i).toString == "J") {
-     return true
+    if(card.toString == "J"){
+      if(stack.head.toString == "J") {
+        return false
+      } else {
+        return true
+      }
     }
     false
   }

@@ -33,7 +33,7 @@ class TUI(controller: Controller) extends Observer{
 
       case "u" => controller.undo
       case "r" => controller.redo
-      case "end" => controller.Beenden
+      case "end" => controller.beenden
       case "help" => println(controller.hilfe)
       case "q"=>
     }

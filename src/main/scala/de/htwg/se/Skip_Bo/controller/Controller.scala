@@ -52,11 +52,7 @@ class Controller(var game: Game=Game()) extends Observable{
     }
   }
 
-  def checkCardHand(i : Int): Boolean ={
-    game.checkCardHand(i)
-  }
-
-  def Beenden: Unit = {
+  def beenden: Unit = {
     game = game.pullA()
     println("Der Zug ist beendet")
     println("Nächster Spieler ist am Zug")

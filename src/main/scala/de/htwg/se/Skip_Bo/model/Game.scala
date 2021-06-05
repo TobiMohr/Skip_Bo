@@ -59,6 +59,18 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
     copy(helpstack=helpstack.updated(j,h2),stack=stack.updated(j,e))
   }
 
+  def pushCardPlayer(i: Int, n: Int): Try[Game] = {
+    val s = stack(i)
+    val p = player(n)
+    p.stackCard() match{
+      case Failure(exception) => Failure(exception)
+      case Success((card, newpl)) =>
+        if(!checkCardHand(card, s)) return Failure(InvalidMove)
+        val s2 = card +: s
+        Success(copy(stack=stack.updated(i, s2), player=player.updated(n, newpl)))
+    }
+  }
+
   //legt Karte vom Spielerstapel auf Ablegestapel ab
   def pushCardStapel1A(): Game = {
     stack1 = plAstack.head +: stack1
@@ -171,7 +183,6 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
     }
     this
   }
-
 
   //legt Karte auf Ablegestapel von Spieler B
   def pushCard1B(int: Int): Game = {

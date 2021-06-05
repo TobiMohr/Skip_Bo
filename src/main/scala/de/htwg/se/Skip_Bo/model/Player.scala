@@ -12,11 +12,18 @@ case class Player(name: String,
 
    //int=Index welche Handkarte
    def getCard(int :Int): Try[(Card, Player)] ={
-      if(int>=cards.size)
-         return Failure(InvalidHandCard(int))
+      if(int>=cards.size) {
+         Failure(InvalidHandCard(int))
+      }
       val card = cards(int)
       val x = Util.listRemoveAt(cards, int)
       Success (card, copy(cards = x))
+   }
+
+   def stackCard(): Try[(Card, Player)] = {
+      val card = stack.head
+      val x = Util.listRemoveAt(stack, 0)
+      Success (card, copy(stack = x))
    }
 }
 

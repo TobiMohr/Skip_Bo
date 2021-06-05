@@ -27,43 +27,6 @@ class Controller(var game: Game=Game()) extends Observable{
         notifyObservers
     }
   }
-  def pushCardHand2A(s: Int): Unit = {
-    game = game.pushCardHand2A(s)
-    println("legt Karte auf 2. Ablegestapel")
-    notifyObservers
-  }
-  def pushCardHand3A(s: Int): Unit = {
-    game = game.pushCardHand3A(s)
-    println("legt Karte auf 3. Ablegestapel")
-    notifyObservers
-  }
-  def pushCardHand4A(s: Int): Unit = {
-    game = game.pushCardHand4A(s)
-    println("legt Karte auf 4. Ablegestapel")
-    notifyObservers
-  }
-
-  //legt Handkarte auf Hilfsstapel
-  def ablegen1A(i: Int): Unit = {
-    game = game.ablegen1A(i)
-    println("legt Karte auf 1. Hilfstapel von Spieler A")
-    notifyObservers
-  }
-  def ablegen2A(i: Int): Unit = {
-    game = game.ablegen2A(i)
-    println("legt Karte auf 2. Hilfstapel von Spieler A")
-    notifyObservers
-  }
-  def ablegen3A(i: Int): Unit = {
-    game = game.ablegen3A(i)
-    println("legt Karte auf 3. Hilfstapel von Spieler A")
-    notifyObservers
-  }
-  def ablegen4A(i: Int): Unit = {
-    game = game.ablegen4A(i)
-    println("legt Karte auf 4. Hilfstapel von Spieler A")
-    notifyObservers
-  }
 
   //legt Karte vom Spielerstapel auf Ablegestapel ab
   def pushCardStapel1A(): Unit = {

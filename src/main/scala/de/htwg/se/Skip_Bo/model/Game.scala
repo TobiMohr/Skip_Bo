@@ -22,7 +22,7 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
       (1 to count).map(_ => Card(v))
     }))
 
-
+    // erstellt Handkarten und Spielerstapel von den Spielern
     val (cards,player) = List("A","B").foldLeft((c,List.empty[Player]))((t,plname)=>{
       val (plcards,cards)= t._1.splitAt(numOfPlayerCards)
       val (plstack,cards2)= cards.splitAt(30)
@@ -33,7 +33,7 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
     copy(cardsCovered=cards,player=player)
   }
 
-  //legt Karte auf Ablegestapel von Spieler A
+  //legt Karte auf Ablegestapel oder Hilfstapel von Spieler A
   def pushCardHand1A(i: Int,j: Int,n: Int,helpst :Boolean): Try[Game] = {
     val s = if(helpst) helpstack(i) else stack(i)
     val p = player(n)

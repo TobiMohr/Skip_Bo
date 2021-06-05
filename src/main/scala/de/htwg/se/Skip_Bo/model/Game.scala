@@ -41,11 +41,15 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
     p.getCard(j) match{
       case Failure(exception) => Failure(exception)
       case Success((card, newpl))=>
-        if(!checkCardHand(card,s))  return Failure(InvalidMove)
+        if(!checkCardHand(card,s)){
+          Failure(InvalidMove)
+        }
         val s2 = card +: s
-        Success(if(helpst)
+        Success(if(helpst) {
           copy(helpstack=helpstack.updated(i,s2), player=player.updated(n,newpl))
-        else copy(stack=stack.updated(i,s2), player=player.updated(n,newpl)))
+        } else {
+          copy(stack=stack.updated(i,s2), player=player.updated(n,newpl))
+        })
     }
   }
 
@@ -78,20 +82,11 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
     }
   }
 
-  //füllt Karten auf, so dass Spieler A wieder 5 Karten hat
-  def pullA() : Game ={
-    while(plACards.length<5){
-      plACards += Card(cardsCovered.head.value)
-      cardsCovered = cardsCovered.drop(1)
-    }
-    this
-  }
-
-  //füllt Karten auf, so dass Spieler A wieder 5 Karten hat
-  def pullB() : Game ={
-    while(plBCards.length<5){
-      plBCards += Card(cardsCovered.head.value)
-      cardsCovered = cardsCovered.drop(1)
+  def pull(n: Int): Game ={
+    val p = player(n)
+    while(p.cards.length < 5){
+      p.cards += Card(cardsCovered.head.value).toString
+      cardsCovered.drop(1)
     }
     this
   }

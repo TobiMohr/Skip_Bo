@@ -1,7 +1,7 @@
 package de.htwg.se.Skip_Bo.aview
 
 import de.htwg.se.Skip_Bo.controller.Controller
-import de.htwg.se.Skip_Bo.model.{Card, InvalidHandCard, InvalidMove, Stack}
+import de.htwg.se.Skip_Bo.model.{InvalidHandCard, InvalidMove}
 import de.htwg.se.Skip_Bo.util.Observer
 
 
@@ -45,7 +45,7 @@ class TUI(controller: Controller) extends Observer{
 
  override def update: Unit = println(controller.gameToString)
   override def error(throwable: Throwable): Unit = throwable match{
-    case InvalidHandCard(i) => println("Falscher Index: " +i)
+    case InvalidHandCard(i) => println("Falscher Index: " + i)
     case InvalidMove => println("Dieser Zug geht nicht!")
   }
 }

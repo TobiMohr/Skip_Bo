@@ -1,23 +1,31 @@
 package de.htwg.se.Skip_Bo.controller
 
 
-import de.htwg.se.Skip_Bo.model.{Game}
-import de.htwg.se.Skip_Bo.util.Observable
+import de.htwg.se.Skip_Bo.model.Game
+import de.htwg.se.Skip_Bo.util.{Observable, UndoManager}
 
-import scala.collection.immutable._
+import scala.util.{Failure, Success}
 
-class Controller(var game: Game) extends Observable{
+
+
+class Controller(var game: Game=Game()) extends Observable{
+
+  private val undoManager = new UndoManager
 
   def startGame(size: Int = 5): Unit ={
-    game = Game(size)
+    game = game.startGame(size)
     notifyObservers
   }
 
   //legt Handkarte auf Ablegestapel
-  def pushCardHand1A(s: Int): Unit = {
-    game = game.pushCardHand1A(s)
-    println("legt Karte auf 1. Ablegestapel")
-    notifyObservers
+  def pushCardHand1A(i: Int, j: Int,n: Int,helpst: Boolean ): Unit = {
+    game.pushCardHand1A(i, j, n, helpst) match{
+      case Failure(exception) => onError(exception)
+      case Success(value)=>
+        game = value
+        println("legt Karte auf 1. Ablegestapel")
+        notifyObservers
+    }
   }
   def pushCardHand2A(s: Int): Unit = {
     game = game.pushCardHand2A(s)
@@ -159,6 +167,16 @@ class Controller(var game: Game) extends Observable{
 
   def gameToString: String = game.toString
 
+  def undo: Unit={
+    undoManager.undoStep
+    notifyObservers
+  }
+
+  def redo: Unit = {
+    undoManager.redoStep
+    notifyObservers
+  }
+
   def hilfe: String = {
     """---------Hilfe-----------
       ||       Handkarten      ||
@@ -170,7 +188,7 @@ class Controller(var game: Game) extends Observable{
       |p1-4 = legt Handkarte auf Ablegestapel
       |ps1-4 = legt Karte vom Spielerstapel auf Ablegestapel ab
       |ph1-4a1-4 = legt Karte vom Hilfstapel auf Ablegestapel ab
-      |a1-4 = legt Karte vom Spielerstapel auf Ablegestapel ab
+      |a1-4 = legt Karte vom Spielerstapel auf Hilfstapel ab
       |"""
       .stripMargin
   }

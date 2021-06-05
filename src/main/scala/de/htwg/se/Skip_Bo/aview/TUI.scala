@@ -1,7 +1,7 @@
 package de.htwg.se.Skip_Bo.aview
 
 import de.htwg.se.Skip_Bo.controller.Controller
-import de.htwg.se.Skip_Bo.model.{Card, Colour, Stack}
+import de.htwg.se.Skip_Bo.model.{Card, Colour, InvalidHandCard, Stack}
 import de.htwg.se.Skip_Bo.util.Observer
 
 
@@ -13,12 +13,11 @@ class TUI(controller: Controller) extends Observer{
       //start Game
       case "s" => controller.startGame()
       case "p1" => {
-        val s = l(1).toInt
-        if(controller.checkCardHand(s)){
-          controller.pushCardHand1A(s)
-        } else {
-          println("Diese Karte kannst du nicht ablegen.")
-        }
+        val i = l(1).toInt
+        val j = l(2).toInt
+        val n = l(3).toInt
+        val helpst = l(4).toBoolean
+          controller.pushCardHand1A(i, j, n, helpst)
       }
       case "p2" => {
         val s = l(1).toInt
@@ -82,6 +81,8 @@ class TUI(controller: Controller) extends Observer{
       case "ph4a3" => controller.pushCardH4A3A()
       case "ph4a4" => controller.pushCardH4A4A()
 
+      case "u" => controller.undo
+      case "r" => controller.redo
       case "end" => controller.Beenden
       case "help" => println(controller.hilfe)
       case "q"=>
@@ -93,4 +94,8 @@ class TUI(controller: Controller) extends Observer{
   }
 
  override def update: Unit = println(controller.gameToString)
+  override def error(throwable: Throwable): Unit = throwable match{
+    case InvalidHandCard(i) => println("Falscher Index: " +i)
+    case InvalidMove => println("Dieser Zug geht nicht!")
+  }
 }

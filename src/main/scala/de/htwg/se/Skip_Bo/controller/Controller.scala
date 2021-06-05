@@ -4,7 +4,7 @@ package de.htwg.se.Skip_Bo.controller
 import de.htwg.se.Skip_Bo.model.Game
 import de.htwg.se.Skip_Bo.util.{Observable, UndoManager}
 
-import scala.util.{Failure, Success}
+import scala.util.{Failure, Success, Try}
 
 
 
@@ -32,6 +32,7 @@ class Controller(var game: Game=Game()) extends Observable{
     }
   }
 
+  //legt Karte vom Hilfsstapel auf Ablegestapel
   def pushCardHelp(i: Int, j:Int, n: Int): Unit = {
     game.pushCardHelp(i, j, n) match {
       case Failure(exception) => onError(exception)
@@ -42,6 +43,7 @@ class Controller(var game: Game=Game()) extends Observable{
     }
   }
 
+  //legt Karte vom Spielerstapel auf Ablegestapel
   def pushCardPlayer(i: Int, n: Int):Unit = {
     game.pushCardPlayer(i, n) match {
       case Failure(exception) => onError(exception)

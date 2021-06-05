@@ -68,6 +68,7 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
     }
   }
 
+  //legt Karte vom Spielerstapel auf Ablegestapel
   def pushCardPlayer(i: Int, n: Int): Try[Game] = {
     val s = stack(i)
     val p = player(n)

@@ -27,12 +27,13 @@ case class Player(name: String,
    }
 
    def helpCard(int: Int): Try[(Card, Player)] = {
-      if(helpstack(int).equals(Nil)){
+      if(helpstack(int).isEmpty){
          Failure(InvalidMove)
+      } else {
+         val card = helpstack(int).head
+         val x = Util.listRemoveAt(helpstack(int), 0)
+         Success(card, copy(helpstack = helpstack.updated(int, x)))
       }
-      val card = helpstack(int).head
-      val x = Util.listRemoveAt(helpstack(int), 0)
-      Success (card, copy(helpstack = helpstack.updated(int, x)))
    }
 
    def putInHelp(int: Int, card: Card): Try[Player] = {

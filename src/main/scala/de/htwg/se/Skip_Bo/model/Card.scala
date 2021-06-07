@@ -1,6 +1,5 @@
 package de.htwg.se.Skip_Bo.model
 
-import .Colour
 import de.htwg.se.Skip_Bo.model.Value.Values
 
   case class Card( value: Values){
@@ -23,16 +22,7 @@ import de.htwg.se.Skip_Bo.model.Value.Values
       }
 
     }
-//  def accuracy(): Boolean = {
-//      if (rank <= 12 && rank > 0) {
-//         true
-//      } else {
-//        false
-//      }
-//  }
 
-
-   //override def toString:String = "a " + colour + " " + rank
 
 
 

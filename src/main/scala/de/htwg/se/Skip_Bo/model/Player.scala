@@ -27,6 +27,9 @@ case class Player(name: String,
    }
 
    def helpCard(int: Int): Try[(Card, Player)] = {
+      if(helpstack(int).equals(Nil)){
+         Failure(InvalidMove)
+      }
       val card = helpstack(int).head
       val x = Util.listRemoveAt(helpstack(int), 0)
       Success (card, copy(helpstack = helpstack.updated(int, x)))

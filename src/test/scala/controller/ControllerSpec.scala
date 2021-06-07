@@ -17,7 +17,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         List(Card(Value.Five), Card(Value.Joker), Card(Value.Twelve), Card(Value.Two), Card(Value.Four)))
       val player2 = new Player("B",
         List(Card(Value.Four), Card(Value.Ten), Card(Value.Eight), Card(Value.Seven), Card(Value.Seven)),
-        List(List(Card(Value.Four)), List(Card(Value.Eleven)), List(Card(Value.Ten)), List(Card(Value.Eight))),
+        List(List(Card(Value.Four),Card(Value.Six)), List(Card(Value.Eleven)), List(Card(Value.Ten)), List(Card(Value.Eight))),
         List(Card(Value.One), Card(Value.Joker), Card(Value.Joker), Card(Value.Two), Card(Value.Seven)))
 
       val game = Game(List(List(Card(Value.Three), Card(Value.Two), Card(Value.One)),

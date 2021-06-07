@@ -49,7 +49,7 @@ class Controller(var game: Game=Game()) extends Observable{
       case Failure(exception) => onError(exception)
       case Success(value) =>
         game = value
-        println("Spieler(" + n + ") legt karte vom Spielerstapel auf " + i + 1 + ". Ablagestapel")
+        println("Spieler(" + n + ") legt karte vom Spielerstapel auf " + (i + 1) + ". Ablagestapel")
         notifyObservers
     }
   }

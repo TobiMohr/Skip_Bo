@@ -2,6 +2,8 @@ package de.htwg.se.Skip_Bo.util
 
 class TestObject extends Observer {
   def update:Unit = println("Ping")
+
+  override def error(throwable: Throwable): Unit = println("fehler")    //nochmal anschauen. Nur um tests machen zu können
 }
 object ObserverPattern {
   val observable = new Observable                 //> observable  : de.htwg.util.Observable = de.htwg.util.Observable@23394894

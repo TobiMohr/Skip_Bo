@@ -87,7 +87,7 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
   def pull(n: Int): Game ={
     val p = player(n)
     while(p.cards.length < 5){
-      p.cards += Card(cardsCovered.head.value).toString
+      p.cards +: Card(cardsCovered.head.value).toString
       cardsCovered.drop(1)
     }
     this
@@ -125,21 +125,22 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
 
   override def toString: String = {
 
-    val l = for (i <- 1 to plACards.length) yield
-        ("| " + plACards(i - 1).toString + " | ")
-    val b = ("| " + helpAtack1.head.toString + " | ")
-    val c = ("| " + helpAstack2.head.toString + " | ")
-    val d = ("| " + helpAstack3.head.toString + " | ")
-    val e = ("| " + helpAstack4.head.toString + " | ")
-    val f = ("| " + plAstack.head.toString + " | ")
-    val g = ("| " + stack(0).head.toString + " | ")
-    val h = ("| " + stack(1).head.toString + " | ")
-    val j = ("| " + stack(2).head.toString + " | ")
-    val k = ("| " + stack(3).head.toString + " | ")
+   // val l = for (i <- 1 to plACards.length) yield
+    //    ("| " + plACards(i - 1).toString + " | ")
+    //val b = ("| " + helpAtack1.head.toString + " | ")
+    //val c = ("| " + helpAstack2.head.toString + " | ")
+    //val d = ("| " + helpAstack3.head.toString + " | ")
+    //val e = ("| " + helpAstack4.head.toString + " | ")
+   // val f = ("| " + plAstack.head.toString + " | ")
+    //val g = ("| " + stack(0).head.toString + " | ")
+   // val h = ("| " + stack(1).head.toString + " | ")
+    //val j = ("| " + stack(2).head.toString + " | ")
+    //val k = ("| " + stack(3).head.toString + " | ")
 
-    val playField = l + "\n\n" + b + "\t" + c + "\t" + d + "\t" + e + "\t" + f + "\n\n" + g + "\t" +
-      h + "\t" + j + "\t" + k + "\t"
+   // val playField = l + "\n\n" + b + "\t" + c + "\t" + d + "\t" + e + "\t" + f + "\n\n" + g + "\t" +
+     // h + "\t" + j + "\t" + k + "\t"
 
-    playField
+    //playField
+    "test"
   }
 }

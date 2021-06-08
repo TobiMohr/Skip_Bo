@@ -19,6 +19,9 @@ class Controller(var game: Game=Game()) extends Observable{
 
   //legt Handkarte auf Ablegestapel
   def pushCardHand(i: Int, j: Int,n: Int,helpst: Boolean ): Unit = {
+    undoManager.doStep(new PushCardHandCommand(i,j,n,helpst,this))
+    notifyObservers
+
     game.pushCardHand(i, j, n, helpst) match {
       case Failure(exception) => onError(exception)
       case Success(value) =>
@@ -34,6 +37,9 @@ class Controller(var game: Game=Game()) extends Observable{
 
   //legt Karte vom Hilfsstapel auf Ablegestapel
   def pushCardHelp(i: Int, j:Int, n: Int): Unit = {
+    undoManager.doStep(new PushCardHelpCommand(i,j,n,this))
+    notifyObservers
+
     game.pushCardHelp(i, j, n) match {
       case Failure(exception) => onError(exception)
       case Success(value) =>
@@ -45,6 +51,9 @@ class Controller(var game: Game=Game()) extends Observable{
 
   //legt Karte vom Spielerstapel auf Ablegestapel
   def pushCardPlayer(i: Int, n: Int):Unit = {
+    undoManager.doStep(new PushCardPlayerCommand(i,n,this))
+    notifyObservers
+
     game.pushCardPlayer(i, n) match {
       case Failure(exception) => onError(exception)
       case Success(value) =>

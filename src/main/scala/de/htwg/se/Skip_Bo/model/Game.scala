@@ -1,7 +1,8 @@
 package de.htwg.se.Skip_Bo.model
 
 
-import de.htwg.se.Skip_Bo.model.{Value}
+import de.htwg.se.Skip_Bo.controller.{PlayerA, PlayerState}
+import de.htwg.se.Skip_Bo.model.Value
 
 import scala.util.{Failure, Random, Success, Try}
 
@@ -9,6 +10,7 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
                  player:List[Player] = List.empty,
                  cardsCovered:List[Card] = List.empty
                ) {
+  var playerState: PlayerState = PlayerA
 
   //baut Grundspiel auf
   def startGame(numOfPlayerCards: Int): Game = {
@@ -43,6 +45,7 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
       case Success((card, newpl))=>
         if(helpst){
           p.putInHelp(i, card)
+          playerState.turnChange
           Success(copy(player=player.updated(n, newpl)))
         } else  {
           if(!checkCardHand(card,s)){

@@ -12,8 +12,11 @@ class Controller(var game: Game=Game()) extends Observable{
 
   private val undoManager = new UndoManager
 
+  val playerState: PlayerState = PlayerA
+
   def startGame(size: Int = 5): Unit ={
     game = game.startGame(size)
+    println("Spieler A ist am Zug")
     notifyObservers
   }
 
@@ -23,10 +26,18 @@ class Controller(var game: Game=Game()) extends Observable{
       case Failure(exception) => onError(exception)
       case Success(value) =>
         game = value
-        if (helpst) {
-          println("Spieler(" + n + ") legt Karte auf " + i + 1 + ". Hilfestapel")
-        } else {
-          println("legt Karte auf" + i + 1 + ". Ablagestapel")
+        if(n == 0) {
+          if (helpst) {
+            println("Spieler(A) legt Karte auf " + (i + 1) + ". Hilfestapel")
+          } else {
+            println("Spieler(A) legt Karte auf " + (i + 1) + ". Ablagestapel")
+          }
+        } else if(n == 1){
+          if (helpst) {
+            println("Spieler(B) legt Karte auf " + (i + 1) + ". Hilfestapel")
+          } else {
+            println("Spieler(B) legt Karte auf " + (i + 1) + ". Ablagestapel")
+          }
         }
         notifyObservers
     }
@@ -38,7 +49,11 @@ class Controller(var game: Game=Game()) extends Observable{
       case Failure(exception) => onError(exception)
       case Success(value) =>
         game = value
-        println("Spieler(" + n + ") legt Karte vom " + j + 1  + ". Hilfestapel auf den " +  i + 1 + ". Ablagestapel")
+        if(n == 0) {
+          println("Spieler(A) legt Karte vom " + (j + 1) + ". Hilfestapel auf den " + (i + 1) + ". Ablagestapel")
+        } else if(n == 1) {
+          println("Spieler(B) legt Karte vom " + (j + 1) + ". Hilfestapel auf den " + (i + 1) + ". Ablagestapel")
+        }
         notifyObservers
     }
   }
@@ -49,15 +64,25 @@ class Controller(var game: Game=Game()) extends Observable{
       case Failure(exception) => onError(exception)
       case Success(value) =>
         game = value
-        println("Spieler(" + n + ") legt karte vom Spielerstapel auf " + i + 1 + ". Ablagestapel")
+        if(n == 0) {
+          println("Spieler(A) legt karte vom Spielerstapel auf " + (i + 1) + ". Ablagestapel")
+        } else if(n == 1){
+          println("Spieler(B) legt karte vom Spielerstapel auf " + (i + 1) + ". Ablagestapel")
+        }
         notifyObservers
     }
   }
 
   def beenden(n:Int): Unit = {
-    game = game.pull(n)
-    println("Spieler(" + n +") hat seinen Zug beendet")
-    println("Spieler(" + (n + 1) +") ist am Zug")
+    if(n == 0) {
+      game = game.pull(1)
+      println("Spieler(A) hat seinen Zug beendet")
+      println("Spieler(B) ist am Zug")
+    } else if(n == 1) {
+      game = game.pull(0)
+      println("Spieler(B) hat seinen Zug beendet")
+      println("Spieler(A) ist am Zug")
+    }
     notifyObservers
   }
 

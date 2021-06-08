@@ -56,8 +56,9 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.pushCardPlayer(0, 1)
         observer.updated should be(true)
       }
-      "print the boardstate" in {
-        controller.gameToString should be("test")
+      "print the boardstate of Player A" in {
+        controller.gameToString(0) should be()
+
       }
       "print a helpoverview" in {
         controller.hilfe should be("""---------Hilfe-----------

@@ -17,7 +17,7 @@ class TUI(controller: Controller) extends Observer{
         val i = l(1).toInt //Welcher Hilfs- oder Ablagestapel (Index)
         val j = l(2).toInt //Welche Handkarte (Index)
         val n = controller.playerState.getPlayer //Welcher Spieler
-        val helpst = l(4).toBoolean //true=Hilfsstapel, false=Ablagestapel
+        val helpst = l(3).toBoolean //true=Hilfsstapel, false=Ablagestapel
           controller.pushCardHand(i, j, n, helpst)
       }
       //legt Karte vom Spielerstapel auf Ablegestapel
@@ -49,7 +49,7 @@ class TUI(controller: Controller) extends Observer{
 
   }
 
- override def update: Unit = println(controller.gameToString)
+ override def update: Unit = println(controller.gameToString(controller.playerState.getPlayer))
   override def error(throwable: Throwable): Unit = throwable match{
     case InvalidHandCard(i) => println("Falscher Index: " + i)
     case InvalidMove => println("Dieser Zug geht nicht!")

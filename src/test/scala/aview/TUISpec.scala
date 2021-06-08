@@ -30,10 +30,6 @@ class TUISpec extends AnyWordSpec with Matchers {
     "do nothing on input q" in {
       tui.processInputLine("q")
     }
-    "start a new game" in {
-      tui.processInputLine("s")
-      controller.gameToString should be(controller.gameToString)
-    }
     "place a card on a helpstack" in {
       tui.processInputLine("ph 0 1 0 true")
       controller.game.player should be (List(controller.game.player(0), controller.game.player(1)))

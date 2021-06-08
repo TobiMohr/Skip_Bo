@@ -1,7 +1,8 @@
 package de.htwg.se.Skip_Bo.model
 
 
-import de.htwg.se.Skip_Bo.model.{Value}
+import de.htwg.se.Skip_Bo.controller.{PlayerA, PlayerState}
+import de.htwg.se.Skip_Bo.model.Value
 
 import scala.util.{Failure, Random, Success, Try}
 
@@ -123,24 +124,57 @@ case class Game( stack:List[List[Card]] = (0 until 4).map(_=>List.empty).toList,
   }
 
 
-  override def toString: String = {
+   def toString(n : Int): String = {
 
-   // val l = for (i <- 1 to plACards.length) yield
-    //    ("| " + plACards(i - 1).toString + " | ")
-    //val b = ("| " + helpAtack1.head.toString + " | ")
-    //val c = ("| " + helpAstack2.head.toString + " | ")
-    //val d = ("| " + helpAstack3.head.toString + " | ")
-    //val e = ("| " + helpAstack4.head.toString + " | ")
-   // val f = ("| " + plAstack.head.toString + " | ")
-    //val g = ("| " + stack(0).head.toString + " | ")
-   // val h = ("| " + stack(1).head.toString + " | ")
-    //val j = ("| " + stack(2).head.toString + " | ")
-    //val k = ("| " + stack(3).head.toString + " | ")
+    val l = for (i <- 1 to player(n).cards.length) yield
+        ("| " + player(n).cards(i - 1).toString + " | ")
+    val b = if(player(n).helpstack(0).isEmpty) {
+              ("| leer | ")
+            } else {
+              ("| " + player(n).helpstack(0).head.toString + " | ")
+            }
+     val c = if(player(n).helpstack(1).isEmpty) {
+                ("| leer | ")
+             } else {
+                ("| " + player(n).helpstack(1).head.toString + " | ")
+             }
+    val d = if(player(n).helpstack(2).isEmpty) {
+              ("| leer | ")
+            } else {
+              ("| " + player(n).helpstack(2).head.toString + " | ")
+            }
+    val e = if(player(n).helpstack(3).isEmpty) {
+                ("| leer | ")
+            } else {
+              ("| " + player(n).helpstack(3).head.toString + " | ")
+            }
+    val f = ("| " + player(n).stack.head.toString + " | ")
+    val g = if(stack(0).isEmpty) {
+      ("| leer | ")
+    } else {
+      ("| " + stack(0).head.toString + " | ")
+    }
+     val h = if(stack(1).isEmpty) {
+       ("| leer | ")
+     } else {
+       ("| " + stack(1).head.toString + " | ")
+     }
+    val j = if(stack(2).isEmpty) {
+      ("| leer | ")
+    } else {
+      ("| " + stack(2).head.toString + " | ")
+    }
+    val k = if(stack(3).isEmpty) {
+      ("| leer | ")
+    } else {
+      ("| " + stack(3).head.toString + " | ")
+    }
 
-   // val playField = l + "\n\n" + b + "\t" + c + "\t" + d + "\t" + e + "\t" + f + "\n\n" + g + "\t" +
-     // h + "\t" + j + "\t" + k + "\t"
+    val playField = "Handkarten: " + l + "\n\n" + "Hilfsstapel: " + b + "\t" + c + "\t" + d + "\t" + e +
+      "\t" + "Spielerstapel: " + f + "\n\n" + "Ablagestapel: " + g + "\t" +
+      h + "\t" + j + "\t" + k + "\t"
 
-    //playField
-    "test"
+    playField
+
   }
 }

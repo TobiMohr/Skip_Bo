@@ -1,9 +1,14 @@
 package de.htwg.se.Skip_Bo.util
 
+import de.htwg.se.Skip_Bo.model.{InvalidHandCard, InvalidMove}
+
 class TestObject extends Observer {
   def update:Unit = println("Ping")
 
-  override def error(throwable: Throwable): Unit = println("fehler")    //nochmal anschauen. Nur um tests machen zu können
+  override def error(throwable: Throwable): Unit = throwable match{
+    case InvalidHandCard(i) => println("Falscher Index: " + i)
+    case InvalidMove => println("Dieser Zug geht nicht!")
+  }
 }
 object ObserverPattern {
   val observable = new Observable                 //> observable  : de.htwg.util.Observable = de.htwg.util.Observable@23394894

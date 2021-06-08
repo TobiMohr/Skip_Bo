@@ -12,8 +12,11 @@ class Controller(var game: Game=Game()) extends Observable{
 
   private val undoManager = new UndoManager
 
+  var playerState: PlayerState = PlayerA
+
   def startGame(size: Int = 5): Unit ={
     game = game.startGame(size)
+    println("Spieler A ist am Zug")
     notifyObservers
   }
 
@@ -23,10 +26,21 @@ class Controller(var game: Game=Game()) extends Observable{
       case Failure(exception) => onError(exception)
       case Success(value) =>
         game = value
-        if (helpst) {
-          println("Spieler(" + n + ") legt Karte auf " + i + 1 + ". Hilfestapel")
-        } else {
-          println("legt Karte auf" + i + 1 + ". Ablagestapel")
+        if(n == 0) {
+          if (helpst) {
+            println("Spieler(A) legt Karte auf " + (i + 1) + ". Hilfestapel")
+            beenden(playerState.getPlayer)
+          } else {
+            println("Spieler(A) legt Karte auf " + (i + 1) + ". Ablagestapel")
+
+          }
+        } else if(n == 1){
+          if (helpst) {
+            println("Spieler(B) legt Karte auf " + (i + 1) + ". Hilfestapel")
+            beenden(playerState.getPlayer)
+          } else {
+            println("Spieler(B) legt Karte auf " + (i + 1) + ". Ablagestapel")
+          }
         }
         notifyObservers
     }
@@ -38,7 +52,11 @@ class Controller(var game: Game=Game()) extends Observable{
       case Failure(exception) => onError(exception)
       case Success(value) =>
         game = value
-        println("Spieler(" + n + ") legt Karte vom " + j + 1  + ". Hilfestapel auf den " +  i + 1 + ". Ablagestapel")
+        if(n == 0) {
+          println("Spieler(A) legt Karte vom " + (j + 1) + ". Hilfestapel auf den " + (i + 1) + ". Ablagestapel")
+        } else if(n == 1) {
+          println("Spieler(B) legt Karte vom " + (j + 1) + ". Hilfestapel auf den " + (i + 1) + ". Ablagestapel")
+        }
         notifyObservers
     }
   }
@@ -49,19 +67,30 @@ class Controller(var game: Game=Game()) extends Observable{
       case Failure(exception) => onError(exception)
       case Success(value) =>
         game = value
-        println("Spieler(" + n + ") legt karte vom Spielerstapel auf " + i + 1 + ". Ablagestapel")
+        if(n == 0) {
+          println("Spieler(A) legt karte vom Spielerstapel auf " + (i + 1) + ". Ablagestapel")
+        } else if(n == 1){
+          println("Spieler(B) legt karte vom Spielerstapel auf " + (i + 1) + ". Ablagestapel")
+        }
         notifyObservers
     }
   }
 
   def beenden(n:Int): Unit = {
-    game = game.pull(n)
-    println("Spieler(" + n +") hat seinen Zug beendet")
-    println("Spieler(" + (n + 1) +") ist am Zug")
-    notifyObservers
+    if(n == 0) {
+      game = game.pull(1)
+      playerState = playerState.turnChange
+      println("Spieler(A) hat seinen Zug beendet")
+      println("Spieler(B) ist am Zug")
+    } else if(n == 1) {
+      game = game.pull(0)
+      playerState = playerState.turnChange
+      println("Spieler(B) hat seinen Zug beendet")
+      println("Spieler(A) ist am Zug")
+    }
   }
 
-  def gameToString: String = game.toString
+  def gameToString(n:Int): String = game.toString(n)
 
   def undo: Unit={
     undoManager.undoStep
@@ -81,11 +110,11 @@ class Controller(var game: Game=Game()) extends Observable{
       |
       ||  A1 |  A2 |  A3 |  A4 ||
       |-------------------------
-      |ph i j n true = legt Handkarte(j) auf Ablegestapel(i) von Spieler n
-      |ph i j n false = legt Handkarte(j) auf Hilfestapel(i) von Spieler n
-      |ps i n = legt Karte von Spielerstapen von Spieler n  auf Ablagestapel(i)
-      |philfe i j n = Spieler n legt Karte von Hilfestapel(i) auf Ablagestapel(j)
-      |end n = Spieler n beendet seinen Zug und nimmt auf bis er 5 Karten auf der Hand hat
+      |ph i j true = legt Handkarte(j) auf Hilfestapel(i) vom Spieler
+      |ph i j false = legt Handkarte(j) auf Ablagestapel(i) vom Spieler
+      |ps i = legt Karte von Spielerstapen vom Spieler  auf Ablagestapel(i)
+      |philfe i j = Spieler legt Karte von Hilfestapel(i) auf Ablagestapel(j)
+      |end = Spieler beendet seinen Zug und nimmt auf bis er 5 Karten auf der Hand hat
       |"""
       .stripMargin
   }

@@ -114,7 +114,6 @@ class Controller(var game: Game=Game()) extends Observable{
       |ph i j false = legt Handkarte(j) auf Ablagestapel(i) vom Spieler
       |ps i = legt Karte von Spielerstapen vom Spieler  auf Ablagestapel(i)
       |philfe i j = Spieler legt Karte von Hilfestapel(i) auf Ablagestapel(j)
-      |end = Spieler beendet seinen Zug und nimmt auf bis er 5 Karten auf der Hand hat
       |"""
       .stripMargin
   }

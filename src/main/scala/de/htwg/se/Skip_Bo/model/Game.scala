@@ -48,9 +48,10 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
         } else {
           if (!checkCardHand(card, s)) {
             Failure(InvalidMove)
+          } else {
+            val s2 = card +: s
+            Success(copy(stack = stack.updated(i, s2), player = player.updated(n, newpl)))
           }
-          val s2 = card +: s
-          Success(copy(stack = stack.updated(i, s2), player = player.updated(n, newpl)))
         }
     }
   }
@@ -64,9 +65,10 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
       case Success((card, newpl)) =>
         if (!checkCardHand(card, s)) {
           Failure(InvalidMove)
+        } else {
+          val s2 = card +: s
+          Success(copy(stack = stack.updated(j, s2), player = player.updated(n, newpl)))
         }
-        val s2 = card +: s
-        Success(copy(stack = stack.updated(j, s2), player = player.updated(n, newpl)))
     }
   }
 
@@ -79,9 +81,10 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
       case Success((card, newpl)) =>
         if (!checkCardHand(card, s)) {
           Failure(InvalidMove)
+        } else {
+          val s2 = card +: s
+          Success(copy(stack = stack.updated(i, s2), player = player.updated(n, newpl)))
         }
-        val s2 = card +: s
-        Success(copy(stack = stack.updated(i, s2), player = player.updated(n, newpl)))
     }
   }
 
@@ -103,11 +106,11 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     } else {
       if (card.toString != "J") {
         if (stack.head.toString != "J") {
-          if (card.toString.toInt - 1 == stack.head.toString.toInt) {
+          if ((card.toString.toInt) - 1 == stack.head.toString.toInt) {
             return true
           }
         } else {
-          if (card.toString.toInt - 2 == stack(1).toString.toInt) {
+          if (card.toString.toInt - 2 == stack(1).toString.toInt) { //geht nicht wenn zwei Joker übereinander liegen
             return true
           }
         }
@@ -172,7 +175,7 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     }
 
     val playField = "Handkarten: " + l + "\n\n" + "Hilfsstapel: " + b + "\t" + c + "\t" + d + "\t" + e +
-      "\t" + "Spielerstapel: " + f +"\t"+m+ "\n\n" + "Ablagestapel: " + g + "\t" +
+      "\t" + "Spielerstapel: " + f + "\t" + m + "\n\n" + "Ablagestapel: " + g + "\t" +
       h + "\t" + j + "\t" + k + "\t"
 
     playField

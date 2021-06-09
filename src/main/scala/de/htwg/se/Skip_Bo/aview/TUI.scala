@@ -36,10 +36,6 @@ class TUI(controller: Controller) extends Observer{
 
       case "u" => controller.undo
       case "r" => controller.redo
-      case "end" =>  {
-        val n = controller.playerState.getPlayer
-          controller.beenden(n)
-      }
       case "help" => println(controller.hilfe)
       case "q"=>
     }

@@ -1,7 +1,7 @@
 package de.htwg.se.Skip_Bo.util
 
 trait Observer {
-  def update: Unit
+  def update: Boolean
   def error(throwable: Throwable): Unit
 }
 

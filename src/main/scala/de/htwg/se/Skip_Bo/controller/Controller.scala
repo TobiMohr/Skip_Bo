@@ -1,6 +1,7 @@
 package de.htwg.se.Skip_Bo.controller
 
 
+import de.htwg.se.Skip_Bo.controller.GameState.{GameState, IDLE, PLACE}
 import de.htwg.se.Skip_Bo.model.Game
 import de.htwg.se.Skip_Bo.util.{Observable, UndoManager}
 
@@ -12,11 +13,13 @@ class Controller(var game: Game=Game()) extends Observable{
 
   private val undoManager = new UndoManager
 
+  var gameState: GameState = IDLE
   var playerState: PlayerState = PlayerA
 
   def startGame(size: Int = 5): Unit ={
     game = game.startGame(size)
     println("Spieler A ist am Zug")
+    gameState = PLACE
     notifyObservers
   }
 

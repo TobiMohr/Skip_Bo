@@ -126,7 +126,6 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     false
   }
 
-
   def toString(n: Int): String = {
 
     val l = for (i <- 1 to player(n).cards.length) yield

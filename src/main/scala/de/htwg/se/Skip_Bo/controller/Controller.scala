@@ -80,14 +80,12 @@ class Controller(var game: Game=Game()) extends Observable{
   }
 
   def beenden(n:Int): Unit = {
+    game = game.pull(n)
+    playerState = playerState.turnChange
     if(n == 0) {
-      game = game.pull(1)
-      playerState = playerState.turnChange
       println("Spieler(A) hat seinen Zug beendet")
       println("Spieler(B) ist am Zug")
     } else if(n == 1) {
-      game = game.pull(0)
-      playerState = playerState.turnChange
       println("Spieler(B) hat seinen Zug beendet")
       println("Spieler(A) ist am Zug")
     }

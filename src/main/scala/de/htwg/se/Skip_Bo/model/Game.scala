@@ -3,6 +3,7 @@ package de.htwg.se.Skip_Bo.model
 
 import de.htwg.se.Skip_Bo.controller.{PlayerA, PlayerState}
 import de.htwg.se.Skip_Bo.model.Value
+import de.htwg.se.Skip_Bo.util.Util
 
 import scala.util.{Failure, Random, Success, Try}
 
@@ -91,10 +92,23 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
   def pull(n: Int): Game = {
     val p = player(n)
     while (p.cards.length < 5) {
-      p.cards +: Card(cardsCovered.head.value).toString
-      cardsCovered.drop(1)
+      pullCard()match {
+        case Failure(exception) => Failure(exception)
+        case Success((card, game)) =>
+          p.draw(card) match {
+            case Failure(exception) => Failure(exception)
+            case Success(hand) => Success(copy(player = player.updated(n, hand)))
+          }
+          Success(card, cardsCovered)
+      }
     }
     this
+  }
+
+  def pullCard(): Try[(Card, Game)] = {
+    val card = cardsCovered.head
+    val x = Util.listRemoveAt(cardsCovered, 0)
+    Success (card, copy(cardsCovered = x))
   }
 
   def checkCardHand(card: Card, stack: List[Card]): Boolean = {

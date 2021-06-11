@@ -89,41 +89,39 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     }
   }
 
-  def pull(n: Int): Game = {
-    val p = player(n)
-    while (p.cards.length < 5) {
-      pullCard()match {
-        case Failure(exception) => Failure(exception)
-        case Success((card, game)) =>
-          p.draw(card) match {
-            case Failure(exception) => Failure(exception)
-            case Success(hand) => Success(copy(player = player.updated(n, hand)))
-          }
-          Success(card, cardsCovered)
-      }
-    }
-    println(cardsCovered.length)
-    this
-  }
-
-  def pullCard(): Try[(Card, Game)] = {
-    val card = cardsCovered.head
-    val x = Util.listRemoveAt(cardsCovered, 0)
-    Success (card, copy(cardsCovered = x))
-  }
-
-//  def pull(n :Int):Game ={
+//  def pull(n: Int): Game = {
 //    val p = player(n)
-//    while(p.cards.length < 5){
-//      val card = cardsCovered.head
-//      val x = cardsCovered.drop(1)
-//      val hand = p.draw(card)
-//      copy(cardsCovered = x, player = player.updated(n, hand))
+//    while (p.cards.length < 5) {
+//      pullCard()match {
+//        case Failure(exception) => Failure(exception)
+//        case Success((card, game)) =>
+//          p.draw(card) match {
+//            case Failure(exception) => Failure(exception)
+//            case Success(hand) => Success(copy(player = player.updated(n, hand)))
+//          }
+//          Success(card, cardsCovered)
+//      }
 //    }
 //    println(cardsCovered.length)
-//    println(p.cards.length)
 //    this
 //  }
+//
+//  def pullCard(): Try[(Card, Game)] = {
+//    val card = cardsCovered.head
+//    val x = Util.listRemoveAt(cardsCovered, 0)
+//    Success (card, copy(cardsCovered = x))
+//  }
+
+  def pull(n :Int):Game ={
+    val p = player(n)
+    while(p.cards.length < 5){
+      val card = cardsCovered.head
+      val x = Util.listRemoveAt(cardsCovered, 0)
+      val hand = p.draw2(card)
+      copy(cardsCovered = x, player = player.updated(n, hand))
+    }
+    copy(stack, player, cardsCovered)
+  }
 
 //  def pull(n: Int): Game = {
 //    val p = player(n)

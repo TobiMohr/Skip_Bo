@@ -45,5 +45,9 @@ case class Player(name: String,
       val s2 = card +: cards
       Success(copy(cards = s2))
    }
+   def draw2(card: Card): Player={
+      val s2 = card +: cards
+      copy(cards = s2)
+   }
 }
 

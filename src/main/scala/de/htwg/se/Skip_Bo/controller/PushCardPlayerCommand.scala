@@ -1,12 +1,33 @@
 package de.htwg.se.Skip_Bo.controller
 
+import de.htwg.se.Skip_Bo.model.Game
 import de.htwg.se.Skip_Bo.util.Command
+
+import scala.util.{Failure, Success}
 
 class PushCardPlayerCommand (i: Int, n: Int, controller: Controller) extends Command{
 
-  override def doStep: Unit = {controller.game = controller.game.pushCardPlayer(i, n)}
+  var memento: Game = controller.game
 
-  override def undoStep: Unit = {}
+  override def doStep: Unit = {
+    memento = controller.game
+    val newGame = controller.game.pushCardPlayer(i, n) match {
+      case Failure(exception) => controller.game
+      case Success(value) => value
 
-  override def redoStep: Unit = {controller.game = controller.game.pushCardPlayer(i, n)}
+    }
+    controller.game = newGame
+  }
+
+  override def undoStep: Unit = {
+    val new_memento = controller.game
+    controller.game = memento
+    memento = new_memento
+  }
+
+  override def redoStep: Unit = memento = controller.game.pushCardPlayer(i, n) match {
+    case Failure(exception) => controller.game
+    case Success(value) => controller.game = value
+      controller.game
+  }
 }

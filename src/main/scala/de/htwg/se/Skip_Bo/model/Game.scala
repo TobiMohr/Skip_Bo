@@ -122,9 +122,17 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     if (stack.isEmpty) {
       if (card.toString == "1" || card.toString == "J") {
         return true
+      } else {
+        return false
       }
-      return false
-    } else {
+    } else if (stack.head.toString == "J" && stack.tail.isEmpty){
+      if(card.toString == "2"){
+        return true
+      } else {
+        return false
+      }
+    }
+    else {
       if (card.toString != "J") {
         if (stack.head.toString != "J") {
           if ((card.toString.toInt) - 1 == stack.head.toString.toInt) {
@@ -146,6 +154,8 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     }
     false
   }
+
+
 
 
   def toString(n: Int): String = {
@@ -174,26 +184,13 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     }
     val f = ("| " + player(n).stack.head.toString + " | ")
     val m = ("| " + player(n).stack.length + " |")
-    val g = if (stack(0).isEmpty) {
-      ("| leer | ")
-    } else {
-      ("| " + stack(0).head.toString + " | ")
-    }
-    val h = if (stack(1).isEmpty) {
-      ("| leer | ")
-    } else {
-      ("| " + stack(1).head.toString + " | ")
-    }
-    val j = if (stack(2).isEmpty) {
-      ("| leer | ")
-    } else {
-      ("| " + stack(2).head.toString + " | ")
-    }
-    val k = if (stack(3).isEmpty) {
-      ("| leer | ")
-    } else {
-      ("| " + stack(3).head.toString + " | ")
-    }
+    val g = ("| " + stack(0).size + " | ")
+
+    val h = ("| " + stack(1).size + " | ")
+
+    val j = ("| " + stack(2).size + " | ")
+    val k = ("| " + stack(3).size + " | ")
+
 
     val playField = "Handkarten: " + l + "\n\n" + "Hilfsstapel: " + b + "\t" + c + "\t" + d + "\t" + e +
       "\t" + "Spielerstapel: " + f + "\t" + m + "\n\n" + "Ablagestapel: " + g + "\t" +

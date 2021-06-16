@@ -22,15 +22,12 @@ class Controller(var game: Game=Game()) extends Observable{
 
   //legt Handkarte auf Ablegestapel
   def pushCardHand(i: Int, j: Int,n: Int,helpst: Boolean ): Unit = {
-    game.pushCardHand(i, j, n, helpst) match {
-      case Failure(exception) => onError(exception)
-      case Success(value) =>
-        game = value
-        if(n == 0) {
-          if (helpst) {
-            println("Spieler(A) legt Karte auf " + (i + 1) + ". Hilfestapel")
+    undoManager.doStep(new PushCardHandCommand(i, j, n, helpst, this))
+      if(n == 0) {
+         if (helpst) {
+           println("Spieler(A) legt Karte auf " + (i + 1) + ". Hilfestapel")
             beenden(playerState.getPlayer)
-          } else {
+         } else {
             println("Spieler(A) legt Karte auf " + (i + 1) + ". Ablagestapel")
 
           }
@@ -44,14 +41,11 @@ class Controller(var game: Game=Game()) extends Observable{
         }
         notifyObservers
     }
-  }
+
 
   //legt Karte vom Hilfsstapel auf Ablegestapel
   def pushCardHelp(i: Int, j:Int, n: Int): Unit = {
-    game.pushCardHelp(i, j, n) match {
-      case Failure(exception) => onError(exception)
-      case Success(value) =>
-        game = value
+    undoManager.doStep(new PushCardHelpCommand(i, j, n, this))
         if(n == 0) {
           println("Spieler(A) legt Karte vom " + (j + 1) + ". Hilfestapel auf den " + (i + 1) + ". Ablagestapel")
         } else if(n == 1) {
@@ -59,14 +53,11 @@ class Controller(var game: Game=Game()) extends Observable{
         }
         notifyObservers
     }
-  }
+
 
   //legt Karte vom Spielerstapel auf Ablegestapel
   def pushCardPlayer(i: Int, n: Int):Unit = {
-    game.pushCardPlayer(i, n) match {
-      case Failure(exception) => onError(exception)
-      case Success(value) =>
-        game = value
+    undoManager.doStep(new PushCardPlayerCommand(i, n, this))
         if(n == 0) {
           println("Spieler(A) legt karte vom Spielerstapel auf " + (i + 1) + ". Ablagestapel")
         } else if(n == 1){
@@ -74,7 +65,7 @@ class Controller(var game: Game=Game()) extends Observable{
         }
         notifyObservers
     }
-  }
+
 
   def beenden(n:Int): Unit = {
     if(n == 0) {

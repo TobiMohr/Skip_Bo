@@ -118,7 +118,7 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
   }
 
 
-  def checkCardHand(card: Card, stack: List[Card]): Boolean = {
+  /*def checkCardHand(card: Card, stack: List[Card]): Boolean = {
     if (stack.isEmpty) {
       if (card.toString == "1" || card.toString == "J") {
         return true
@@ -153,6 +153,35 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
       }
     }
     false
+  }*/
+
+  def checkCardHand(card: Card, stack: List[Card]): Boolean = {
+    if(stack.isEmpty){
+      if (card.toString == "1" || card.toString == "J") {
+        true
+      } else {
+        false
+      }
+
+    } else {
+      if (stack.head.toString() == "J"){
+        if(card.toString == "J" || card.toString.toInt - 1 == stack.size){
+          true
+        } else {
+          false
+        }
+    } else {
+        if (card.toString != "J"){
+          if ((card.toString.toInt) - 1 == stack.head.toString.toInt) {
+            true
+          } else {
+            false
+          }
+        } else {
+          true
+        }
+      }
+    }
   }
 
 

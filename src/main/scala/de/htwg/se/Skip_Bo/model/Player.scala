@@ -36,9 +36,9 @@ case class Player(name: String,
       }
    }
 
-   def putInHelp(int: Int, card: Card): Try[Player] = {
+   def putInHelp(int: Int, card: Card): Player = {
       val s2 = card +: helpstack(int)
-      Success (copy(helpstack = helpstack.updated(int, s2)))
+      copy(helpstack = helpstack.updated(int, s2))
    }
 
 //   def draw(card: Card): Player={

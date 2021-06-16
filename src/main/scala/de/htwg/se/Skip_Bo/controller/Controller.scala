@@ -9,7 +9,7 @@ import scala.util.{Failure, Success, Try}
 
 
 
-class Controller(var game: Game=Game()) extends Publisher{
+class Controller(var game: Game=Game()) extends Observable {
 
   private val undoManager = new UndoManager
 

@@ -41,10 +41,10 @@ case class Player(name: String,
       Success (copy(helpstack = helpstack.updated(int, s2)))
    }
 
-   def draw(card: Card): Player={
-      val s2 = card +: cards
-      copy(cards = s2)
-   }
+//   def draw(card: Card): Player={
+//      val s2 = card +: cards
+//      copy(cards = s2)
+//   }
 
    def draw2(card: List[Card]): Player={
       val s2 = card ++ cards

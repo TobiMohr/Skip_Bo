@@ -8,22 +8,7 @@ import scala.util.{Failure, Success}
 
 class GameSpec extends AnyWordSpec with Matchers {
   "A Game" when {
-    val player1 = new Player("A",
-      List(Card(Value.Seven), Card(Value.Eleven), Card(Value.Five), Card(Value.Twelve), Card(Value.Two)),
-      List(List(Card(Value.Three)), List(Card(Value.Eleven)), List(Card(Value.Three)), List(Card(Value.Five))),
-      List(Card(Value.Five), Card(Value.Joker), Card(Value.Twelve), Card(Value.Two), Card(Value.Four)))
-    val player2 = new Player("B",
-      List(Card(Value.Four), Card(Value.Ten), Card(Value.Eight), Card(Value.Seven), Card(Value.Seven)),
-      List(List(Card(Value.Four),Card(Value.Six)), List(Card(Value.Eleven)), List(Card(Value.Ten)), List(Card(Value.Eight))),
-      List(Card(Value.One), Card(Value.Joker), Card(Value.Joker), Card(Value.Two), Card(Value.Seven)))
-
-    val game = Game(List(List(Card(Value.Three), Card(Value.Two), Card(Value.One)),
-      List(Card(Value.Two), Card(Value.Joker)),
-      List(Card(Value.One)),
-      List(Card(Value.Four), Card(Value.Joker), Card(Value.Two), Card(Value.One))),
-      List(player1, player2),
-      List(Card(Value.Three), Card(Value.Seven), Card(Value.Eight), Card(Value.Twelve), Card(Value.Joker),
-        Card(Value.Five), Card(Value.Six), Card(Value.Nine), Card(Value.Eight)))
+    val game = Game(List(Nil, Nil, Nil, Nil), Nil, Nil)
     "new" should {
       "have 4 empty stacks" in {
         game.stack should be(List(Nil, Nil, Nil, Nil))

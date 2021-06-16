@@ -45,8 +45,10 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         observer.updated should be(true)
       }
       "notify its observer after someone puts a card from hand on a stack" in {
-        controller.pushCardHand(0, 1, 0, false)
+        controller.pushCardHand(0, 0, 1, false)
         observer.updated should be(true)
+        controller.game.pull(1)
+        controller.game.player(1).cards should be ()
       }
       "notify its observer after someone puts a card from helpstack on a stack" in {
         controller.pushCardHelp(0,0,1)

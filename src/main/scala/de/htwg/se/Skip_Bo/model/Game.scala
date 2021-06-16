@@ -44,7 +44,7 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
       case Failure(exception) => Failure(exception)
       case Success((card, newpl)) =>
         if (helpst) {
-          val h = p.putInHelp(i, card)
+          val h = newpl.putInHelp(i, card)
           Success(copy(player = player.updated(n, h)))
         } else {
           if (!checkCardHand(card, s)) {

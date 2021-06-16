@@ -228,4 +228,9 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     playField
 
   }
+
+
+  def highlight(index: Int): Game = {
+    this
+  }
 }

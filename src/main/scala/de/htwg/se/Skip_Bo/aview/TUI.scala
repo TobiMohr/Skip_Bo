@@ -1,6 +1,6 @@
 package de.htwg.se.Skip_Bo.aview
 
-import de.htwg.se.Skip_Bo.controller.{Controller, GameState}
+import de.htwg.se.Skip_Bo.controller.Controller
 import de.htwg.se.Skip_Bo.model.{InvalidHandCard, InvalidMove}
 import de.htwg.se.Skip_Bo.util.Observer
 
@@ -18,20 +18,20 @@ class TUI(controller: Controller) extends Observer{
         val j = l(2).toInt //Welche Handkarte (Index)
         val n = controller.playerState.getPlayer //Welcher Spieler
         val helpst = l(3).toBoolean //true=Hilfsstapel, false=Ablagestapel
-          controller.pushCardHand(i, j, n, helpst)
+        controller.pushCardHand(i, j, n, helpst)
       }
       //legt Karte vom Spielerstapel auf Ablegestapel
       case "ps" => {
         val i = l(1).toInt //Welcher Ablagestapel (Index)
         val n = controller.playerState.getPlayer //Welcher Spieler
-          controller.pushCardPlayer(i, n)
+        controller.pushCardPlayer(i, n)
       }
       //legt Karte vom Hilfsstapel auf Ablegestapel
       case "philfe" => {
         val i = l(1).toInt //Welcher Hilfestapel (Index)
         val j = l(2).toInt //Welcher Ablagestapel (Index)
         val n = controller.playerState.getPlayer //Welcher Spieler
-          controller.pushCardHelp(i, j, n)
+        controller.pushCardHelp(i, j, n)
       }
 
       case "u" => controller.undo
@@ -45,11 +45,7 @@ class TUI(controller: Controller) extends Observer{
 
   }
 
- override def update: Boolean = {
-   println(controller.gameToString(controller.playerState.getPlayer))
-   println(GameState.message(controller.gameState))
-   true
- }
+  override def update: Unit = println(controller.gameToString(controller.playerState.getPlayer))
   override def error(throwable: Throwable): Unit = throwable match{
     case InvalidHandCard(i) => println("Falscher Index: " + i)
     case InvalidMove => println("Dieser Zug geht nicht!")

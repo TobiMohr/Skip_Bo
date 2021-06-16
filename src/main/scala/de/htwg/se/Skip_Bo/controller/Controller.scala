@@ -26,7 +26,7 @@ class Controller(var game: Game=Game()) extends Observable{
     if(n == 0) {
       if (helpst) {
         println("Spieler(A) legt Karte auf " + (i + 1) + ". Hilfestapel")
-        beenden(playerState.turnChange.getPlayer)
+        beenden(playerState.getPlayer)
       } else {
         println("Spieler(A) legt Karte auf " + (i + 1) + ". Ablagestapel")
 
@@ -34,13 +34,14 @@ class Controller(var game: Game=Game()) extends Observable{
     } else if(n == 1){
       if (helpst) {
         println("Spieler(B) legt Karte auf " + (i + 1) + ". Hilfestapel")
-        beenden(playerState.turnChange.getPlayer)
+        beenden(playerState.getPlayer)
       } else {
         println("Spieler(B) legt Karte auf " + (i + 1) + ". Ablagestapel")
       }
     }
     notifyObservers
   }
+
 
   //legt Karte vom Hilfsstapel auf Ablegestapel
   def pushCardHelp(i: Int, j:Int, n: Int): Unit = {
@@ -53,6 +54,7 @@ class Controller(var game: Game=Game()) extends Observable{
     notifyObservers
   }
 
+
   //legt Karte vom Spielerstapel auf Ablegestapel
   def pushCardPlayer(i: Int, n: Int):Unit = {
     undoManager.doStep(new PushCardPlayerCommand(i, n, this))
@@ -64,13 +66,16 @@ class Controller(var game: Game=Game()) extends Observable{
     notifyObservers
   }
 
+
   def beenden(n:Int): Unit = {
     if(n == 0) {
       game = game.pull(1)
+      playerState = playerState.turnChange
       println("Spieler(A) hat seinen Zug beendet")
       println("Spieler(B) ist am Zug")
     } else if(n == 1) {
       game = game.pull(0)
+      playerState = playerState.turnChange
       println("Spieler(B) hat seinen Zug beendet")
       println("Spieler(A) ist am Zug")
     }

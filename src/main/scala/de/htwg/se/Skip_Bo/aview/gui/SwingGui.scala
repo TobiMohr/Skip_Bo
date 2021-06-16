@@ -8,6 +8,6 @@ import scala.swing.event._
 
 class SwingGui(controller: Controller) extends Frame {
 
-  listenTo(controller)
+ // listenTo(controller)
 
 }

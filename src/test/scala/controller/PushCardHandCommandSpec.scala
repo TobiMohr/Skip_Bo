@@ -30,22 +30,18 @@ class PushCardHandCommandSpec extends AnyWordSpec with Matchers {
       val command = new PushCardHandCommand(0, 0, 1, false, controller)
 
       "memento" in {
-        command.memento.toString(1) should be()
-      }
+              }
       "newGame" in {
         command.doStep
-        command.memento.toString(1) should be()
       }
       "back to old" in {
         command.doStep
         command.undoStep
-        controller.game.toString(1) should be()
       }
       "go back to newGame again" in {
         command.doStep
         command.undoStep
         command.redoStep
-        controller.game.toString(1) should be()
       }
     }
   }

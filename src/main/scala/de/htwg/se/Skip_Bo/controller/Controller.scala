@@ -18,7 +18,7 @@ class Controller(var game: Game=Game()) extends Observable {
   def startGame(size: Int = 5): Unit ={
     game = game.startGame(size)
     println("Spieler A ist am Zug")
-    //notifyObservers
+    notifyObservers
   }
 
   //legt Handkarte auf Ablegestapel
@@ -40,7 +40,7 @@ class Controller(var game: Game=Game()) extends Observable {
         println("Spieler(B) legt Karte auf " + (i + 1) + ". Ablagestapel")
       }
     }
-    //notifyObservers
+    notifyObservers
   }
 
 
@@ -52,7 +52,7 @@ class Controller(var game: Game=Game()) extends Observable {
     } else if(n == 1) {
       println("Spieler(B) legt Karte vom " + (j + 1) + ". Hilfestapel auf den " + (i + 1) + ". Ablagestapel")
     }
-    //notifyObservers
+    notifyObservers
   }
 
 
@@ -64,7 +64,7 @@ class Controller(var game: Game=Game()) extends Observable {
     } else if(n == 1){
       println("Spieler(B) legt karte vom Spielerstapel auf " + (i + 1) + ". Ablagestapel")
     }
-    //notifyObservers
+    notifyObservers
   }
 
 
@@ -86,12 +86,12 @@ class Controller(var game: Game=Game()) extends Observable {
 
   def undo: Unit={
     undoManager.undoStep
-    //notifyObservers
+    notifyObservers
   }
 
   def redo: Unit = {
     undoManager.redoStep
-    //notifyObservers
+    notifyObservers
   }
 
   def hilfe: String = {

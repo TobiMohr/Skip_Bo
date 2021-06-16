@@ -47,9 +47,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       "notify its observer after someone puts a card from hand on a stack" in {
         controller.pushCardHand(0, 0, 1, false)
         observer.updated should be(true)
-        controller.game.pull(1)
-        controller.game.player(1).cards should be ()
-      }
+        }
       "notify its observer after someone puts a card from helpstack on a stack" in {
         controller.pushCardHelp(0,0,1)
         observer.updated should be(true)
@@ -58,11 +56,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.pushCardPlayer(0, 1)
         observer.updated should be(true)
       }
-      "print the boardstate of Player A" in {
-        controller.gameToString(0) should be()
-
-      }
-      "print a helpoverview" in {
+            "print a helpoverview" in {
         controller.hilfe should be("""---------Hilfe-----------
                                      ||       Handkarten      ||
                                      |
@@ -70,11 +64,10 @@ class ControllerSpec extends AnyWordSpec with Matchers {
                                      |
                                      ||  A1 |  A2 |  A3 |  A4 ||
                                      |-------------------------
-                                     |ph i j n true = legt Handkarte(j) auf Ablegestapel(i) von Spieler n
-                                     |ph i j n false = legt Handkarte(j) auf Hilfestapel(i) von Spieler n
-                                     |ps i n = legt Karte von Spielerstapen von Spieler n  auf Ablagestapel(i)
-                                     |philfe i j n = Spieler n legt Karte von Hilfestapel(i) auf Ablagestapel(j)
-                                     |end n = Spieler n beendet seinen Zug und nimmt auf bis er 5 Karten auf der Hand hat
+                                     |ph i j true = legt Handkarte(j) auf Hilfestapel(i) vom Spieler
+                                     |ph i j false = legt Handkarte(j) auf Ablagestapel(i) vom Spieler
+                                     |ps i = legt Karte von Spielerstapen vom Spieler  auf Ablagestapel(i)
+                                     |philfe i j = Spieler legt Karte von Hilfestapel(i) auf Ablagestapel(j)
                                      |"""
           .stripMargin)
       }

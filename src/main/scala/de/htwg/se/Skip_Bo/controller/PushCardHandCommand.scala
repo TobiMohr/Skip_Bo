@@ -21,7 +21,7 @@ class PushCardHandCommand (i: Int,j: Int,n: Int,helpst :Boolean, controller : Co
     if(helpst){
       controller.playerState = state.turnChange
     }
-    val newGame2 = newGame.refill(j)
+    val newGame2 = newGame.refill(i)
     controller.game = newGame
     controller.game = newGame2
 

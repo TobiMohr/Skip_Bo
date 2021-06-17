@@ -103,6 +103,10 @@ class Controller(var game: Game=Game()) extends Observable {
     gameState = NEXT
   }
 
+  def refill(j:Int): Unit = {
+    game = game.refill(j)
+  }
+
   def gameToString(n:Int): String = game.toString(n)
 
   def undo: Unit={

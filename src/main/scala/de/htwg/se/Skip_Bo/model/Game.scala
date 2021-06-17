@@ -9,7 +9,7 @@ import scala.util.{Failure, Random, Success, Try}
 
 case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toList,
                 player: List[Player] = List.empty,
-                cardsCovered: List[Card] = List.empty
+                cardsCovered: List[Card] = List.empty,
                ) {
 
   //baut Grundspiel auf
@@ -184,7 +184,18 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     }
   }
 
+  def refill(j: Int): Game ={
+    val game = this
+    if(stack(j).size == 12){
+      val c = Random.shuffle(stack(j))
+      val x = cardsCovered ++ c
+      copy(stack = stack.updated(j, List.empty), cardsCovered = x)
+    }else{
+      game
+    }
 
+
+  }
 
 
   def toString(n: Int): String = {

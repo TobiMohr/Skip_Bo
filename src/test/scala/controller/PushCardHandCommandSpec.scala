@@ -22,7 +22,8 @@ class PushCardHandCommandSpec extends AnyWordSpec with Matchers {
       val game = Game(List(List(Card(Value.Three), Card(Value.Two), Card(Value.One)),
         List(Card(Value.Two), Card(Value.Joker)),
         List(Card(Value.One)),
-        List(Card(Value.Four), Card(Value.Joker), Card(Value.Two), Card(Value.One))),
+        List(Card(Value.Eleven), Card(Value.Ten), Card(Value.Nine), Card(Value.Eight), Card(Value.Seven), Card(Value.Six)
+          , Card(Value.Five), Card(Value.Four), Card(Value.Joker), Card(Value.Two), Card(Value.One))),
         List(player1, player2),
         List(Card(Value.Three), Card(Value.Seven), Card(Value.Eight), Card(Value.Twelve), Card(Value.Joker),
           Card(Value.Five), Card(Value.Six), Card(Value.Nine), Card(Value.Eight)))

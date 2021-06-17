@@ -27,7 +27,7 @@ class Controller(var game: Game=Game()) extends Observable {
     if(n == 0) {
       if (helpst) {
         println("Spieler(A) legt Karte auf " + (i + 1) + ". Hilfestapel")
-        beenden(playerState.getPlayer)
+        beenden(playerState.turnChange.getPlayer)
       } else {
         println("Spieler(A) legt Karte auf " + (i + 1) + ". Ablagestapel")
 
@@ -35,7 +35,7 @@ class Controller(var game: Game=Game()) extends Observable {
     } else if(n == 1){
       if (helpst) {
         println("Spieler(B) legt Karte auf " + (i + 1) + ". Hilfestapel")
-        beenden(playerState.getPlayer)
+        beenden(playerState.turnChange.getPlayer)
       } else {
         println("Spieler(B) legt Karte auf " + (i + 1) + ". Ablagestapel")
       }
@@ -70,13 +70,11 @@ class Controller(var game: Game=Game()) extends Observable {
 
   def beenden(n:Int): Unit = {
     if(n == 0) {
-      game = game.pull(1)
-      playerState = playerState.turnChange
+      game = game.pull(0)
       println("Spieler(A) hat seinen Zug beendet")
       println("Spieler(B) ist am Zug")
     } else if(n == 1) {
-      game = game.pull(0)
-      playerState = playerState.turnChange
+      game = game.pull(1)
       println("Spieler(B) hat seinen Zug beendet")
       println("Spieler(A) ist am Zug")
     }

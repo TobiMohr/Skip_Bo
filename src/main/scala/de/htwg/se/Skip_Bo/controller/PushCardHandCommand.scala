@@ -22,7 +22,10 @@ class PushCardHandCommand (i: Int,j: Int,n: Int,helpst :Boolean, controller : Co
       controller.playerState = state.turnChange
     }
     val newGame2 = newGame.refill(j)
+    controller.game = newGame
     controller.game = newGame2
+
+    //Man kann aktuell keine Karten mit index 4 ablegen but why
 
   }
 

@@ -28,21 +28,45 @@ class PushCardHandCommandSpec extends AnyWordSpec with Matchers {
         List(Card(Value.Three), Card(Value.Seven), Card(Value.Eight), Card(Value.Twelve), Card(Value.Joker),
           Card(Value.Five), Card(Value.Six), Card(Value.Nine), Card(Value.Eight)))
       val controller = new Controller(game)
-      val command = new PushCardHandCommand(0, 0, 1, false, controller)
+      val command1 = new PushCardHandCommand(0, 0, 1, false, controller)
+      val command2 = new PushCardHandCommand(3, 3, 0, false, controller)
+      val command3 = new PushCardHandCommand(0, 3, 0, true, controller)
 
-      "memento" in {
-              }
       "newGame" in {
-        command.doStep
+        command1.doStep
+        controller.game.stack(0).size should be(4)
+        controller.game.player(1).cards.size should be(4)
       }
       "back to old" in {
-        command.doStep
-        command.undoStep
+        command1.undoStep
+        controller.game.stack(0).size should be(3)
+        controller.game.player(1).cards.size should be(5)
       }
       "go back to newGame again" in {
-        command.doStep
-        command.undoStep
-        command.redoStep
+        command1.redoStep
+        controller.game.stack(0).size should be(4)
+        controller.game.player(1).cards.size should be(4)
+      }
+      "refill?" in {
+        command1.undoStep
+        command2.doStep
+        controller.game.stack(3).size should be(0)
+        controller.game.cardsCovered.size should be(21)
+      }
+      "undo refill" in {
+        command2.undoStep
+        controller.game.stack(3).size should be(11)
+        controller.game.cardsCovered.size should be(9)
+      }
+      "redo refill" in {
+        command2.redoStep
+        controller.game.stack(3).size should be(0)
+        controller.game.cardsCovered.size should be(21)
+      }
+      "command3" in {
+        command2.undoStep
+        command3.doStep
+        controller.game.player(0).cards.size should be(4)
       }
     }
   }

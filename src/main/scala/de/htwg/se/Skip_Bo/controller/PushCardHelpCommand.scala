@@ -16,7 +16,7 @@ class PushCardHelpCommand (i: Int,j:Int,n: Int, controller: Controller) extends 
       case Success(value) => value
 
     }
-    val newGame2 = newGame.refill(i)
+    val newGame2 = newGame.refill(j)
     controller.game = newGame2
   }
 
@@ -33,7 +33,7 @@ class PushCardHelpCommand (i: Int,j:Int,n: Int, controller: Controller) extends 
       case Success(value) => value
 
     }
-    val newGame2 = newGame.refill(i)
+    val newGame2 = newGame.refill(j)
     controller.game = newGame2
   }
 }

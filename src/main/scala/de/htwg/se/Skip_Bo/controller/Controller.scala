@@ -140,7 +140,7 @@ class Controller(var game: Game=Game()) extends Observable {
   }
 
 
-  def statusText:String = GameState.message(gameState)
+  //def statusText:String = GameState.message(gameState)
 
 
 }

@@ -1,0 +1,24 @@
+package de.htwg.se.Skip_Bo.controller
+
+import de.htwg.se.Skip_Bo.Skip_Bo.controller
+
+object GameState extends Enumeration {
+  type GameState = Value
+  val IDLE, START, PLACES, PLACEH, PLACEHS, PLACESS, NEXT = Value
+
+    val map = Map[GameState, String](
+    IDLE -> "",
+    START -> "Das Spiel zwischen A und B hat begonnen, A ist am Zug",
+    PLACES -> "platziert Karte von Hand auf Ablagestapel",
+    PLACEH -> "platziert Karte von Hand auf Hilfsstapel",
+    PLACEHS -> "platziert karte von Hilfestapel auf Ablagestapel",
+    PLACESS -> "platziert Karte von Spielerstapel auf Ablagestapel",
+    NEXT -> "Zug beendet nächster Spieler ist am Zug"
+  )
+
+  def message(gameState: GameState)= {
+    map(gameState)
+  }
+
+
+}

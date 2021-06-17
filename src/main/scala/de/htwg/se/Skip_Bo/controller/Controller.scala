@@ -1,6 +1,7 @@
 package de.htwg.se.Skip_Bo.controller
 
 
+import de.htwg.se.Skip_Bo.controller.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START}
 import de.htwg.se.Skip_Bo.model.Game
 import de.htwg.se.Skip_Bo.util.{Observable, UndoManager}
 
@@ -12,17 +13,19 @@ import scala.util.{Failure, Success, Try}
 class Controller(var game: Game=Game()) extends Observable {
 
   private val undoManager = new UndoManager
-
+  var gameState: GameState = IDLE
+  var newGameState:GameState = IDLE
+  var oldGameState: GameState = IDLE
   var playerState: PlayerState = PlayerA
 
   def startGame(size: Int = 5): Unit ={
     game = game.startGame(size)
-    println("Spieler A ist am Zug")
+    gameState = START
     notifyObservers
   }
 
   //legt Handkarte auf Ablegestapel
-  def pushCardHand(i: Int, j: Int,n: Int,helpst: Boolean ): Unit = {
+  /*def pushCardHand(i: Int, j: Int,n: Int,helpst: Boolean ): Unit = {
     undoManager.doStep(new PushCardHandCommand(i, j, n, helpst, this))
     if(n == 0) {
       if (helpst) {
@@ -41,10 +44,21 @@ class Controller(var game: Game=Game()) extends Observable {
       }
     }
     notifyObservers
+  }*/
+
+  def pushCardHand(i: Int, j: Int,n: Int,helpst: Boolean ): Unit = {
+    undoManager.doStep(new PushCardHandCommand(i, j, n, helpst, this))
+    if (helpst) {
+        beenden(playerState.turnChange.getPlayer)
+    } else {
+      oldGameState = gameState
+      gameState = PLACES
+    }
+    notifyObservers
   }
 
 
-  //legt Karte vom Hilfsstapel auf Ablegestapel
+  /*//legt Karte vom Hilfsstapel auf Ablegestapel
   def pushCardHelp(i: Int, j:Int, n: Int): Unit = {
     undoManager.doStep(new PushCardHelpCommand(i, j, n, this))
     if(n == 0) {
@@ -53,10 +67,18 @@ class Controller(var game: Game=Game()) extends Observable {
       println("Spieler(B) legt Karte vom " + (j + 1) + ". Hilfestapel auf den " + (i + 1) + ". Ablagestapel")
     }
     notifyObservers
+  }*/
+
+  //legt Karte vom Hilfsstapel auf Ablegestapel
+  def pushCardHelp(i: Int, j:Int, n: Int): Unit = {
+    undoManager.doStep(new PushCardHelpCommand(i, j, n, this))
+    oldGameState = gameState
+    gameState = PLACEHS
+    notifyObservers
   }
 
 
-  //legt Karte vom Spielerstapel auf Ablegestapel
+  /*//legt Karte vom Spielerstapel auf Ablegestapel
   def pushCardPlayer(i: Int, n: Int):Unit = {
     undoManager.doStep(new PushCardPlayerCommand(i, n, this))
     if(n == 0) {
@@ -65,30 +87,35 @@ class Controller(var game: Game=Game()) extends Observable {
       println("Spieler(B) legt karte vom Spielerstapel auf " + (i + 1) + ". Ablagestapel")
     }
     notifyObservers
+  }*/
+
+  def pushCardPlayer(i: Int, n: Int):Unit = {
+    undoManager.doStep(new PushCardPlayerCommand(i, n, this))
+    oldGameState = gameState
+    gameState = PLACESS
+    notifyObservers
   }
 
 
   def beenden(n:Int): Unit = {
-    if(n == 0) {
-      game = game.pull(0)
-      println("Spieler(A) hat seinen Zug beendet")
-      println("Spieler(B) ist am Zug")
-    } else if(n == 1) {
-      game = game.pull(1)
-      println("Spieler(B) hat seinen Zug beendet")
-      println("Spieler(A) ist am Zug")
-    }
+    game = game.pull(n)
+    oldGameState = gameState
+    gameState = NEXT
   }
 
   def gameToString(n:Int): String = game.toString(n)
 
   def undo: Unit={
     undoManager.undoStep
+    newGameState = gameState
+    gameState = oldGameState
     notifyObservers
   }
 
   def redo: Unit = {
     undoManager.redoStep
+    oldGameState = gameState
+    gameState = newGameState
     notifyObservers
   }
 
@@ -107,6 +134,9 @@ class Controller(var game: Game=Game()) extends Observable {
       |"""
       .stripMargin
   }
+
+
+  def statusText:String = GameState.message(gameState)
 
 
 }

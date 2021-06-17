@@ -1,7 +1,8 @@
 package controller
 
 import de.htwg.se.Skip_Bo.controller.Controller
-import de.htwg.se.Skip_Bo.model.{Card, Game, Player, Value}
+import de.htwg.se.Skip_Bo.controller.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START}
+import de.htwg.se.Skip_Bo.model.{Card, Game, InvalidHandCard, InvalidMove, Player, Value}
 import de.htwg.se.Skip_Bo.util.Observer
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -9,75 +10,159 @@ import org.scalatest.wordspec.AnyWordSpec
 class ControllerSpec extends AnyWordSpec with Matchers {
 
   "A Controller" when {
-    "observed by an Observer" should{
+    "observed by an Observer" should {
 
       val player1 = new Player("A",
         List(Card(Value.Seven), Card(Value.Eleven), Card(Value.Five), Card(Value.Twelve), Card(Value.Two)),
-        List(List(Card(Value.Three)), List(Card(Value.Eleven)), List(Card(Value.Three)), List(Card(Value.Five))),
-        List(Card(Value.Five), Card(Value.Joker), Card(Value.Twelve), Card(Value.Two), Card(Value.Four)))
+        List(List(Card(Value.Twelve)), List(Card(Value.Eleven)), List(Card(Value.Three)), List(Card(Value.Five))),
+        List(Card(Value.Twelve), Card(Value.Joker), Card(Value.Twelve), Card(Value.Two), Card(Value.Four)))
       val player2 = new Player("B",
         List(Card(Value.Four), Card(Value.Ten), Card(Value.Eight), Card(Value.Seven), Card(Value.Seven)),
-        List(List(Card(Value.Four),Card(Value.Six)), List(Card(Value.Eleven)), List(Card(Value.Ten)), List(Card(Value.Eight))),
-        List(Card(Value.One), Card(Value.Joker), Card(Value.Joker), Card(Value.Two), Card(Value.Seven)))
+        List(List(Card(Value.Four), Card(Value.Six)), List(Card(Value.Eleven)), List(Card(Value.Ten)), List(Card(Value.Eight))),
+        List(Card(Value.Two), Card(Value.Joker), Card(Value.Joker), Card(Value.Two), Card(Value.Seven)))
 
       val game = Game(List(List(Card(Value.Three), Card(Value.Two), Card(Value.One)),
         List(Card(Value.Two), Card(Value.Joker)),
         List(Card(Value.One)),
-        List(Card(Value.Four), Card(Value.Joker), Card(Value.Two), Card(Value.One))),
+        List(Card(Value.Eleven), Card(Value.Ten), Card(Value.Nine), Card(Value.Eight), Card(Value.Seven), Card(Value.Six)
+          , Card(Value.Five), Card(Value.Four), Card(Value.Joker), Card(Value.Two), Card(Value.One))),
         List(player1, player2),
         List(Card(Value.Three), Card(Value.Seven), Card(Value.Eight), Card(Value.Twelve), Card(Value.Joker),
           Card(Value.Five), Card(Value.Six), Card(Value.Nine), Card(Value.Eight)))
       val controller = new Controller(game)
       val observer = new Observer {
         var updated: Boolean = false
-        def isUpdated: Boolean = updated
-        override def update: Unit = {updated = true; updated}
 
-        override def error(throwable: Throwable): Unit = print("fehler")
+        def isUpdated: Boolean = updated
+
+        override def update: Boolean = {
+          updated = true; updated
+        }
+
+        override def error(throwable: Throwable): Unit = throwable match {
+          case InvalidHandCard(i) => println("Falscher Index: " + i)
+          case InvalidMove => println("Dieser Zug geht nicht!")
+        }
       }
       controller.add(observer)
-      "notify the observer after starting a game" in {
-        controller.startGame()
-        observer.updated should be(true)
-      }
-      "notify its observer after someone puts a card from hand on a helpstack" in {
-        controller.pushCardHand(0, 1, 0, true)
-        observer.updated should be(true)
-      }
-      "notify its observer after someone puts a card from hand on a stack" in {
+
+      "pushCardHand and handle its undo/redo" in {
         controller.pushCardHand(0, 0, 1, false)
-        observer.updated should be(true)
+        controller.oldGameState should be(IDLE)
+        controller.gameState should be(PLACES: GameState)
+        controller.game.player(1).cards.size should be(4)
+        controller.game.stack(0).head.toString should be("4")
+        controller.undo
+        controller.oldGameState should be(IDLE)
+        controller.newGameState should be(PLACES)
+        controller.gameState should be(IDLE: GameState)
+        controller.game.player(1).cards.size should be(5)
+        controller.game.stack(0).head.toString should be("3")
+        controller.redo
+        controller.oldGameState should be(IDLE)
+        controller.newGameState should be(PLACES)
+        controller.gameState should be(PLACES: GameState)
+        controller.game.player(1).cards.size should be(4)
+        controller.game.stack(0).head.toString should be("4")
       }
-      "notify its observer after someone puts a card from helpstack on a stack" in {
-        controller.pushCardHelp(0,0,1)
-        observer.updated should be(true)
+      "pushCardHand on helpstack and handle its undo/redo" in {
+        controller.undo
+        controller.oldGameState should be(IDLE)
+        controller.gameState should be(IDLE: GameState)
+        controller.pushCardHand(0, 0, 1, true)
+        controller.oldGameState should be(IDLE)
+        controller.gameState should be(NEXT: GameState)
+        controller.game.player(1).helpstack(0).size should be(3)
+        controller.game.player(1).cards.size should be(4)
+        controller.undo
+        controller.oldGameState should be(IDLE)
+        controller.gameState should be(IDLE: GameState)
+        controller.game.player(1).helpstack(0).size should be(2)
+        controller.game.player(1).cards.size should be(5)
+        controller.redo
+        controller.oldGameState should be(IDLE)
+        controller.gameState should be(NEXT: GameState)
+        controller.game.player(1).helpstack(0).size should be(3)
+        controller.game.player(1).cards.size should be(4)
       }
-      "notify its observer after someone puts a card from playerstack on a stack" in {
-        controller.pushCardPlayer(0, 1)
-        observer.updated should be(true)
+      "pushCardHelp and handle its undo/redo" in {
+        controller.undo
+        controller.oldGameState should be(IDLE)
+        controller.gameState should be(IDLE: GameState)
+        controller.pushCardHelp(0, 0, 1)
+        controller.oldGameState should be(IDLE)
+        controller.gameState should be(PLACEHS: GameState)
+        controller.game.player(1).helpstack(0).size should be(1)
+        controller.game.stack(0).size should be(4)
+        controller.undo
+        controller.oldGameState should be(IDLE)
+        controller.gameState should be(IDLE: GameState)
+        controller.game.player(1).helpstack(0).size should be(2)
+        controller.game.stack(0).size should be(3)
+        controller.redo
+        controller.oldGameState should be(IDLE)
+        controller.gameState should be(PLACEHS: GameState)
+        controller.game.player(1).helpstack(0).size should be(1)
+        controller.game.stack(0).size should be(4)
       }
-      "print the boardstate of Player A" in {
-        controller.gameToString(0) should be()
-
+      "pushCardPlayer and handle its undo/redo" in {
+        controller.pushCardPlayer(2, 1)
+        controller.oldGameState should be(PLACEHS)
+        controller.gameState should be(PLACESS: GameState)
+        controller.game.player(1).stack.size should be(4)
+        controller.game.stack(2).size should be(2)
+        controller.undo
+        controller.oldGameState should be(PLACEHS)
+        controller.gameState should be(PLACEHS: GameState)
+        controller.game.player(1).stack.size should be(5)
+        controller.game.stack(2).size should be(1)
+        controller.redo
+        controller.oldGameState should be(PLACEHS)
+        controller.gameState should be(PLACESS: GameState)
+        controller.game.player(1).stack.size should be(4)
+        controller.game.stack(2).size should be(2)
       }
-      "print a helpoverview" in {
-        controller.hilfe should be("""---------Hilfe-----------
-                                     ||       Handkarten      ||
-                                     |
-                                     || H1 | H2 | H3 | H4 | S ||
-                                     |
-                                     ||  A1 |  A2 |  A3 |  A4 ||
-                                     |-------------------------
-                                     |ph i j n true = legt Handkarte(j) auf Ablegestapel(i) von Spieler n
-                                     |ph i j n false = legt Handkarte(j) auf Hilfestapel(i) von Spieler n
-                                     |ps i n = legt Karte von Spielerstapen von Spieler n  auf Ablagestapel(i)
-                                     |philfe i j n = Spieler n legt Karte von Hilfestapel(i) auf Ablagestapel(j)
-                                     |end n = Spieler n beendet seinen Zug und nimmt auf bis er 5 Karten auf der Hand hat
-                                     |"""
-          .stripMargin)
+      "refill" in {
+        controller.undo
+        controller.pushCardPlayer(3, 0)
+        game should be(game.refill(3))
+        controller.game.stack(3).size should be(0)
+        controller.undo
+        controller.game.refill(2)
+        controller.game.stack(2).size should be(1)
       }
-
+      "have a String representation" in {
+        controller.gameToString(0) should be(controller.game.toString(0))
+      }
 
     }
+    "new" should {
+      val game = Game(List(List.empty, List.empty, List.empty, List.empty), List.empty, List.empty)
+      val controller = new Controller(game)
+      val observer = new Observer {
+        var updated: Boolean = false
+
+        def isUpdated: Boolean = updated
+
+        override def update: Boolean = {
+          updated = true;
+          updated
+        }
+
+        override def error(throwable: Throwable): Unit = throwable match {
+          case InvalidHandCard(i) => println("Falscher Index: " + i)
+          case InvalidMove => println("Dieser Zug geht nicht!")
+        }
+      }
+
+        controller.add(observer)
+
+        "get started" in {
+          controller.startGame()
+          controller.gameState should be(START)
+          observer.updated should be(true)
+
+          }
+      }
+    }
   }
-}

@@ -29,21 +29,12 @@ class PlayerSpec extends AnyWordSpec with Matchers {
         player.stack should be(List(Card(Value.Five), Card(Value.Seven), Card(Value.Joker),
           Card(Value.Six), Card(Value.Eight), Card(Value.Twelve), Card(Value.Two), Card(Value.Seven)))
       }
-      "be able to choose a certain card from his hand per  correct index" +
-        " and shouldnt have it in hand afterwards" in {
-        player.getCard(0) should be(Success(Card(Value.Eight),"Your Name"))
-      }
-      "shouldnt be able to choose a certain card from his hand per incorrect index" +
-        " and should still have it in hand afterwards" in {
-        player.getCard(6) should be(Failure(InvalidHandCard(6)))
-      }
-      "be able to see the top Card of his playerstack" in {
-        player.stackCard() should be(Success(Card(Value.Five), "Your Name"))
-      }
-      "have no cards in his helpstacks" in {
-        player.helpCard(0) should be(Success(Card(Value.Four), "Your Name"))
-      }
       "have a nice String representation" in {player.toString should be("Your Name")
+      }
+      "pull" in {
+        player.draw(Card(Value.Joker))
+        player.cards.size should be(5)
+
       }
   }}
 

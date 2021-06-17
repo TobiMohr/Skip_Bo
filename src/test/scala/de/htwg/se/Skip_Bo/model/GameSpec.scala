@@ -22,14 +22,26 @@ class GameSpec extends AnyWordSpec with Matchers {
     }
     "started" should {
       val start = game.startGame(5)
-      "have a string representation" in {
-        start.toString should be ("test")
-      }
       "4 stacks" in {
         start.stack(0) should be(List())
         start.stack(1) should be(List())
         start.stack(2) should be(List())
         start.stack(3) should be(List())
+      }
+      "have string representations" in {
+        start.toString(0) should be("Handkarten: " + "Vector(| " + start.player(0).cards(0).toString +
+          " | , | " + start.player(0).cards(1).toString + " | , | " + start.player(0).cards(2).toString
+          + " | , | " + start.player(0).cards(3).toString  + " | , | " + start.player(0).cards(4).toString + " | )" + "\n\n" +
+          "Hilfsstapel: " + "| leer | " + "\t" + "| leer | " + "\t" + "| leer | " + "\t" + "| leer | " +
+          "\t" + "Spielerstapel: " + "| " + start.player(0).stack.head.toString + " | " + "\t" + "| 30 |" + "\n\n" + "Ablagestapel: " + "| 0 | " + "\t" +
+          "| 0 | " + "\t" + "| 0 | " + "\t" + "| 0 | " + "\t")
+
+        start.toString(1) should be("Handkarten: " + "Vector(| " + start.player(1).cards(0).toString +
+          " | , | " + start.player(1).cards(1).toString + " | , | " + start.player(1).cards(2).toString
+          + " | , | " + start.player(1).cards(3).toString  + " | , | " + start.player(1).cards(4).toString + " | )" + "\n\n" +
+          "Hilfsstapel: " + "| leer | " + "\t" + "| leer | " + "\t" + "| leer | " + "\t" + "| leer | " +
+          "\t" + "Spielerstapel: " + "| " + start.player(1).stack.head.toString + " | " + "\t" + "| 30 |" + "\n\n" + "Ablagestapel: " + "| 0 | " + "\t" +
+          "| 0 | " + "\t" + "| 0 | " + "\t" + "| 0 | " + "\t")
       }
       "a stack to draw from" in {
         start.cardsCovered should be(start.cardsCovered) //wie testet man random listen?
@@ -37,19 +49,11 @@ class GameSpec extends AnyWordSpec with Matchers {
       "have 2 players" in {
         start.player should be(List(start.player(0), start.player(1)))
       }
-      "who can put a card from hand with correct index on a helpstack" in {
-        start.pushCardHand(0, 1, 0, true) should be (Success(start))
-      }
-      "who can put a card from hand with correct index on a stack" in {
-        start.pushCardHand(0, 1, 0, false) should be (Success(start))
-      }
+
       "who cant push a card from a helpstack on a stack at the beginning" in {
         start.pushCardHelp(0, 1, 0) should be(Failure(InvalidMove))
       }
-      "who can push a card from a playerstack on a stack" in {
-        start.pushCardPlayer(0, 1) should be(Success(start))
-      }
-      "draw" in {
+     "draw" in {
         start.pull(0) should be(start)
       }
       "be able to test if a card from hand is a valid placement on a stack" in {
@@ -57,7 +61,7 @@ class GameSpec extends AnyWordSpec with Matchers {
         start.checkCardHand(Card(Value.Joker), Nil) should be(true)
         start.checkCardHand(Card(Value.Joker), List(Card(Value.One))) should be(true)
         start.checkCardHand(Card(Value.One), List(Card(Value.One))) should be(false)
-        start.checkCardHand(Card(Value.Joker), List(Card(Value.Joker))) should be(false)
+        start.checkCardHand(Card(Value.Joker), List(Card(Value.Joker))) should be(true)
         start.checkCardHand(Card(Value.Five),
           List(Card(Value.Joker), Card(Value.Three), Card(Value.Two), Card(Value.One))) should be(true)
         start.checkCardHand(Card(Value.Five),

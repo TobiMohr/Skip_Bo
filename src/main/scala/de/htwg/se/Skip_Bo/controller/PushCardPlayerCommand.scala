@@ -16,7 +16,8 @@ class PushCardPlayerCommand (i: Int, n: Int, controller: Controller) extends Com
       case Success(value) => value
 
     }
-    controller.game = newGame
+    val newGame2 = newGame.refill(i)
+    controller.game = newGame2
   }
 
   override def undoStep: Unit = {
@@ -25,9 +26,14 @@ class PushCardPlayerCommand (i: Int, n: Int, controller: Controller) extends Com
     memento = new_memento
   }
 
-  override def redoStep: Unit = memento = controller.game.pushCardPlayer(i, n) match {
-    case Failure(exception) => controller.game
-    case Success(value) => controller.game = value
-      controller.game
+  override def redoStep: Unit = {
+    memento = controller.game
+    val newGame = controller.game.pushCardPlayer(i, n) match {
+      case Failure(exception) => controller.game
+      case Success(value) => value
+
+    }
+    val newGame2 = newGame.refill(i)
+    controller.game = newGame2
   }
 }

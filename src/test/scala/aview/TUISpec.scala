@@ -31,19 +31,19 @@ class TUISpec extends AnyWordSpec with Matchers {
       tui.processInputLine("q")
     }
     "place a card on a helpstack" in {
-      tui.processInputLine("ph 0 1 0 true")
+      tui.processInputLine("ph 0 1 true")
       controller.game.player should be (List(controller.game.player(0), controller.game.player(1)))
     }
     "place a card on a stack" in {
-      tui.processInputLine("ph 0 1 0 false")
+      tui.processInputLine("ph 0 1 false")
       controller.game.player should be (List(controller.game.player(0), controller.game.player(1)))
     }
     "place a card from playerstack on stack" in {
-      tui.processInputLine("ps 3 0")
+      tui.processInputLine("ps 3")
       controller.game.player should be (List(controller.game.player(0), controller.game.player(1)))
     }
     "place a card from helpstack on stack" in {
-      tui.processInputLine("philfe 0 0 1")
+      tui.processInputLine("philfe 0 0")
       controller.game.player should be (List(controller.game.player(0), controller.game.player(1)))
     }
     "get help" in {
@@ -55,11 +55,10 @@ class TUISpec extends AnyWordSpec with Matchers {
                                    |
                                    ||  A1 |  A2 |  A3 |  A4 ||
                                    |-------------------------
-                                   |ph i j n true = legt Handkarte(j) auf Ablegestapel(i) von Spieler n
-                                   |ph i j n false = legt Handkarte(j) auf Hilfestapel(i) von Spieler n
-                                   |ps i n = legt Karte von Spielerstapen von Spieler n  auf Ablagestapel(i)
-                                   |philfe i j n = Spieler n legt Karte von Hilfestapel(i) auf Ablagestapel(j)
-                                   |end n = Spieler n beendet seinen Zug und nimmt auf bis er 5 Karten auf der Hand hat
+                                   |ph i j true = legt Handkarte(j) auf Hilfestapel(i) vom Spieler
+                                   |ph i j false = legt Handkarte(j) auf Ablagestapel(i) vom Spieler
+                                   |ps i = legt Karte von Spielerstapen vom Spieler  auf Ablagestapel(i)
+                                   |philfe i j = Spieler legt Karte von Hilfestapel(i) auf Ablagestapel(j)
                                    |"""
         .stripMargin)
     }

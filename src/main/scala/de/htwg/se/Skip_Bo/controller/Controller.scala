@@ -93,6 +93,12 @@ class Controller(var game: Game=Game()) extends Observable {
     undoManager.doStep(new PushCardPlayerCommand(i, n, this))
     oldGameState = gameState
     gameState = PLACESS
+    if(game.player(playerState.getPlayer).stack.size == 0) {
+      gameState = WIN
+      notifyObservers
+      System.exit(0)
+    }
+
     notifyObservers
   }
 

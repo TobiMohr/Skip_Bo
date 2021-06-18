@@ -1,7 +1,7 @@
 package de.htwg.se.Skip_Bo.controller
 
 
-import de.htwg.se.Skip_Bo.controller.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START}
+import de.htwg.se.Skip_Bo.controller.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START, WIN}
 import de.htwg.se.Skip_Bo.model.Game
 import de.htwg.se.Skip_Bo.util.{Observable, UndoManager}
 
@@ -50,7 +50,9 @@ class Controller(var game: Game=Game()) extends Observable {
     undoManager.doStep(new PushCardHandCommand(i, j, n, helpst, this))
     if (helpst) {
         beenden(playerState.turnChange.getPlayer)
-    } else {
+    } else if (!helpst && game.player(playerState.turnChange.getPlayer).cards.size == 0){
+      beenden(playerState.turnChange.getPlayer)
+    }else {
       oldGameState = gameState
       gameState = PLACES
     }

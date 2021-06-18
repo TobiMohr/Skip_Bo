@@ -20,6 +20,8 @@ class PushCardHandCommand (i: Int,j: Int,n: Int,helpst :Boolean, controller : Co
     }
     if(helpst){
       controller.playerState = state.turnChange
+    } else if ((!helpst) && newGame.player(controller.playerState.getPlayer).cards.size == 0) {
+      controller.playerState = state.turnChange
     }
     val newGame2 = newGame.refill(i)
     controller.game = newGame

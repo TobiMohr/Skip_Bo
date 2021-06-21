@@ -17,6 +17,7 @@ class PushCardPlayerCommand (i: Int, n: Int, controller: Controller) extends Com
 
     }
     val newGame2 = newGame.refill(i)
+
     controller.game = newGame2
   }
 

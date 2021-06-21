@@ -7,6 +7,8 @@ import de.htwg.se.Skip_Bo.util.Observer
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
+import scala.swing.MenuBar.NoMenuBar.listenTo
+
 class ControllerSpec extends AnyWordSpec with Matchers {
 
   "A Controller" when {
@@ -30,21 +32,9 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         List(Card(Value.Three), Card(Value.Seven), Card(Value.Eight), Card(Value.Twelve), Card(Value.Joker),
           Card(Value.Five), Card(Value.Six), Card(Value.Nine), Card(Value.Eight)))
       val controller = new Controller(game)
-      val observer = new Observer {
-        var updated: Boolean = false
 
-        def isUpdated: Boolean = updated
 
-        override def update: Boolean = {
-          updated = true; updated
-        }
-
-        override def error(throwable: Throwable): Unit = throwable match {
-          case InvalidHandCard(i) => println("Falscher Index: " + i)
-          case InvalidMove => println("Dieser Zug geht nicht!")
-        }
-      }
-      controller.add(observer)
+      listenTo(controller)
 
       "pushCardHand and handle its undo/redo" in {
         controller.pushCardHand(0, 0, 1, false)
@@ -139,30 +129,14 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     "new" should {
       val game = Game(List(List.empty, List.empty, List.empty, List.empty), List.empty, List.empty)
       val controller = new Controller(game)
-      val observer = new Observer {
-        var updated: Boolean = false
 
-        def isUpdated: Boolean = updated
 
-        override def update: Boolean = {
-          updated = true;
-          updated
-        }
-
-        override def error(throwable: Throwable): Unit = throwable match {
-          case InvalidHandCard(i) => println("Falscher Index: " + i)
-          case InvalidMove => println("Dieser Zug geht nicht!")
-        }
-      }
-
-        controller.add(observer)
+        listenTo(controller)
 
         "get started" in {
           controller.startGame()
           controller.gameState should be(START)
-          observer.updated should be(true)
-
-          }
+        }
       }
     }
   }

@@ -1,7 +1,7 @@
 package de.htwg.se.Skip_Bo.controller
 
 
-import de.htwg.se.Skip_Bo.controller.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START}
+import de.htwg.se.Skip_Bo.controller.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START, WIN}
 import de.htwg.se.Skip_Bo.model.Game
 import de.htwg.se.Skip_Bo.util.{Observable, UndoManager}
 
@@ -10,7 +10,7 @@ import scala.util.{Failure, Success, Try}
 
 
 
-class Controller(var game: Game=Game()) extends Observable {
+class Controller(var game: Game=Game()) extends Publisher{
 
   private val undoManager = new UndoManager
   var gameState: GameState = IDLE
@@ -21,79 +21,45 @@ class Controller(var game: Game=Game()) extends Observable {
   def startGame(size: Int = 5): Unit ={
     game = game.startGame(size)
     gameState = START
-    notifyObservers
+    //notifyObservers
+    publish(new CardPlaced)
   }
-
-  //legt Handkarte auf Ablegestapel
-  /*def pushCardHand(i: Int, j: Int,n: Int,helpst: Boolean ): Unit = {
-    undoManager.doStep(new PushCardHandCommand(i, j, n, helpst, this))
-    if(n == 0) {
-      if (helpst) {
-        println("Spieler(A) legt Karte auf " + (i + 1) + ". Hilfestapel")
-        beenden(playerState.turnChange.getPlayer)
-      } else {
-        println("Spieler(A) legt Karte auf " + (i + 1) + ". Ablagestapel")
-
-      }
-    } else if(n == 1){
-      if (helpst) {
-        println("Spieler(B) legt Karte auf " + (i + 1) + ". Hilfestapel")
-        beenden(playerState.turnChange.getPlayer)
-      } else {
-        println("Spieler(B) legt Karte auf " + (i + 1) + ". Ablagestapel")
-      }
-    }
-    notifyObservers
-  }*/
 
   def pushCardHand(i: Int, j: Int,n: Int,helpst: Boolean ): Unit = {
     undoManager.doStep(new PushCardHandCommand(i, j, n, helpst, this))
     if (helpst) {
         beenden(playerState.turnChange.getPlayer)
+    } else if (!helpst && game.player(playerState.turnChange.getPlayer).cards.size == 0){
+      beenden(playerState.turnChange.getPlayer)
     } else {
       oldGameState = gameState
       gameState = PLACES
     }
-    notifyObservers
+    //notifyObservers
+    publish(new CardPlaced)
   }
-
-
-  /*//legt Karte vom Hilfsstapel auf Ablegestapel
-  def pushCardHelp(i: Int, j:Int, n: Int): Unit = {
-    undoManager.doStep(new PushCardHelpCommand(i, j, n, this))
-    if(n == 0) {
-      println("Spieler(A) legt Karte vom " + (j + 1) + ". Hilfestapel auf den " + (i + 1) + ". Ablagestapel")
-    } else if(n == 1) {
-      println("Spieler(B) legt Karte vom " + (j + 1) + ". Hilfestapel auf den " + (i + 1) + ". Ablagestapel")
-    }
-    notifyObservers
-  }*/
 
   //legt Karte vom Hilfsstapel auf Ablegestapel
   def pushCardHelp(i: Int, j:Int, n: Int): Unit = {
     undoManager.doStep(new PushCardHelpCommand(i, j, n, this))
     oldGameState = gameState
     gameState = PLACEHS
-    notifyObservers
+    //notifyObservers
+    publish(new CardPlaced)
   }
-
-
-  /*//legt Karte vom Spielerstapel auf Ablegestapel
-  def pushCardPlayer(i: Int, n: Int):Unit = {
-    undoManager.doStep(new PushCardPlayerCommand(i, n, this))
-    if(n == 0) {
-      println("Spieler(A) legt karte vom Spielerstapel auf " + (i + 1) + ". Ablagestapel")
-    } else if(n == 1){
-      println("Spieler(B) legt karte vom Spielerstapel auf " + (i + 1) + ". Ablagestapel")
-    }
-    notifyObservers
-  }*/
 
   def pushCardPlayer(i: Int, n: Int):Unit = {
     undoManager.doStep(new PushCardPlayerCommand(i, n, this))
     oldGameState = gameState
     gameState = PLACESS
-    notifyObservers
+    if(game.player(playerState.getPlayer).stack.size == 0) {
+      gameState = WIN
+      //notifyObservers
+      publish(new CardPlaced)
+      System.exit(0)
+    }
+    //notifyObservers
+    publish(new CardPlaced)
   }
 
 
@@ -113,14 +79,16 @@ class Controller(var game: Game=Game()) extends Observable {
     undoManager.undoStep
     newGameState = gameState
     gameState = oldGameState
-    notifyObservers
+    //notifyObservers
+    publish(new CardPlaced)
   }
 
   def redo: Unit = {
     undoManager.redoStep
     oldGameState = gameState
     gameState = newGameState
-    notifyObservers
+    //notifyObservers
+    publish(new CardPlaced)
   }
 
   def hilfe: String = {
@@ -140,7 +108,7 @@ class Controller(var game: Game=Game()) extends Observable {
   }
 
 
-  //def statusText:String = GameState.message(gameState)
+  def statusText:String = GameState.message(gameState)
 
 
 }

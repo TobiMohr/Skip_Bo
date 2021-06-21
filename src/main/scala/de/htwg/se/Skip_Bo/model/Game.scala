@@ -222,7 +222,11 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     } else {
       ("| " + player(n).helpstack(3).head.toString + " | ")
     }
-    val f = ("| " + player(n).stack.head.toString + " | ")
+    val f = if(player(n).stack.size != 0) {
+      ("| " + player(n).stack.head.toString + " | ")
+    } else {
+      ("| leer | ")
+    }
     val m = ("| " + player(n).stack.length + " |")
     val g = ("| " + stack(0).size + " | ")
 

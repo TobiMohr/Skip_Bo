@@ -197,6 +197,14 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
 
   }
 
+  def checkGameState(): Game = {
+    if(!(stack(0).isEmpty && stack(1).isEmpty && stack(2).isEmpty && stack(3).isEmpty)){
+      copy(stack = List(List.empty, List.empty, List.empty, List.empty), player = List.empty, cardsCovered = List.empty)
+    } else {
+      this
+    }
+  }
+
 
   def toString(n: Int): String = {
 

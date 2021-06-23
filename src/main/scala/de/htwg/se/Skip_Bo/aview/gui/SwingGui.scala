@@ -15,15 +15,22 @@ class SwingGui(controller: Controller) extends Frame {
   listenTo(controller)
 
   title = "HTWG Skip_Bo"
+  preferredSize = new Dimension(600, 800)
 
   val statusline = new TextField(controller.statusText, 30)
 
   def aktion(): BoxPanel = new BoxPanel(Orientation.Vertical){
+    if(!controller.game.player.isEmpty)contents += new Label(
+      "Spieler " + controller.playerState.name + " ist am Zug. Wähle eine Aktion."
+    ) else {
+      contents += new Label(
+        "Starte das Spiel über das Menüverzeichnis File/New"
+      )
+    }
 
     val indices = new TextField()
     val indices2 = new TextField()
-    contents += indices
-    contents += indices2
+
     contents += Button("Push Card From Hand on Stack"){
       val i = (indices2.text.toInt - 1)        //Handindex
       val j = (indices.text.toInt  - 1)        //Stackindex
@@ -44,9 +51,26 @@ class SwingGui(controller: Controller) extends Frame {
       controller.pushCardPlayer(i, controller.playerState.getPlayer)
     }
 
+    contents += new Label("Welche Karte(Index): ")
+    contents += indices
+    contents += new Label("Wohin(Index): ")
+    contents += indices2
+
   }
 
-  def board(): GridPanel = new GridPanel(2,2) {
+  def board(): GridPanel = new GridPanel(4,1) {
+
+    if(controller.game.player.isEmpty){
+      contents += new Label("Spielerstapel: | leer | - verbleibende Karten: 0")
+    } else {
+      if(!controller.game.player(controller.playerState.getPlayer).stack.isEmpty) {
+        contents += new Label("Spielerstapel: | " + controller.game.player(controller.playerState.getPlayer).stack.head.toString
+          + " | - verbleibende Karten: " + controller.game.player(controller.playerState.getPlayer).stack.size.toString)
+      } else {
+        contents += new Label("Spielerstapel: | leer | - verbleibende Karten: 0")
+      }
+    }
+
     if (controller.game.player.isEmpty){
       contents += new Label( "Handkarten: | 0 || 0 || 0 || 0 || 0 |")
     } else {
@@ -114,24 +138,20 @@ class SwingGui(controller: Controller) extends Frame {
       )
     }
 
-    if(controller.game.player.isEmpty){
-      contents += new Label("Spielerstapel: | leer | - verbleibende Karten: 0")
-    } else {
-      if(!controller.game.player(controller.playerState.getPlayer).stack.isEmpty) {
-        contents += new Label("Spielerstapel: | " + controller.game.player(controller.playerState.getPlayer).stack.head.toString
-          + " | - verbleibende Karten: " + controller.game.player(controller.playerState.getPlayer).stack.size.toString)
-      } else {
-        contents += new Label("Spielerstapel: | leer | - verbleibende Karten: 0")
-      }
-    }
   }
 
-  def win(): GridPanel = new GridPanel(1, 1){
+  def win(): GridPanel = new GridPanel(2,1){
     val label = new Label(
       "Spieler " + controller.playerState.name + " hat das Spiel gewonnen!!!"
     )
     label.preferredSize_=(new Dimension(70, 70))
     contents += label
+    val button = new Button(Action("Play Again!"){
+      controller.startGame()
+    })
+    button.preferredSize_=(new Dimension(30, 30))
+    contents += button
+
   }
 
 
@@ -163,6 +183,7 @@ class SwingGui(controller: Controller) extends Frame {
 
   visible = true
   redraw
+  centerOnScreen()
 
   reactions += {
     case event: CardPlaced => redraw

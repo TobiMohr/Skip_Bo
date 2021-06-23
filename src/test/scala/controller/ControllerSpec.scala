@@ -1,7 +1,7 @@
 package controller
 
 import de.htwg.se.Skip_Bo.controller.Controller
-import de.htwg.se.Skip_Bo.controller.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START}
+import de.htwg.se.Skip_Bo.controller.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START, WIN}
 import de.htwg.se.Skip_Bo.model.{Card, Game, InvalidHandCard, InvalidMove, Player, Value}
 import de.htwg.se.Skip_Bo.util.Observer
 import org.scalatest.matchers.should.Matchers
@@ -54,6 +54,9 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.gameState should be(PLACES: GameState)
         controller.game.player(1).cards.size should be(4)
         controller.game.stack(0).head.toString should be("4")
+      }
+      "have a status text" in {
+        controller.statusText should be("platziert Karte von Hand auf Ablagestapel")
       }
       "pushCardHand on helpstack and handle its undo/redo" in {
         controller.undo
@@ -116,6 +119,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.undo
         controller.pushCardPlayer(3, 0)
         game should be(game.refill(3))
+        controller.game.refill(3)
         controller.game.stack(3).size should be(0)
         controller.undo
         controller.game.refill(2)
@@ -125,18 +129,19 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.gameToString(0) should be(controller.game.toString(0))
       }
 
+
     }
     "new" should {
       val game = Game(List(List.empty, List.empty, List.empty, List.empty), List.empty, List.empty)
       val controller = new Controller(game)
 
 
-        listenTo(controller)
+      listenTo(controller)
 
-        "get started" in {
-          controller.startGame()
-          controller.gameState should be(START)
-        }
+      "get started" in {
+        controller.startGame()
+        controller.gameState should be(START)
       }
     }
   }
+}

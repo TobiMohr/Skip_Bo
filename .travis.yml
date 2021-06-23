@@ -1,6 +1,10 @@
 language: scala
 scala:
-  - 2.12.7
+  - 2.13.3
+
+dist: xenial
+services:
+  - xvfb
 
 script:
   - sbt clean coverage test coverageReport

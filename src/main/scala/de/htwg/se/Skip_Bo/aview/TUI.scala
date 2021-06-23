@@ -1,41 +1,71 @@
 package de.htwg.se.Skip_Bo.aview
 
-import de.htwg.se.Skip_Bo.controller.Controller
-import de.htwg.se.Skip_Bo.model.{Card, Colour, Stack}
+import de.htwg.se.Skip_Bo.controller.{CardPlaced, Controller, GameState}
+import de.htwg.se.Skip_Bo.model.{InvalidHandCard, InvalidMove}
 import de.htwg.se.Skip_Bo.util.Observer
 
+import scala.swing.Reactor
 
 
-class TUI(controller: Controller) extends Observer{
-
-
-  controller.add(this)
-  val stack = List(Card(Colour.red, 1), Card(Colour.green, 5))
+class TUI(controller: Controller) extends Reactor {
+  listenTo(controller)
   def processInputLine(input: String): Unit = {
+    val l:Array[String] = input.split(" ")
+    l(0) match {
+      //start Game
+      case "s" => controller.startGame()
+      //legt Handkarte auf Ablegestapel oder Hilfstapel von Spieler
+      case "ph" => {
+        val i = l(1).toInt //Welcher Hilfs- oder Ablagestapel (Index)
+        val j = l(2).toInt //Welche Handkarte (Index)
+        val n = controller.playerState.getPlayer //Welcher Spieler
+        val helpst = l(3).toBoolean //true=Hilfsstapel, false=Ablagestapel
+        controller.pushCardHand(i, j, n, helpst)
+      }
+      //legt Karte vom Spielerstapel auf Ablegestapel
+      case "ps" => {
+        val i = l(1).toInt //Welcher Ablagestapel (Index)
+        val n = controller.playerState.getPlayer //Welcher Spieler
+        controller.pushCardPlayer(i, n)
+      }
+      //legt Karte vom Hilfsstapel auf Ablegestapel
+      case "philfe" => {
+        val i = l(1).toInt //Welcher Hilfestapel (Index)
+        val j = l(2).toInt //Welcher Ablagestapel (Index)
+        val n = controller.playerState.getPlayer //Welcher Spieler
+        controller.pushCardHelp(i, j, n)
+      }
 
-
-    input match {
-      case "d" => controller.makeStack(stack)
-      case "c" => controller.makeCard(Colour.green, 2)
-      case "p1" => controller.p1()
-      case "p2" => controller.p2()
-      case "p3" => controller.p3()
-      case "p4" => controller.p4()
-      case "m1" => controller.m1()
-      case "m2" => controller.m2()
-      case "m3" => controller.m3()
-      case "m4" => controller.m4()
-      case "end" => controller.Beenden
-      case "exit" => sys.exit
-      case _  => println("Wrong input!")
+      case "u" => controller.undo
+      case "r" => controller.redo
+      case "help" => println(controller.hilfe)
+      case "q"=>
     }
+
+
+
+
+  }
+/*
+
+  override def update: Boolean = {
+    println(controller.gameToString(controller.playerState.getPlayer))
+    println(GameState.message(controller.gameState))
+    true
+  }
+  override def error(throwable: Throwable): Unit = throwable match{
+    case InvalidHandCard(i) => println("Falscher Index: " + i)
+    case InvalidMove => println("Dieser Zug geht nicht!")
+  }
+*/
+
+  reactions += {
+    case event: CardPlaced => printTUI
   }
 
 
-
-
-
-
-
-  override def update: Unit = println(controller.boardtoString)
+  def printTUI: Unit = {
+    println(controller.gameToString(controller.playerState.getPlayer))
+    println(GameState.message(controller.gameState))
+  }
 }

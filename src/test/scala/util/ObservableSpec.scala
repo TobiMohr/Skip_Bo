@@ -10,6 +10,8 @@ class ObservableSpec extends AnyWordSpec with Matchers {
       var updated: Boolean = false
       def isUpdated: Boolean = updated
       override def update: Unit = {updated = true; updated}
+
+      override def error(throwable: Throwable): Unit = print("fehler")
     }
     "add an Observer" in {
       observable.add(observer)

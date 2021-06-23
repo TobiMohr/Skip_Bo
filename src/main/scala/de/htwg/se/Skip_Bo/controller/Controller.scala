@@ -55,11 +55,11 @@ class Controller(var game: Game=Game()) extends Publisher{
     if(game.player(playerState.getPlayer).stack.size == 0) {
       gameState = WIN
       //notifyObservers
+      publish(new GameWon)
+    } else {
+      //notifyObservers
       publish(new CardPlaced)
-      System.exit(0)
     }
-    //notifyObservers
-    publish(new CardPlaced)
   }
 
 

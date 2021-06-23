@@ -13,7 +13,7 @@ object GameState extends Enumeration {
     PLACEHS -> "platziert karte von Hilfestapel auf Ablagestapel",
     PLACESS -> "platziert Karte von Spielerstapel auf Ablagestapel",
     NEXT -> "Zug beendet nächster Spieler ist am Zug",
-    WIN -> "Akteller Spieler hat das Spiel gewonnen"
+    WIN -> "Aktueller Spieler hat das Spiel gewonnen"
   )
 
   def message(gameState: GameState) = {

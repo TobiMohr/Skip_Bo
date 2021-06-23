@@ -3,7 +3,7 @@ package de.htwg.se.Skip_Bo
 import de.htwg.se.Skip_Bo.aview.TUI
 import de.htwg.se.Skip_Bo.aview.gui.SwingGui
 import de.htwg.se.Skip_Bo.controller.{CardPlaced, Controller}
-import de.htwg.se.Skip_Bo.model.Game
+import de.htwg.se.Skip_Bo.model.GameComponent.GameImpl.Game
 
 import scala.io.StdIn.readLine
 

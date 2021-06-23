@@ -3,7 +3,10 @@ package controller
 
 import de.htwg.se.Skip_Bo.controller.Controller
 import de.htwg.se.Skip_Bo.controller.PushCardHandCommand
-import de.htwg.se.Skip_Bo.model.{Card, Game, Player, Value}
+import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
+import de.htwg.se.Skip_Bo.model.CardComponent
+import de.htwg.se.Skip_Bo.model.GameComponent.GameImpl.Game
+import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerImpl.Player
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -11,22 +14,22 @@ class PushCardHandCommandSpec extends AnyWordSpec with Matchers {
   "A PushCardHandCommand" when {
     "new" should {
       val player1 = new Player("A",
-        List(Card(Value.Seven), Card(Value.Eleven), Card(Value.Five), Card(Value.Twelve), Card(Value.Two)),
-        List(List(Card(Value.Three)), List(Card(Value.Eleven)), List(Card(Value.Three)), List(Card(Value.Five))),
-        List(Card(Value.Five), Card(Value.Joker), Card(Value.Twelve), Card(Value.Two), Card(Value.Four)))
+        List(Card(Value.Seven), Card(Value.Eleven), CardComponent.Card(Value.Five), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Two)),
+        List(List(CardComponent.Card(Value.Three)), List(CardComponent.Card(Value.Eleven)), List(CardComponent.Card(Value.Three)), List(CardComponent.Card(Value.Five))),
+        List(CardComponent.Card(Value.Five), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Two), CardComponent.Card(Value.Four)))
       val player2 = new Player("B",
-        List(Card(Value.Four), Card(Value.Ten), Card(Value.Eight), Card(Value.Seven), Card(Value.Seven)),
-        List(List(Card(Value.Four),Card(Value.Six)), List(Card(Value.Eleven)), List(Card(Value.Ten)), List(Card(Value.Eight))),
-        List(Card(Value.One), Card(Value.Joker), Card(Value.Joker), Card(Value.Two), Card(Value.Seven)))
+        List(CardComponent.Card(Value.Four), CardComponent.Card(Value.Ten), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Seven)),
+        List(List(CardComponent.Card(Value.Four),CardComponent.Card(Value.Six)), List(CardComponent.Card(Value.Eleven)), List(CardComponent.Card(Value.Ten)), List(CardComponent.Card(Value.Eight))),
+        List(CardComponent.Card(Value.One), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Two), CardComponent.Card(Value.Seven)))
 
-      val game = Game(List(List(Card(Value.Three), Card(Value.Two), Card(Value.One)),
-        List(Card(Value.Two), Card(Value.Joker)),
-        List(Card(Value.One)),
-        List(Card(Value.Eleven), Card(Value.Ten), Card(Value.Nine), Card(Value.Eight), Card(Value.Seven), Card(Value.Six)
-          , Card(Value.Five), Card(Value.Four), Card(Value.Joker), Card(Value.Two), Card(Value.One))),
+      val game = Game(List(List(CardComponent.Card(Value.Three), CardComponent.Card(Value.Two), CardComponent.Card(Value.One)),
+        List(CardComponent.Card(Value.Two), CardComponent.Card(Value.Joker)),
+        List(CardComponent.Card(Value.One)),
+        List(CardComponent.Card(Value.Eleven), CardComponent.Card(Value.Ten), CardComponent.Card(Value.Nine), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Six)
+          , CardComponent.Card(Value.Five), CardComponent.Card(Value.Four), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Two), CardComponent.Card(Value.One))),
         List(player1, player2),
-        List(Card(Value.Three), Card(Value.Seven), Card(Value.Eight), Card(Value.Twelve), Card(Value.Joker),
-          Card(Value.Five), Card(Value.Six), Card(Value.Nine), Card(Value.Eight)))
+        List(CardComponent.Card(Value.Three), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Joker),
+          CardComponent.Card(Value.Five), CardComponent.Card(Value.Six), CardComponent.Card(Value.Nine), CardComponent.Card(Value.Eight)))
       val controller = new Controller(game)
       val command1 = new PushCardHandCommand(0, 0, 1, false, controller)
       val command2 = new PushCardHandCommand(3, 3, 0, false, controller)

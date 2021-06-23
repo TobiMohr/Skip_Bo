@@ -1,6 +1,6 @@
 package de.htwg.se.Skip_Bo.controller
 
-import de.htwg.se.Skip_Bo.model.Game
+import de.htwg.se.Skip_Bo.model.GameComponent.GameImpl.Game
 import de.htwg.se.Skip_Bo.util.Command
 
 import scala.util.{Failure, Success}

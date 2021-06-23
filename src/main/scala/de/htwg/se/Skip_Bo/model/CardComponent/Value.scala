@@ -1,4 +1,4 @@
-package de.htwg.se.Skip_Bo.model
+package de.htwg.se.Skip_Bo.model.CardComponent
 
 object Value extends Enumeration {
   type Values = Value

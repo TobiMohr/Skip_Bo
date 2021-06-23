@@ -1,16 +1,16 @@
-package de.htwg.se.Skip_Bo.model
+package de.htwg.se.Skip_Bo.model.GameComponent.GameImpl
 
-
-import de.htwg.se.Skip_Bo.controller.{PlayerA, PlayerState}
-import de.htwg.se.Skip_Bo.model.Value
-import de.htwg.se.Skip_Bo.util.Util
+import de.htwg.se.Skip_Bo.model.GameComponent.GameInterface
+import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
+import de.htwg.se.Skip_Bo.model.InvalidMove
+import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerImpl.Player
 
 import scala.util.{Failure, Random, Success, Try}
 
 case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toList,
                 player: List[Player] = List.empty,
                 cardsCovered: List[Card] = List.empty,
-               ) {
+               ) extends GameInterface {
 
   //baut Grundspiel auf
   def startGame(numOfPlayerCards: Int): Game = {
@@ -78,8 +78,7 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     val s = stack(i)
     val p = player(n)
     p.stackCard() match {
-      case Failure(exception) => Failure(exception)
-      case Success((card, newpl)) =>
+      case ((card, newpl)) =>
         if (!checkCardHand(card, s)) {
           Failure(InvalidMove)
         } else {
@@ -90,73 +89,19 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
   }
 
 
-  def pull(n :Int):Game ={
+  def pull(n: Int): Game = {
     val p = player(n)
     val t = 5 - p.cards.length
 
-//    (0 until t).foldLeft(this)((game, cardToDraw)=>{
-//      val card = game.cardsCovered.head
-//      val x = game.cardsCovered.tail
-//      val hand = game.player(n).draw(card)
-//      game.copy(cardsCovered = x, player = player.updated(n, hand))
-//    })
 
-    val (newHandCards,newCardsCovered) = cardsCovered.splitAt(t)
+    val (newHandCards, newCardsCovered) = cardsCovered.splitAt(t)
     val hand = p.draw2(newHandCards)
-    copy(cardsCovered= newCardsCovered, player = player.updated(n,hand))
+    copy(cardsCovered = newCardsCovered, player = player.updated(n, hand))
 
-
-//    var g = this
-//    while(g.player(n).cards.length < 5){
-//      val p = player(n)
-//      val card = g.cardsCovered.head
-//      val x = g.cardsCovered.tail
-//      val hand = p.draw(card)
-//      g = g.copy(cardsCovered = x, player = player.updated(n, hand))
-//    }
-//    g
   }
 
-
-  /*def checkCardHand(card: Card, stack: List[Card]): Boolean = {
-    if (stack.isEmpty) {
-      if (card.toString == "1" || card.toString == "J") {
-        return true
-      } else {
-        return false
-      }
-    } else if (stack.head.toString == "J" && stack.tail.isEmpty){
-      if(card.toString == "2"){
-        return true
-      } else {
-        return false
-      }
-    }
-    else {
-      if (card.toString != "J") {
-        if (stack.head.toString != "J") {
-          if ((card.toString.toInt) - 1 == stack.head.toString.toInt) {
-            return true
-          }
-        } else {
-          if (card.toString.toInt - 2 == stack(1).toString.toInt) { //geht nicht wenn zwei Joker übereinander liegen
-            return true
-          }
-        }
-      }
-      if (card.toString == "J") {
-        if (stack.head.toString == "J") {
-          return false
-        } else {
-          return true
-        }
-      }
-    }
-    false
-  }*/
-
   def checkCardHand(card: Card, stack: List[Card]): Boolean = {
-    if(stack.isEmpty){
+    if (stack.isEmpty) {
       if (card.toString == "1" || card.toString == "J") {
         true
       } else {
@@ -164,14 +109,14 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
       }
 
     } else {
-      if (stack.head.toString() == "J"){
-        if(card.toString == "J" || card.toString.toInt - 1 == stack.size){
+      if (stack.head.toString() == "J") {
+        if (card.toString == "J" || card.toString.toInt - 1 == stack.size) {
           true
         } else {
           false
         }
-    } else {
-        if (card.toString != "J"){
+      } else {
+        if (card.toString != "J") {
           if ((card.toString.toInt) - 1 == stack.head.toString.toInt) {
             true
           } else {
@@ -184,13 +129,13 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     }
   }
 
-  def refill(j: Int): Game ={
+  def refill(j: Int): Game = {
     val game = this
-    if(stack(j).size == 12){
+    if (stack(j).size == 12) {
       val c = Random.shuffle(stack(j))
       val x = cardsCovered ++ c
       copy(stack = stack.updated(j, List.empty), cardsCovered = x)
-    }else{
+    } else {
       game
     }
 
@@ -198,7 +143,7 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
   }
 
   def checkGameState(): Game = {
-    if(!(stack(0).isEmpty && stack(1).isEmpty && stack(2).isEmpty && stack(3).isEmpty)){
+    if (!(stack(0).isEmpty && stack(1).isEmpty && stack(2).isEmpty && stack(3).isEmpty)) {
       copy(stack = List(List.empty, List.empty, List.empty, List.empty), player = List.empty, cardsCovered = List.empty)
     } else {
       this
@@ -230,7 +175,7 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     } else {
       ("| " + player(n).helpstack(3).head.toString + " | ")
     }
-    val f = if(player(n).stack.size != 0) {
+    val f = if (player(n).stack.size != 0) {
       ("| " + player(n).stack.head.toString + " | ")
     } else {
       ("| leer | ")

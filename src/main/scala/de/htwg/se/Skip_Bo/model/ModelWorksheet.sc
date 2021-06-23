@@ -1,4 +1,6 @@
-import de.htwg.se.Skip_Bo.model.{Card, Game, Player, Value}
+import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
+import de.htwg.se.Skip_Bo.model.GameComponent.GameImpl.Game
+import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerImpl.Player
 
 import scala.util.Random
 

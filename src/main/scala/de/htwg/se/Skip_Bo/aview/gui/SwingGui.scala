@@ -1,7 +1,7 @@
 package de.htwg.se.Skip_Bo.aview.gui
 
 import de.htwg.se.Skip_Bo.controller.{CardPlaced, Controller, GameWon}
-import de.htwg.se.Skip_Bo.model.Card
+import de.htwg.se.Skip_Bo.model.CardComponent.Card
 
 import scala.swing._
 import scala.swing.Swing.LineBorder

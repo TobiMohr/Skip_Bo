@@ -1,5 +1,7 @@
 package de.htwg.se.Skip_Bo.model
 
+import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
+import de.htwg.se.Skip_Bo.model.GameComponent.GameImpl.Game
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -59,13 +61,13 @@ class GameSpec extends AnyWordSpec with Matchers {
       "be able to test if a card from hand is a valid placement on a stack" in {
         start.checkCardHand(Card(Value.One), Nil) should be(true)
         start.checkCardHand(Card(Value.Joker), Nil) should be(true)
-        start.checkCardHand(Card(Value.Joker), List(Card(Value.One))) should be(true)
-        start.checkCardHand(Card(Value.One), List(Card(Value.One))) should be(false)
-        start.checkCardHand(Card(Value.Joker), List(Card(Value.Joker))) should be(true)
-        start.checkCardHand(Card(Value.Five),
-          List(Card(Value.Joker), Card(Value.Three), Card(Value.Two), Card(Value.One))) should be(true)
-        start.checkCardHand(Card(Value.Five),
-          List(Card(Value.Four), Card(Value.Three), Card(Value.Two), Card(Value.One))) should be(true)
+        start.checkCardHand(CardComponent.Card(Value.Joker), List(CardComponent.Card(Value.One))) should be(true)
+        start.checkCardHand(CardComponent.Card(Value.One), List(CardComponent.Card(Value.One))) should be(false)
+        start.checkCardHand(CardComponent.Card(Value.Joker), List(CardComponent.Card(Value.Joker))) should be(true)
+        start.checkCardHand(CardComponent.Card(Value.Five),
+          List(CardComponent.Card(Value.Joker), CardComponent.Card(Value.Three), CardComponent.Card(Value.Two), CardComponent.Card(Value.One))) should be(true)
+        start.checkCardHand(CardComponent.Card(Value.Five),
+          List(CardComponent.Card(Value.Four), CardComponent.Card(Value.Three), CardComponent.Card(Value.Two), CardComponent.Card(Value.One))) should be(true)
       }
 
     }

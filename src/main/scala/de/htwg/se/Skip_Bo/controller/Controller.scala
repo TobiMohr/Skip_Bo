@@ -2,7 +2,8 @@ package de.htwg.se.Skip_Bo.controller
 
 
 import de.htwg.se.Skip_Bo.controller.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START, WIN}
-import de.htwg.se.Skip_Bo.model.Game
+import de.htwg.se.Skip_Bo.model.GameComponent.GameImpl.Game
+import de.htwg.se.Skip_Bo.model.GameComponent.GameInterface
 import de.htwg.se.Skip_Bo.util.{Observable, UndoManager}
 
 import scala.swing.Publisher

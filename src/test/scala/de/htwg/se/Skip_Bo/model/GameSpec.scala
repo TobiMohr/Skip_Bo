@@ -28,6 +28,21 @@ class GameSpec extends AnyWordSpec with Matchers {
         start.stack(2) should be(List())
         start.stack(3) should be(List())
       }
+      "have string representations" in {
+        start.toString(0) should be("Handkarten: " + "Vector(| " + start.player(0).cards(0).toString +
+          " | , | " + start.player(0).cards(1).toString + " | , | " + start.player(0).cards(2).toString
+          + " | , | " + start.player(0).cards(3).toString  + " | , | " + start.player(0).cards(4).toString + " | )" + "\n\n" +
+          "Hilfsstapel: " + "| leer | " + "\t" + "| leer | " + "\t" + "| leer | " + "\t" + "| leer | " +
+          "\t" + "Spielerstapel: " + "| " + start.player(0).stack.head.toString + " | " + "\t" + "| 30 |" + "\n\n" + "Ablagestapel: " + "| 0 | " + "\t" +
+          "| 0 | " + "\t" + "| 0 | " + "\t" + "| 0 | " + "\t")
+
+        start.toString(1) should be("Handkarten: " + "Vector(| " + start.player(1).cards(0).toString +
+          " | , | " + start.player(1).cards(1).toString + " | , | " + start.player(1).cards(2).toString
+          + " | , | " + start.player(1).cards(3).toString  + " | , | " + start.player(1).cards(4).toString + " | )" + "\n\n" +
+          "Hilfsstapel: " + "| leer | " + "\t" + "| leer | " + "\t" + "| leer | " + "\t" + "| leer | " +
+          "\t" + "Spielerstapel: " + "| " + start.player(1).stack.head.toString + " | " + "\t" + "| 30 |" + "\n\n" + "Ablagestapel: " + "| 0 | " + "\t" +
+          "| 0 | " + "\t" + "| 0 | " + "\t" + "| 0 | " + "\t")
+      }
       "a stack to draw from" in {
         start.cardsCovered should be(start.cardsCovered) //wie testet man random listen?
       }

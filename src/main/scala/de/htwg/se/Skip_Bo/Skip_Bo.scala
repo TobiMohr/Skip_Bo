@@ -11,6 +11,7 @@ object  Skip_Bo {
   val controller = new Controller(Game())
   val tui = new TUI(controller)
   val gui = new SwingGui(controller)
+  //controller.publish(new CardPlaced)
   //controller.notifyObservers
 
   def main(args: Array[String]): Unit = {

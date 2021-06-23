@@ -31,6 +31,11 @@ class PlayerSpec extends AnyWordSpec with Matchers {
       }
       "have a nice String representation" in {player.toString should be("Your Name")
       }
+      "pull" in {
+        player.draw(Card(Value.Joker))
+        player.cards.size should be(5)
+
+      }
   }}
 
 }

@@ -3,7 +3,7 @@ package de.htwg.se.Skip_Bo.util
 import de.htwg.se.Skip_Bo.model.{InvalidHandCard, InvalidMove}
 
 class TestObject extends Observer {
-  def update:Unit = println("Ping")
+  def update:Unit = println("ping")
 
   override def error(throwable: Throwable): Unit = throwable match{
     case InvalidHandCard(i) => println("Falscher Index: " + i)

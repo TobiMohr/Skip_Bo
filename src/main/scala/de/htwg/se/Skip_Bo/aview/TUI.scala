@@ -1,13 +1,13 @@
 package de.htwg.se.Skip_Bo.aview
 
-import de.htwg.se.Skip_Bo.controller.{CardPlaced, Controller}
+import de.htwg.se.Skip_Bo.controller.{CardPlaced, Controller, GameState}
 import de.htwg.se.Skip_Bo.model.{InvalidHandCard, InvalidMove}
 import de.htwg.se.Skip_Bo.util.Observer
 
 import scala.swing.Reactor
 
 
-class TUI(controller: Controller) extends Reactor{
+class TUI(controller: Controller) extends Reactor {
   listenTo(controller)
   def processInputLine(input: String): Unit = {
     val l:Array[String] = input.split(" ")
@@ -46,13 +46,26 @@ class TUI(controller: Controller) extends Reactor{
 
 
   }
+/*
+
+  override def update: Boolean = {
+    println(controller.gameToString(controller.playerState.getPlayer))
+    println(GameState.message(controller.gameState))
+    true
+  }
+  override def error(throwable: Throwable): Unit = throwable match{
+    case InvalidHandCard(i) => println("Falscher Index: " + i)
+    case InvalidMove => println("Dieser Zug geht nicht!")
+  }
+*/
 
   reactions += {
     case event: CardPlaced => printTUI
   }
 
+
   def printTUI: Unit = {
     println(controller.gameToString(controller.playerState.getPlayer))
+    println(GameState.message(controller.gameState))
   }
-
 }

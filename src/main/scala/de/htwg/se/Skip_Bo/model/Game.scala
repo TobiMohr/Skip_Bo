@@ -9,7 +9,7 @@ import scala.util.{Failure, Random, Success, Try}
 
 case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toList,
                 player: List[Player] = List.empty,
-                cardsCovered: List[Card] = List.empty
+                cardsCovered: List[Card] = List.empty,
                ) {
 
   //baut Grundspiel auf
@@ -26,7 +26,7 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     // erstellt Handkarten und Spielerstapel von den Spielern
     val (cards, player) = List("A", "B").foldLeft((c, List.empty[Player]))((t, plname) => {
       val (plcards, cards) = t._1.splitAt(numOfPlayerCards)
-      val (plstack, cards2) = cards.splitAt(30)
+      val (plstack, cards2) = cards.splitAt(1)
       val p = Player(name = plname, cards = plcards, stack = plstack)
       (cards2, t._2 :+ p)
     })
@@ -184,7 +184,18 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     }
   }
 
+  def refill(j: Int): Game ={
+    val game = this
+    if(stack(j).size == 12){
+      val c = Random.shuffle(stack(j))
+      val x = cardsCovered ++ c
+      copy(stack = stack.updated(j, List.empty), cardsCovered = x)
+    }else{
+      game
+    }
 
+
+  }
 
 
   def toString(n: Int): String = {
@@ -211,7 +222,11 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
     } else {
       ("| " + player(n).helpstack(3).head.toString + " | ")
     }
-    val f = ("| " + player(n).stack.head.toString + " | ")
+    val f = if(player(n).stack.size != 0) {
+      ("| " + player(n).stack.head.toString + " | ")
+    } else {
+      ("| leer | ")
+    }
     val m = ("| " + player(n).stack.length + " |")
     val g = ("| " + stack(0).size + " | ")
 

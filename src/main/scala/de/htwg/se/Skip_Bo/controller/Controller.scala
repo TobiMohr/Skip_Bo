@@ -1,6 +1,7 @@
 package de.htwg.se.Skip_Bo.controller
 
 
+import de.htwg.se.Skip_Bo.controller.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START, WIN}
 import de.htwg.se.Skip_Bo.model.Game
 import de.htwg.se.Skip_Bo.util.{Observable, UndoManager}
 
@@ -9,95 +10,85 @@ import scala.util.{Failure, Success, Try}
 
 
 
-class Controller(var game: Game=Game()) extends Publisher {
+class Controller(var game: Game=Game()) extends Publisher{
 
   private val undoManager = new UndoManager
-
+  var gameState: GameState = IDLE
+  var newGameState:GameState = IDLE
+  var oldGameState: GameState = IDLE
   var playerState: PlayerState = PlayerA
 
   def startGame(size: Int = 5): Unit ={
     game = game.startGame(size)
-    println("Spieler A ist am Zug")
-    publish(new CardPlaced)
+    gameState = START
     //notifyObservers
+    publish(new CardPlaced)
   }
 
-  //legt Handkarte auf Ablegestapel
   def pushCardHand(i: Int, j: Int,n: Int,helpst: Boolean ): Unit = {
     undoManager.doStep(new PushCardHandCommand(i, j, n, helpst, this))
-    if(n == 0) {
-      if (helpst) {
-        println("Spieler(A) legt Karte auf " + (i + 1) + ". Hilfestapel")
-        beenden(playerState.getPlayer)
-      } else {
-        println("Spieler(A) legt Karte auf " + (i + 1) + ". Ablagestapel")
-
-      }
-    } else if(n == 1){
-      if (helpst) {
-        println("Spieler(B) legt Karte auf " + (i + 1) + ". Hilfestapel")
-        beenden(playerState.getPlayer)
-      } else {
-        println("Spieler(B) legt Karte auf " + (i + 1) + ". Ablagestapel")
-      }
+    if (helpst) {
+        beenden(playerState.turnChange.getPlayer)
+    } else if (!helpst && game.player(playerState.turnChange.getPlayer).cards.size == 0){
+      beenden(playerState.turnChange.getPlayer)
+    } else {
+      oldGameState = gameState
+      gameState = PLACES
     }
-    publish(new CardPlaced)
     //notifyObservers
+    publish(new CardPlaced)
   }
-
 
   //legt Karte vom Hilfsstapel auf Ablegestapel
   def pushCardHelp(i: Int, j:Int, n: Int): Unit = {
     undoManager.doStep(new PushCardHelpCommand(i, j, n, this))
-    if(n == 0) {
-      println("Spieler(A) legt Karte vom " + (j + 1) + ". Hilfestapel auf den " + (i + 1) + ". Ablagestapel")
-    } else if(n == 1) {
-      println("Spieler(B) legt Karte vom " + (j + 1) + ". Hilfestapel auf den " + (i + 1) + ". Ablagestapel")
-    }
-    publish(new CardPlaced)
+    oldGameState = gameState
+    gameState = PLACEHS
     //notifyObservers
+    publish(new CardPlaced)
   }
 
-
-  //legt Karte vom Spielerstapel auf Ablegestapel
   def pushCardPlayer(i: Int, n: Int):Unit = {
     undoManager.doStep(new PushCardPlayerCommand(i, n, this))
-    if(n == 0) {
-      println("Spieler(A) legt karte vom Spielerstapel auf " + (i + 1) + ". Ablagestapel")
-    } else if(n == 1){
-      println("Spieler(B) legt karte vom Spielerstapel auf " + (i + 1) + ". Ablagestapel")
+    oldGameState = gameState
+    gameState = PLACESS
+    if(game.player(playerState.getPlayer).stack.size == 0) {
+      gameState = WIN
+      //notifyObservers
+      publish(new GameWon)
+    } else {
+      //notifyObservers
+      publish(new CardPlaced)
     }
-    publish(new CardPlaced)
-   // notifyObservers
   }
 
 
   def beenden(n:Int): Unit = {
-    if(n == 0) {
-      game = game.pull(1)
-      playerState = playerState.turnChange
-      println("Spieler(A) hat seinen Zug beendet")
-      println("Spieler(B) ist am Zug")
-    } else if(n == 1) {
-      game = game.pull(0)
-      playerState = playerState.turnChange
-      println("Spieler(B) hat seinen Zug beendet")
-      println("Spieler(A) ist am Zug")
-    }
+    game = game.pull(n)
+    oldGameState = gameState
+    gameState = NEXT
+  }
+
+  def refill(j:Int): Unit = {
+    game = game.refill(j)
   }
 
   def gameToString(n:Int): String = game.toString(n)
 
   def undo: Unit={
     undoManager.undoStep
-    publish(new CardPlaced)
+    newGameState = gameState
+    gameState = oldGameState
     //notifyObservers
+    publish(new CardPlaced)
   }
 
   def redo: Unit = {
     undoManager.redoStep
-    publish(new CardPlaced)
+    oldGameState = gameState
+    gameState = newGameState
     //notifyObservers
+    publish(new CardPlaced)
   }
 
   def hilfe: String = {
@@ -117,11 +108,7 @@ class Controller(var game: Game=Game()) extends Publisher {
   }
 
 
+  def statusText:String = GameState.message(gameState)
 
-
-  def highlight(index:Int):Unit = {
-    game = game.highlight(index)
-    publish(new CardPlaced)
-  }
 
 }

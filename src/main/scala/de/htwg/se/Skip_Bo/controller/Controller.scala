@@ -19,6 +19,7 @@ class Controller(var game: Game=Game()) extends Publisher{
   var playerState: PlayerState = PlayerA
 
   def startGame(size: Int = 5): Unit ={
+    game = game.checkGameState()
     game = game.startGame(size)
     gameState = START
     //notifyObservers

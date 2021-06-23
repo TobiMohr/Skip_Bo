@@ -52,12 +52,12 @@ class Controller(var game: Game=Game()) extends Publisher{
   def pushCardPlayer(i: Int, n: Int):Unit = {
     undoManager.doStep(new PushCardPlayerCommand(i, n, this))
     oldGameState = gameState
-    gameState = PLACESS
     if(game.player(playerState.getPlayer).stack.size == 0) {
       gameState = WIN
       //notifyObservers
       publish(new GameWon)
     } else {
+      gameState = PLACESS
       //notifyObservers
       publish(new CardPlaced)
     }

@@ -11,7 +11,7 @@ import scala.util.{Failure, Success, Try}
 
 
 
-class Controller(var game: Game=Game()) extends Publisher{
+class Controller(var game: GameInterface) extends Publisher{
 
   private val undoManager = new UndoManager
   var gameState: GameState = IDLE

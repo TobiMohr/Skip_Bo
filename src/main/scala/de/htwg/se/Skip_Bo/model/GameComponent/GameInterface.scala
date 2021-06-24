@@ -1,10 +1,16 @@
 package de.htwg.se.Skip_Bo.model.GameComponent
 
 import de.htwg.se.Skip_Bo.model.CardComponent.Card
+import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerImpl.Player
+import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerInterface
 
 import scala.util.Try
 
 trait GameInterface{
+
+  val stack: List[List[Card]]
+  val player: List[PlayerInterface]
+  val cardsCovered: List[Card]
 
   def startGame(numOfPlayerCards: Int): GameInterface
   def pushCardHand(i: Int, j: Int, n: Int, helpst: Boolean): Try[GameInterface]

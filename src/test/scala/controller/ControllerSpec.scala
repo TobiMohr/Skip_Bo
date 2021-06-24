@@ -1,12 +1,11 @@
 package controller
 
-import de.htwg.se.Skip_Bo.controller.Controller
-import de.htwg.se.Skip_Bo.controller.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START, WIN}
+import de.htwg.se.Skip_Bo.controller.controllerComponent.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START, WIN}
+import de.htwg.se.Skip_Bo.controller.controllerComponent.controllerBaseImpl.Controller
+import de.htwg.se.Skip_Bo.model.CardComponent
 import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
-import de.htwg.se.Skip_Bo.model.GameComponent.GameImpl.Game
-import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerImpl.Player
-import de.htwg.se.Skip_Bo.model.{CardComponent, InvalidHandCard, InvalidMove}
-import de.htwg.se.Skip_Bo.util.Observer
+import de.htwg.se.Skip_Bo.model.GameComponent.GameBaseImpl.Game
+import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerBaseImpl.Player
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -18,7 +17,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     "observed by an Observer" should {
 
       val player1 = new Player("A",
-        List(Card(Value.Seven), Card(Value.Eleven), CardComponent.Card(Value.Five), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Two)),
+        List(CardComponent.Card(Value.Seven), CardComponent.Card(Value.Eleven), CardComponent.Card(Value.Five), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Two)),
         List(List(CardComponent.Card(Value.Twelve)), List(CardComponent.Card(Value.Eleven)), List(CardComponent.Card(Value.Three)), List(CardComponent.Card(Value.Five))),
         List(CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Two), CardComponent.Card(Value.Four)))
       val player2 = new Player("B",
@@ -142,7 +141,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       listenTo(controller)
 
       "get started" in {
-        controller.startGame()
+        controller.startGame(5)
         controller.gameState should be(START)
       }
     }

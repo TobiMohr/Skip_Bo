@@ -1,17 +1,17 @@
-package de.htwg.se.Skip_Bo.controller
+package de.htwg.se.Skip_Bo.controller.controllerComponent.controllerBaseImpl
 
-
-import de.htwg.se.Skip_Bo.controller.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START, WIN}
-import de.htwg.se.Skip_Bo.model.GameComponent.GameImpl.Game
+import com.google.inject.Inject
+import com.google.inject.name.Named
+import de.htwg.se.Skip_Bo.controller.controllerComponent.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START, WIN}
+import de.htwg.se.Skip_Bo.controller.controllerComponent._
 import de.htwg.se.Skip_Bo.model.GameComponent.GameInterface
-import de.htwg.se.Skip_Bo.util.{Observable, UndoManager}
+import de.htwg.se.Skip_Bo.util.UndoManager
 
 import scala.swing.Publisher
-import scala.util.{Failure, Success, Try}
 
 
 
-class Controller(var game: GameInterface) extends Publisher{
+class Controller @Inject() (var game: GameInterface) extends ControllerInterface with Publisher {
 
   private val undoManager = new UndoManager
   var gameState: GameState = IDLE
@@ -19,7 +19,7 @@ class Controller(var game: GameInterface) extends Publisher{
   var oldGameState: GameState = IDLE
   var playerState: PlayerState = PlayerA
 
-  def startGame(size: Int = 5): Unit ={
+  def startGame( @Named("DefaultHandSize") size: Int ): Unit ={
     game = game.checkGameState()
     game = game.startGame(size)
     gameState = START
@@ -53,7 +53,7 @@ class Controller(var game: GameInterface) extends Publisher{
   def pushCardPlayer(i: Int, n: Int):Unit = {
     undoManager.doStep(new PushCardPlayerCommand(i, n, this))
     oldGameState = gameState
-    if(game.player(playerState.getPlayer).stack.size == 0) {
+    if(game.player(playerState.getPlayer).stack.isEmpty) {
       gameState = WIN
       //notifyObservers
       publish(new GameWon)

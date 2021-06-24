@@ -1,6 +1,6 @@
-package de.htwg.se.Skip_Bo.controller
+package de.htwg.se.Skip_Bo.controller.controllerComponent.controllerBaseImpl
 
-import de.htwg.se.Skip_Bo.model.GameComponent.GameImpl.Game
+import de.htwg.se.Skip_Bo.controller.controllerComponent.PlayerState
 import de.htwg.se.Skip_Bo.model.GameComponent.GameInterface
 import de.htwg.se.Skip_Bo.util.Command
 

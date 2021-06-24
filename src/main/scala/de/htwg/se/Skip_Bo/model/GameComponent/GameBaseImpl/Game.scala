@@ -1,15 +1,17 @@
-package de.htwg.se.Skip_Bo.model.GameComponent.GameImpl
+package de.htwg.se.Skip_Bo.model.GameComponent.GameBaseImpl
 
+import com.google.inject.Inject
+import com.google.inject.name.Named
 import de.htwg.se.Skip_Bo.model.GameComponent.GameInterface
 import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
-import de.htwg.se.Skip_Bo.model.InvalidMove
-import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerImpl.Player
+import de.htwg.se.Skip_Bo.model.{CardComponent, InvalidMove}
+import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerBaseImpl.Player
 
 import scala.util.{Failure, Random, Success, Try}
 
-case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toList,
-                player: List[Player] = List.empty,
-                cardsCovered: List[Card] = List.empty,
+case class Game @Inject() (@Named("stacks") stack: List[List[Card]],
+                @Named("players") player: List[Player],
+                @Named("cards") cardsCovered: List[Card]
                ) extends GameInterface {
 
   //baut Grundspiel auf
@@ -20,14 +22,14 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
         case Value.Joker => 18
         case _ => 12
       }
-      (1 to count).map(_ => Card(v))
+      (1 to count).map(_ => CardComponent.Card(v))
     }))
 
     // erstellt Handkarten und Spielerstapel von den Spielern
     val (cards, player) = List("A", "B").foldLeft((c, List.empty[Player]))((t, plname) => {
       val (plcards, cards) = t._1.splitAt(numOfPlayerCards)
       val (plstack, cards2) = cards.splitAt(30)
-      val p = Player(name = plname, cards = plcards, stack = plstack)
+      val p = Player(name = plname, cards = plcards, helpstack = (0 until 4).map(_ => List.empty).toList, stack = plstack)
       (cards2, t._2 :+ p)
     })
 
@@ -109,7 +111,7 @@ case class Game(stack: List[List[Card]] = (0 until 4).map(_ => List.empty).toLis
       }
 
     } else {
-      if (stack.head.toString() == "J") {
+      if (stack.head.toString == "J") {
         if (card.toString == "J" || card.toString.toInt - 1 == stack.size) {
           true
         } else {

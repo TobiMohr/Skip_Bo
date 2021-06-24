@@ -1,8 +1,9 @@
 package de.htwg.se.Skip_Bo.model.CardComponent
 
-import Value.Values
+import com.google.inject.Inject
+import de.htwg.se.Skip_Bo.model.CardComponent.Value.Values
 
-case class Card(value: Values){
+case class Card @Inject() (value: Values) {
 
   override def toString: String = {
     value match {

@@ -1,12 +1,10 @@
 package controller
 
-
-import de.htwg.se.Skip_Bo.controller.Controller
-import de.htwg.se.Skip_Bo.controller.PushCardHandCommand
-import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
+import de.htwg.se.Skip_Bo.controller.controllerComponent.controllerBaseImpl.{Controller, PushCardHandCommand}
 import de.htwg.se.Skip_Bo.model.CardComponent
-import de.htwg.se.Skip_Bo.model.GameComponent.GameImpl.Game
-import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerImpl.Player
+import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
+import de.htwg.se.Skip_Bo.model.GameComponent.GameBaseImpl.Game
+import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerBaseImpl.Player
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -14,7 +12,7 @@ class PushCardHandCommandSpec extends AnyWordSpec with Matchers {
   "A PushCardHandCommand" when {
     "new" should {
       val player1 = new Player("A",
-        List(Card(Value.Seven), Card(Value.Eleven), CardComponent.Card(Value.Five), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Two)),
+        List(CardComponent.Card(Value.Seven), CardComponent.Card(Value.Eleven), CardComponent.Card(Value.Five), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Two)),
         List(List(CardComponent.Card(Value.Three)), List(CardComponent.Card(Value.Eleven)), List(CardComponent.Card(Value.Three)), List(CardComponent.Card(Value.Five))),
         List(CardComponent.Card(Value.Five), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Two), CardComponent.Card(Value.Four)))
       val player2 = new Player("B",

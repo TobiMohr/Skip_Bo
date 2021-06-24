@@ -1,7 +1,7 @@
 package de.htwg.se.Skip_Bo.model
 
 import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
-import de.htwg.se.Skip_Bo.model.GameComponent.GameImpl.Game
+import de.htwg.se.Skip_Bo.model.GameComponent.GameBaseImpl.Game
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -59,8 +59,8 @@ class GameSpec extends AnyWordSpec with Matchers {
         start.pull(0) should be(start)
       }
       "be able to test if a card from hand is a valid placement on a stack" in {
-        start.checkCardHand(Card(Value.One), Nil) should be(true)
-        start.checkCardHand(Card(Value.Joker), Nil) should be(true)
+        start.checkCardHand(CardComponent.Card(Value.One), Nil) should be(true)
+        start.checkCardHand(CardComponent.Card(Value.Joker), Nil) should be(true)
         start.checkCardHand(CardComponent.Card(Value.Joker), List(CardComponent.Card(Value.One))) should be(true)
         start.checkCardHand(CardComponent.Card(Value.One), List(CardComponent.Card(Value.One))) should be(false)
         start.checkCardHand(CardComponent.Card(Value.Joker), List(CardComponent.Card(Value.Joker))) should be(true)

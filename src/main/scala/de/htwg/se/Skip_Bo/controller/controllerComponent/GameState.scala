@@ -1,6 +1,4 @@
-package de.htwg.se.Skip_Bo.controller
-
-import de.htwg.se.Skip_Bo.Skip_Bo.controller
+package de.htwg.se.Skip_Bo.controller.controllerComponent
 
 object GameState extends Enumeration {
   type GameState = Value

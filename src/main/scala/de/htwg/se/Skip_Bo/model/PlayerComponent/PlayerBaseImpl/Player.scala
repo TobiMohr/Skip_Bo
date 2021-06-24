@@ -1,5 +1,7 @@
-package de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerImpl
+package de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerBaseImpl
 
+import com.google.inject.Inject
+import com.google.inject.name.Named
 import de.htwg.se.Skip_Bo.model.CardComponent.Card
 import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerInterface
 import de.htwg.se.Skip_Bo.model.{InvalidHandCard, InvalidMove}
@@ -7,10 +9,10 @@ import de.htwg.se.Skip_Bo.util.Util
 
 import scala.util.{Failure, Success, Try}
 
-case class Player(name: String,
-                  cards: List[Card],
-                  helpstack: List[List[Card]] = (0 until 4).map(_ => List.empty).toList,
-                  stack: List[Card]) extends PlayerInterface {
+case class Player @Inject() (name: String,
+                  @Named("cards") cards: List[Card],
+                  @Named("stacks") helpstack: List[List[Card]],
+                  @Named("cards") stack: List[Card]) extends PlayerInterface {
   override def toString: String = name
 
   //int=Index welche Handkarte

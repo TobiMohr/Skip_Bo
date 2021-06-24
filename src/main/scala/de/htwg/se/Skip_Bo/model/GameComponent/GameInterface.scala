@@ -1,7 +1,6 @@
 package de.htwg.se.Skip_Bo.model.GameComponent
 
 import de.htwg.se.Skip_Bo.model.CardComponent.Card
-import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerImpl.Player
 import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerInterface
 
 import scala.util.Try

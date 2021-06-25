@@ -2,6 +2,7 @@ package de.htwg.se.Skip_Bo.model
 
 import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
 import de.htwg.se.Skip_Bo.model.GameComponent.GameBaseImpl.Game
+import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerBaseImpl.Player
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -21,6 +22,12 @@ class GameSpec extends AnyWordSpec with Matchers {
       "have an empty stack to draw from" in {
         game.cardsCovered should be(Nil)
       }
+      "manage wrong checkCardHand" in {
+        game.checkCardHand(Card(Value.Two), Nil) should be(false)
+        game.checkCardHand(Card(Value.Five),
+          List(Card(Value.Joker), Card(Value.Two), Card(Value.One))) should be(false)
+      }
+
     }
     "started" should {
       val start = game.startGame(5)
@@ -70,6 +77,45 @@ class GameSpec extends AnyWordSpec with Matchers {
           List(CardComponent.Card(Value.Four), CardComponent.Card(Value.Three), CardComponent.Card(Value.Two), CardComponent.Card(Value.One))) should be(true)
       }
 
+    }
+    "given" should {
+      val player1 = new Player("A",
+        List(CardComponent.Card(Value.Seven), CardComponent.Card(Value.Eleven), CardComponent.Card(Value.Five), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Two)),
+        List(List(CardComponent.Card(Value.Three)), List(CardComponent.Card(Value.Eleven)), List(CardComponent.Card(Value.Three)), List(CardComponent.Card(Value.Five))),
+        List())
+      val player2 = new Player("B",
+        List(CardComponent.Card(Value.Four), CardComponent.Card(Value.Ten), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Seven)),
+        List(List(CardComponent.Card(Value.Four),CardComponent.Card(Value.Six)), List(CardComponent.Card(Value.Eleven)), List(CardComponent.Card(Value.Ten)), List(CardComponent.Card(Value.Eight))),
+        List(CardComponent.Card(Value.One), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Two), CardComponent.Card(Value.Seven)))
+
+      val game = Game(List(List(CardComponent.Card(Value.Three), CardComponent.Card(Value.Two), CardComponent.Card(Value.One)),
+        List(CardComponent.Card(Value.Two), CardComponent.Card(Value.Joker)),
+        List(CardComponent.Card(Value.One)),
+        List(CardComponent.Card(Value.Eleven), CardComponent.Card(Value.Ten), CardComponent.Card(Value.Nine), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Six)
+          , CardComponent.Card(Value.Five), CardComponent.Card(Value.Four), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Two), CardComponent.Card(Value.One))),
+        List(player1, player2),
+        List(CardComponent.Card(Value.Three), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Joker),
+          CardComponent.Card(Value.Five), CardComponent.Card(Value.Six), CardComponent.Card(Value.Nine), CardComponent.Card(Value.Eight)))
+
+      "wrong pushCardHelp" in {
+        game.pushCardHelp(0, 2, 1) should be(Failure(InvalidMove))
+      }
+      "String representation" in {
+        game.toString(0) should be(
+          "Handkarten: " + "Vector(| " + game.player(0).cards(0).toString +
+            " | , | " + game.player(0).cards(1).toString + " | , | " + game.player(0).cards(2).toString
+            + " | , | " + game.player(0).cards(3).toString  + " | , | " + game.player(0).cards(4).toString + " | )" + "\n\n" +
+            "Hilfsstapel: " + "| " + game.player(0).helpstack(0).head.toString +
+            " | " + "\t" + "| " + game.player(0).helpstack(1).head.toString +
+            " | " + "\t" + "| " + game.player(0).helpstack(2).head.toString +
+            " | " + "\t" + "| " + game.player(0).helpstack(3).head.toString +
+            " | " + "\t" + "Spielerstapel: " + "| leer | " + "\t" + "| 0 |" + "\n\n" +
+            "Ablagestapel: " + "| " + game.stack(0).head.toString +
+            " | " + "\t" + "| " + game.stack(1).head.toString +
+            " | " + "\t" + "| " + game.stack(2).head.toString +
+            " | " + "\t" + "| " + game.stack(3).head.toString + " | " + "\t"
+        )
+      }
     }
 
   }

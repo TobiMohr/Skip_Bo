@@ -1,13 +1,13 @@
-package de.htwg.se.Skip_Bo.controller
+package de.htwg.se.Skip_Bo.controller.controllerComponent.controllerBaseImpl
 
-import de.htwg.se.Skip_Bo.model.Game
+import de.htwg.se.Skip_Bo.model.GameComponent.GameInterface
 import de.htwg.se.Skip_Bo.util.Command
 
 import scala.util.{Failure, Success}
 
 class PushCardPlayerCommand (i: Int, n: Int, controller: Controller) extends Command{
 
-  var memento: Game = controller.game
+  var memento: GameInterface = controller.game
 
   override def doStep: Unit = {
     memento = controller.game

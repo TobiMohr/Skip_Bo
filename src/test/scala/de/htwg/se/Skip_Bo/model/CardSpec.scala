@@ -1,6 +1,6 @@
 package de.htwg.se.Skip_Bo.model
 
-
+import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -8,11 +8,11 @@ class CardSpec extends AnyWordSpec with Matchers {
 
   "A Card" when{
     "new" should{
-      val card1 = Card(Value.Eight)
-      val card2 = Card(Value.Five)
-      val card3 = Card(Value.One)
-      val card4 = Card(Value.Joker)
-      val card5 = Card(Value.Twelve)
+      val card1 = CardComponent.Card(Value.Eight)
+      val card2 = CardComponent.Card(Value.Five)
+      val card3 = CardComponent.Card(Value.One)
+      val card4 = CardComponent.Card(Value.Joker)
+      val card5 = CardComponent.Card(Value.Twelve)
 
       "have a Value" in{
         card1.value should be(Value.Eight)

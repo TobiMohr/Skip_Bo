@@ -1,4 +1,7 @@
-import de.htwg.se.Skip_Bo.model.{Card, Game, Player, Value}
+import de.htwg.se.Skip_Bo.model.CardComponent
+import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
+import de.htwg.se.Skip_Bo.model.GameComponent.GameBaseImpl.Game
+import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerBaseImpl.Player
 
 import scala.util.Random
 
@@ -9,7 +12,7 @@ def startGame(numOfPlayerCards: Int): Game = {
       case Value.Joker => 18
       case _ => 12
     }
-    (1 to count).map(_ => Card(v))
+    (1 to count).map(_ => CardComponent.Card(v))
   }))
 
 

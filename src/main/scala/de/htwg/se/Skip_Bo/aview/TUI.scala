@@ -1,19 +1,17 @@
 package de.htwg.se.Skip_Bo.aview
 
-import de.htwg.se.Skip_Bo.controller.{CardPlaced, Controller, GameState}
-import de.htwg.se.Skip_Bo.model.{InvalidHandCard, InvalidMove}
-import de.htwg.se.Skip_Bo.util.Observer
+import de.htwg.se.Skip_Bo.controller.controllerComponent.{CardPlaced, ControllerInterface, GameState}
 
 import scala.swing.Reactor
 
 
-class TUI(controller: Controller) extends Reactor {
+class TUI(controller: ControllerInterface) extends Reactor {
   listenTo(controller)
   def processInputLine(input: String): Unit = {
     val l:Array[String] = input.split(" ")
     l(0) match {
       //start Game
-      case "s" => controller.startGame()
+      case "s" => controller.startGame(5)
       //legt Handkarte auf Ablegestapel oder Hilfstapel von Spieler
       case "ph" => {
         val i = l(1).toInt //Welcher Hilfs- oder Ablagestapel (Index)

@@ -1,16 +1,13 @@
 package de.htwg.se.Skip_Bo.aview.gui
 
-import de.htwg.se.Skip_Bo.controller.{CardPlaced, Controller, GameWon}
-import de.htwg.se.Skip_Bo.model.Card
+import de.htwg.se.Skip_Bo.controller.controllerComponent.{CardPlaced, ControllerInterface, GameWon}
 
 import scala.swing._
-import scala.swing.Swing.LineBorder
 import scala.swing.event._
-import scala.io.Source._
-import scala.swing
 
 
-class SwingGui(controller: Controller) extends Frame {
+
+class SwingGui(controller: ControllerInterface) extends Frame {
 
   listenTo(controller)
 
@@ -147,7 +144,7 @@ class SwingGui(controller: Controller) extends Frame {
     label.preferredSize_=(new Dimension(70, 70))
     contents += label
     val button = new Button(Action("Play Again!"){
-      controller.startGame()
+      controller.startGame(5)
     })
     button.preferredSize_=(new Dimension(30, 30))
     contents += button
@@ -164,7 +161,7 @@ class SwingGui(controller: Controller) extends Frame {
     contents += new Menu("File") {
       mnemonic = Key.F
       contents += new MenuItem(Action("New") {
-        controller.startGame()
+        controller.startGame(5)
       })
       contents += new MenuItem(Action("Quit") {
         System.exit(0)

@@ -1,4 +1,4 @@
-package de.htwg.se.Skip_Bo.controller
+package de.htwg.se.Skip_Bo.controller.controllerComponent
 
 trait PlayerState {
   def turnChange: PlayerState

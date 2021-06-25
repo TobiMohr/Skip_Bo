@@ -19,10 +19,11 @@ case class Player @Inject() (name: String,
   def getCard(int: Int): Try[(Card, Player)] = {
     if (int >= cards.size) {
       Failure(InvalidHandCard(int))
+    } else {
+      val card = cards(int)
+      val x = Util.listRemoveAt(cards, int)
+      Success(card, copy(cards = x))
     }
-    val card = cards(int)
-    val x = Util.listRemoveAt(cards, int)
-    Success(card, copy(cards = x))
   }
 
   def stackCard(): (Card, Player) = {

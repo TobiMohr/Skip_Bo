@@ -1,6 +1,6 @@
-package controller
+package controller.controllerBaseImpl
 
-import de.htwg.se.Skip_Bo.controller.controllerComponent.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START, WIN}
+import de.htwg.se.Skip_Bo.controller.controllerComponent.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START}
 import de.htwg.se.Skip_Bo.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.Skip_Bo.model.CardComponent
 import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
@@ -145,5 +145,52 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.gameState should be(START)
       }
     }
+    "prepared with Player A only One Card in hand" should {
+      val player1 = new Player("A",
+        List(CardComponent.Card(Value.Seven), CardComponent.Card(Value.Eleven), CardComponent.Card(Value.Five), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Two)),
+        List(List(CardComponent.Card(Value.Twelve)), List(CardComponent.Card(Value.Eleven)), List(CardComponent.Card(Value.Three)), List(CardComponent.Card(Value.Five))),
+        List(CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Two), CardComponent.Card(Value.Four)))
+      val player2 = new Player("B",
+        List(CardComponent.Card(Value.Four)),
+        List(List(CardComponent.Card(Value.Four), CardComponent.Card(Value.Six)), List(CardComponent.Card(Value.Eleven)), List(CardComponent.Card(Value.Ten)), List(CardComponent.Card(Value.Eight))),
+        List(Card(Value.Two)))
+
+      val game = Game(List(List(CardComponent.Card(Value.Three), CardComponent.Card(Value.Two), CardComponent.Card(Value.One)),
+        List(CardComponent.Card(Value.Two), CardComponent.Card(Value.Joker)),
+        List(CardComponent.Card(Value.One)),
+        List(CardComponent.Card(Value.Eleven), CardComponent.Card(Value.Ten), CardComponent.Card(Value.Nine), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Six)
+          , CardComponent.Card(Value.Five), CardComponent.Card(Value.Four), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Two), CardComponent.Card(Value.One))),
+        List(player1, player2),
+        List(CardComponent.Card(Value.Three), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Joker),
+          CardComponent.Card(Value.Five), CardComponent.Card(Value.Six), CardComponent.Card(Value.Nine), CardComponent.Card(Value.Eight)))
+      val controller = new Controller(game)
+
+
+      listenTo(controller)
+      "refill" in {
+        controller.refill(1) should be()
+        controller.game should be(
+          Game(List(List(CardComponent.Card(Value.Three), CardComponent.Card(Value.Two), CardComponent.Card(Value.One)),
+            List(CardComponent.Card(Value.Two), CardComponent.Card(Value.Joker)),
+            List(CardComponent.Card(Value.One)),
+            List(CardComponent.Card(Value.Eleven), CardComponent.Card(Value.Ten), CardComponent.Card(Value.Nine), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Six)
+              , CardComponent.Card(Value.Five), CardComponent.Card(Value.Four), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Two), CardComponent.Card(Value.One))),
+            List(player1, player2),
+            List(CardComponent.Card(Value.Three), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Joker),
+              CardComponent.Card(Value.Five), CardComponent.Card(Value.Six), CardComponent.Card(Value.Nine), CardComponent.Card(Value.Eight)))
+        )
+      }
+      "end turn after placing all handcards" in {
+        controller.pushCardHand(0, 0, 1, false) should be(controller.beenden(0))
+      }
+      "win game after emptying stack" in {
+        controller.pushCardPlayer(2, 1)
+        controller.game.player(1).stack.size should be(0)
+        controller.playerState.getPlayer should be(0)
+
+      }
+
+    }
+
   }
 }

@@ -1,80 +1,84 @@
 package aview
 
 import de.htwg.se.Skip_Bo.aview.TUI
-import de.htwg.se.Skip_Bo.controller.Controller
-import de.htwg.se.Skip_Bo.model.{Board, Card, Colour, Stack}
+import de.htwg.se.Skip_Bo.controller.controllerComponent.GameState.{IDLE, PLACEHS, PLACESS, START}
+import de.htwg.se.Skip_Bo.controller.controllerComponent.controllerBaseImpl.Controller
+import de.htwg.se.Skip_Bo.model.CardComponent
+import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
+import de.htwg.se.Skip_Bo.model.GameComponent.GameBaseImpl.Game
+import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerBaseImpl.Player
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-class TUISpec extends AnyWordSpec with Matchers{
+class TUISpec extends AnyWordSpec with Matchers {
+  "A TUI " should {
+    val player1 = new Player("A",
+      List(CardComponent.Card(Value.Seven), CardComponent.Card(Value.Eleven), CardComponent.Card(Value.Five), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Two)),
+      List(List(CardComponent.Card(Value.Three)), List(CardComponent.Card(Value.Eleven)), List(CardComponent.Card(Value.Three)), List(CardComponent.Card(Value.Five))),
+      List(CardComponent.Card(Value.Five), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Two), CardComponent.Card(Value.Four)))
+    val player2 = new Player("B",
+      List(CardComponent.Card(Value.Four), CardComponent.Card(Value.Ten), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Seven)),
+      List(List(CardComponent.Card(Value.Four), CardComponent.Card(Value.Six)), List(CardComponent.Card(Value.Eleven)), List(CardComponent.Card(Value.Ten)), List(CardComponent.Card(Value.Eight))),
+      List(CardComponent.Card(Value.One), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Two), CardComponent.Card(Value.Seven)))
 
-  "A TUI " when {
-    "new" should {
-      val stack = new Stack(List(Card(Colour.red, 1), Card(Colour.green, 1)))
-      val card = new Card(Colour.blue,2)
-      val board = new Board()
-      val controller = new Controller(stack, card, board)
-      val tui = new TUI(controller)
-      "make a Stack with input d" in {
-        tui.processInputLine("d")
-        controller.makeStack(List(Card(Colour.red, 1), Card(Colour.green, 1))) should be()
-        controller.stack should be(Stack(List(Card(Colour.red, 1), Card(Colour.green, 1))))
-      }
-      "make a Card with inoput c" in {
-        tui.processInputLine("c")
-        controller.makeCard(Colour.blue, 2) should be()
-        controller.card should be(Card(Colour.blue, 2))
-      }
-      "put a card on player stapel 1 with input p1" in {
-        tui.processInputLine("p1")
-        controller.p1() should be()
-      }
+    val game = Game(List(List(CardComponent.Card(Value.Three), CardComponent.Card(Value.Two), CardComponent.Card(Value.One)),
+      List(CardComponent.Card(Value.Two), CardComponent.Card(Value.Joker)),
+      List(CardComponent.Card(Value.One)),
+      List(CardComponent.Card(Value.Four), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Two), CardComponent.Card(Value.One))),
+      List(player1, player2),
+      List(CardComponent.Card(Value.Three), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Joker),
+        CardComponent.Card(Value.Five), CardComponent.Card(Value.Six), CardComponent.Card(Value.Nine), CardComponent.Card(Value.Eight)))
+    val controller = new Controller(game)
+    val tui = new TUI(controller)
 
-      "put a card on player stapel 2 with input p2" in {
-        tui.processInputLine("p2")
-        controller.p2() should be()
-      }
-
-      "put a card on player stapel 3 with input p3" in {
-        tui.processInputLine("p3")
-        controller.p3() should be()
-      }
-
-      "put a card on player stapel 4 with input p4" in {
-        tui.processInputLine("p4")
-        controller.p4() should be()
-      }
-
-      "put a card on hilfsstapel 1 with input p1" in {
-        tui.processInputLine("m1")
-        controller.m1() should be()
-      }
-
-      "put a card on hilfsstapel 2 with input p1" in {
-        tui.processInputLine("m2")
-        controller.m2() should be()
-      }
-
-      "put a card on hilfsstapel 3 with input p1" in {
-        tui.processInputLine("m3")
-        controller.m3() should be()
-      }
-
-      "put a card on hilfsstapel 4 with input p1" in {
-        tui.processInputLine("m4")
-        controller.m4() should be()
-      }
-      "end turn with Input end" in {
-        tui.processInputLine("end")
-        controller.Beenden should be()
-      }
-      "end tui with Input exit" in {
-        tui.processInputLine("exit")
-      }
-      "error on wrong input" in {
-        tui.processInputLine("") should be()
-      }
+    "do nothing on input q" in {
+      tui.processInputLine("q")
     }
-  }
+    "place a card on a helpstack" in {
+      tui.processInputLine("ph 0 1 true")
+      controller.game.player should be(List(controller.game.player(0), controller.game.player(1)))
+    }
+    "place a card on a stack" in {
+      tui.processInputLine("ph 0 1 false")
+      controller.game.player should be(List(controller.game.player(0), controller.game.player(1)))
+    }
+    "place a card from playerstack on stack" in {
+      tui.processInputLine("ps 3")
+      controller.game.player should be(List(controller.game.player(0), controller.game.player(1)))
+    }
+    "place a card from helpstack on stack" in {
+      tui.processInputLine("philfe 0 0")
+      controller.game.player should be(List(controller.game.player(0), controller.game.player(1)))
+    }
+    "undo" in {
+      tui.processInputLine("u")
+      controller.gameState should be(PLACESS)
+    }
+    "redo" in {
+      tui.processInputLine("r")
+      controller.gameState should be(PLACEHS)
+    }
+    "get help" in {
+      tui.processInputLine("help")
+      controller.hilfe should be(
+        """---------Hilfe-----------
+          ||       Handkarten      ||
+          |
+          || H1 | H2 | H3 | H4 | S ||
+          |
+          ||  A1 |  A2 |  A3 |  A4 ||
+          |-------------------------
+          |ph i j true = legt Handkarte(j) auf Hilfestapel(i) vom Spieler
+          |ph i j false = legt Handkarte(j) auf Ablagestapel(i) vom Spieler
+          |ps i = legt Karte von Spielerstapen vom Spieler  auf Ablagestapel(i)
+          |philfe i j = Spieler legt Karte von Hilfestapel(i) auf Ablagestapel(j)
+          |"""
+          .stripMargin)
+    }
+    "start game" in {
+      tui.processInputLine("s")
+      controller.gameState should be(START)
+    }
 
+  }
 }

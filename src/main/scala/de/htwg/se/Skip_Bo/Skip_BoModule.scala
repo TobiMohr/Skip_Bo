@@ -3,7 +3,7 @@ package de.htwg.se.Skip_Bo
 import com.google.inject.AbstractModule
 import com.google.inject.name.Names
 import de.htwg.se.Skip_Bo.controller.controllerComponent.ControllerInterface
-import de.htwg.se.Skip_Bo.controller.controllerComponent.controllerBaseImpl.Controller
+import de.htwg.se.Skip_Bo.controller.controllerComponent.controllerBaseImpl.{Controller => BaseController}
 import de.htwg.se.Skip_Bo.model.CardComponent.Card
 import de.htwg.se.Skip_Bo.model.GameComponent.GameBaseImpl.Game
 import de.htwg.se.Skip_Bo.model.GameComponent.GameInterface
@@ -22,7 +22,7 @@ class Skip_BoModule extends AbstractModule with ScalaModule{
 
     bindConstant().annotatedWith(Names.named("DefaultHandSize")).to(defaultSize)
 
-    bind[ControllerInterface].to[Controller]
+    bind[ControllerInterface].to[BaseController]
     bind[GameInterface].to[Game]
     bind[PlayerInterface].to[Player]
 

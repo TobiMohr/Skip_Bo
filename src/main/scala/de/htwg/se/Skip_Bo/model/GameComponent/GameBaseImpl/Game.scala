@@ -28,7 +28,7 @@ case class Game @Inject() (@Named("stacks") stack: List[List[Card]],
     // erstellt Handkarten und Spielerstapel von den Spielern
     val (cards, player) = List("A", "B").foldLeft((c, List.empty[Player]))((t, plname) => {
       val (plcards, cards) = t._1.splitAt(numOfPlayerCards)
-      val (plstack, cards2) = cards.splitAt(30)
+      val (plstack, cards2) = cards.splitAt(1)
       val p = Player(name = plname, cards = plcards, helpstack = (0 until 4).map(_ => List.empty).toList, stack = plstack)
       (cards2, t._2 :+ p)
     })

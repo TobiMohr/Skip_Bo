@@ -28,23 +28,23 @@ class SwingGui(controller: ControllerInterface) extends Frame {
     val indices = new TextField()
     val indices2 = new TextField()
 
-    contents += Button("Push Card From Hand on Stack"){
+    contents += Button("Karte von Hand auf Ablagestapel"){
       val i = (indices2.text.toInt - 1)        //Handindex
       val j = (indices.text.toInt  - 1)        //Stackindex
       controller.pushCardHand(i, j, controller.playerState.getPlayer, false)
     }
-    contents += Button("Push Card From Hand on Helpstack") {
+    contents += Button("Karte von Hand auf Hilfsstapel") {
       val i = indices2.text.toInt - 1        //Handindex
       val j = indices.text.toInt - 1         //Stackindex
       controller.pushCardHand(i, j, controller.playerState.getPlayer, true)
     }
-    contents += Button("Push Card From Helpstack on Stack") {
+    contents += Button("Karte von Hilfestapel auf Ablagestapel") {
       val i = indices.text.toInt - 1
       val j = indices2.text.toInt - 1
       controller.pushCardHelp(i, j, controller.playerState.getPlayer)
     }
-    contents += Button("Push Card From Playerstack") {
-      val i = indices.text.toInt - 1
+    contents += Button("Karte vom Spielerstapel auf Ablagestapel") {
+      val i = indices2.text.toInt - 1
       controller.pushCardPlayer(i, controller.playerState.getPlayer)
     }
 

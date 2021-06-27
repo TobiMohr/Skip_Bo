@@ -48,9 +48,9 @@ class SwingGui(controller: ControllerInterface) extends Frame {
       controller.pushCardPlayer(i, controller.playerState.getPlayer)
     }
 
-    contents += new Label("Welche Karte(Index): ")
+    contents += new Label("Welche Karte(Index 1 -> 5): ")
     contents += indices
-    contents += new Label("Wohin(Index): ")
+    contents += new Label("Wohin(Index 1 -> 5): ")
     contents += indices2
 
   }

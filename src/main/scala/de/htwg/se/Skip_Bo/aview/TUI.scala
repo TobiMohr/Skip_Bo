@@ -36,6 +36,8 @@ class TUI(controller: ControllerInterface) extends Reactor {
 
       case "u" => controller.undo
       case "r" => controller.redo
+      case "l" => controller.load
+      case "f" => controller.save
       case "help" => println(controller.hilfe)
       case "q"=>
     }

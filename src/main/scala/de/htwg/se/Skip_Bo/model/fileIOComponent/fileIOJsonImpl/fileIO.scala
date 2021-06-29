@@ -1,3 +1,4 @@
+/*
 package de.htwg.se.Skip_Bo.model.fileIOComponent.fileIOJsonImpl
 
 import de.htwg.se.Skip_Bo.model.CardComponent.Card
@@ -40,5 +41,5 @@ class fileIO extends fileIOInterface {
       )
     )
   }
-
 }
+*/

@@ -19,19 +19,37 @@ class fileIO extends fileIOInterface {
   var stack2Size: Int = 0
   var stack3Size: Int = 0
   var stack4Size: Int = 0
-  var p1h1 = 0
-  var p1h2 = 0
-  var p1h3 = 0
-  var p1h4 = 0
-  var p2h1 = 0
-  var p2h2 = 0
-  var p2h3 = 0
-  var p2h4 = 0
-  var p1c = 0
-  var p2c = 0
-  var p1s = 0
-  var p2s = 0
-  var cC = 0
+  var p1h1: Int = 0
+  var p1h2: Int = 0
+  var p1h3: Int = 0
+  var p1h4: Int = 0
+  var p2h1: Int = 0
+  var p2h2: Int = 0
+  var p2h3: Int = 0
+  var p2h4: Int = 0
+  var p1c: Int = 0
+  var p2c: Int = 0
+  var p1s: Int = 0
+  var p2s: Int = 0
+  var cC: Int = 0
+
+  var stack1: List[Card] = List.empty
+  var stack2: List[Card] = List.empty
+  var stack3: List[Card] = List.empty
+  var stack4: List[Card] = List.empty
+  var hs1p1: List[Card] = List.empty
+  var hs2p1: List[Card] = List.empty
+  var hs3p1: List[Card] = List.empty
+  var hs4p1: List[Card] = List.empty
+  var hs1p2: List[Card] = List.empty
+  var hs2p2: List[Card] = List.empty
+  var hs3p2: List[Card] = List.empty
+  var hs4p2: List[Card] = List.empty
+  var sp1: List[Card] = List.empty
+  var sp2: List[Card] = List.empty
+  var cp1: List[Card] = List.empty
+  var cp2: List[Card] = List.empty
+  var cover: List[Card] = List.empty
 
 
 
@@ -40,102 +58,62 @@ class fileIO extends fileIOInterface {
     val source: String = Source.fromFile("game.json").getLines.mkString
     val json: JsValue = Json.parse(source)
 
-    var stack1: List[Card] = List.empty
-    var stack2: List[Card] = List.empty
-    var stack3: List[Card] = List.empty
-    var stack4: List[Card] = List.empty
-    var hs1p1: List[Card] = List.empty
-    var hs2p1: List[Card] = List.empty
-    var hs3p1: List[Card] = List.empty
-    var hs4p1: List[Card] = List.empty
-    var hs1p2: List[Card] = List.empty
-    var hs2p2: List[Card] = List.empty
-    var hs3p2: List[Card] = List.empty
-    var hs4p2: List[Card] = List.empty
-    var sp1: List[Card] = List.empty
-    var sp2: List[Card] = List.empty
-    var cp1: List[Card] = List.empty
-    var cp2: List[Card] = List.empty
-    var cover: List[Card] = List.empty
-
-    var string: String = ""
-
     for (index <- 0 until stack1Size){
-      val card = (json \\ "card")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card", index)
       stack1 = cardtmp +: stack1
     }
     stack1 = stack1.reverse
 
     for (index <- 0 until stack2Size){
-      val card = (json \\ "card2")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card2", index)
       stack2 = cardtmp +: stack2
     }
     stack2 = stack2.reverse
 
     for (index <- 0 until stack3Size){
-      val card = (json \\ "card3")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card3", index)
       stack3 = cardtmp +: stack3
     }
     stack3 = stack3.reverse
 
     for (index <- 0 until stack4Size){
-      val card = (json \\ "card4")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card4", index)
       stack4 = cardtmp +: stack4
     }
     stack4 = stack4.reverse
 
     for (index <- 0 until p1c){
-      val card = (json \\ "card5")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card5", index)
       cp1 = cardtmp +: cp1
     }
     cp1 = cp1.reverse
 
     for (index <- 0 until p1h1){
-      val card = (json \\ "card6")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card6", index)
       hs1p1 = cardtmp +: hs1p1
     }
     hs1p1 = hs1p1.reverse
 
     for (index <- 0 until p1h2){
-      val card = (json \\ "card7")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card7", index)
       hs2p1 = cardtmp +: hs2p1
     }
     hs2p1 = hs2p1.reverse
 
     for (index <- 0 until p1h3){
-      val card = (json \\ "card8")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card8", index)
       hs3p1 = cardtmp +: hs3p1
     }
     hs3p1 = hs3p1.reverse
 
     for (index <- 0 until p1h4){
-      val card = (json \\ "card9")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card9", index)
       hs4p1 = cardtmp +: hs4p1
     }
     hs4p1 = hs4p1.reverse
 
     for (index <- 0 until p1s){
-      val card = (json \\ "card10")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card10", index)
       sp1 = cardtmp +: sp1
     }
     sp1 = sp1.reverse
@@ -146,49 +124,37 @@ class fileIO extends fileIOInterface {
     val pl1 = Player(p1n, cp1, List(hs1p1, hs2p1, hs3p1, hs4p1), sp1)
 
     for (index <- 0 until p2c){
-      val card = (json \\ "card11")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card11", index)
       cp2 = cardtmp +: cp2
     }
     cp2 = cp2.reverse
 
     for (index <- 0 until p2h1){
-      val card = (json \\ "card12")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card12", index)
       hs1p2 = cardtmp +: hs1p2
     }
     hs1p2 = hs1p2.reverse
 
     for (index <- 0 until p2h2){
-      val card = (json \\ "card13")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card13", index)
       hs2p2 = cardtmp +: hs2p2
     }
     hs2p2 = hs2p2.reverse
 
     for (index <- 0 until p2h3){
-      val card = (json \\ "card14")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card14", index)
       hs3p2 = cardtmp +: hs3p2
     }
     hs3p2 = hs3p2.reverse
 
     for (index <- 0 until p2h4){
-      val card = (json \\ "card15")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card15", index)
       hs4p2 = cardtmp +: hs4p2
     }
     hs4p2 = hs4p2.reverse
 
     for (index <- 0 until p2s){
-      val card = (json \\ "card16")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card16", index)
       sp2 = cardtmp +: sp2
     }
     sp2 = sp2.reverse
@@ -198,15 +164,21 @@ class fileIO extends fileIOInterface {
     val pl2 = Player(p2n, cp2, List(hs1p2, hs2p2, hs3p2, hs4p2), sp2)
 
     for (index <- 0 until cC){
-      val card = (json \\ "card17")(index)
-      string = (card \ "Type").as[String]
-      val cardtmp: Card = Card(stringToValue(string))
+      val cardtmp = getCard(json, "card17", index)
       cover = cardtmp +: cover
     }
     cover = cover.reverse
 
     game = Game(List(stack1, stack2, stack3, stack4), List(pl1, pl2), cover)
     game
+  }
+
+  def getCard(json: JsValue, s: String, index:Int): Card = {
+    var string: String = ""
+    val card = (json \\ s)(index)
+    string = (card \ "Type").as[String]
+    val cardtmp: Card = Card(stringToValue(string))
+    cardtmp
   }
 
   implicit val cardWrites = new Writes[String] {

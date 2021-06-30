@@ -32,7 +32,7 @@ class Skip_BoModule extends AbstractModule with ScalaModule{
     bind[List[Player]].annotatedWith( Names.named("players")).toInstance( players )
     bind[List[List[Card]]].annotatedWith( Names.named("stacks")).toInstance( stacks )
 
-    bind[fileIOInterface].to[fileIOXmlImpl.fileIO]
+    bind[fileIOInterface].to[fileIOJsonImpl.fileIO]
 
   }
 }

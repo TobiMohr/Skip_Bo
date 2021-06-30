@@ -8,7 +8,7 @@ import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerBaseImpl.Player
 import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerInterface
 import de.htwg.se.Skip_Bo.model.fileIOComponent.fileIOInterface
 
-import scala.xml.{Elem, PrettyPrinter}
+import scala.xml.{Elem, NodeSeq, PrettyPrinter}
 
 class fileIO extends fileIOInterface {
 
@@ -217,7 +217,6 @@ class fileIO extends fileIOInterface {
     game
 
   }
-
 
   override def save(game: GameInterface): Unit = saveString(game)
 

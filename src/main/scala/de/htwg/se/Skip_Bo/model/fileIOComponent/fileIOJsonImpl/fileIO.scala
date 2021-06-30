@@ -1,8 +1,6 @@
 
 package de.htwg.se.Skip_Bo.model.fileIOComponent.fileIOJsonImpl
 
-import java.lang
-
 import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
 import de.htwg.se.Skip_Bo.model.CardComponent.Value.Values
 import de.htwg.se.Skip_Bo.model.GameComponent.GameBaseImpl.Game

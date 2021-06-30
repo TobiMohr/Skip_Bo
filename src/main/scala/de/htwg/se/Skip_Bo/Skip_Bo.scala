@@ -4,9 +4,6 @@ import com.google.inject.Guice
 import de.htwg.se.Skip_Bo.aview.TUI
 import de.htwg.se.Skip_Bo.aview.gui.SwingGui
 import de.htwg.se.Skip_Bo.controller.controllerComponent.ControllerInterface
-
-import scala.io.StdIn.readLine
-
 import scala.io.StdIn.readLine
 
 object  Skip_Bo {

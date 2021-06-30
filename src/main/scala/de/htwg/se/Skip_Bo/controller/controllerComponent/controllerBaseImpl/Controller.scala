@@ -1,11 +1,14 @@
 package de.htwg.se.Skip_Bo.controller.controllerComponent.controllerBaseImpl
 
-import com.google.inject.Inject
+import com.google.inject.{Guice, Inject}
+import net.codingwell.scalaguice.InjectorExtensions._
 import com.google.inject.name.Named
-import de.htwg.se.Skip_Bo.controller.controllerComponent.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START, WIN}
+import de.htwg.se.Skip_Bo.Skip_BoModule
+import de.htwg.se.Skip_Bo.controller.controllerComponent.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START, SAVED, LOADED, WIN}
 import de.htwg.se.Skip_Bo.controller.controllerComponent._
 import de.htwg.se.Skip_Bo.model.GameComponent.GameInterface
 import de.htwg.se.Skip_Bo.util.UndoManager
+import de.htwg.se.Skip_Bo.model.fileIOComponent.fileIOInterface
 
 import scala.swing.Publisher
 
@@ -18,6 +21,9 @@ class Controller @Inject() (var game: GameInterface) extends ControllerInterface
   var newGameState:GameState = IDLE
   var oldGameState: GameState = IDLE
   var playerState: PlayerState = PlayerA
+  var playerStateNow: PlayerState = PlayerA
+  val injector = Guice.createInjector(new Skip_BoModule)
+  val fileIO = injector.instance[fileIOInterface]
 
   def startGame( @Named("DefaultHandSize") size: Int ): Unit ={
     game = game.checkGameState()
@@ -112,5 +118,18 @@ class Controller @Inject() (var game: GameInterface) extends ControllerInterface
 
   def statusText:String = GameState.message(gameState)
 
+  def save: Unit = {
+    fileIO.save(game)
+    gameState = SAVED
+    publish(new CardPlaced)
+    playerStateNow = playerState
+  }
+
+  def load: Unit = {
+    game = fileIO.load
+    playerState = playerStateNow
+    gameState = LOADED
+    publish(new CardPlaced)
+  }
 
 }

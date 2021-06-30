@@ -47,4 +47,10 @@ class Controller(var game: GameInterface) extends ControllerInterface{
   override def oldGameState: GameState = IDLE
 
   override def playerState: PlayerState = PlayerA
+
+  override def playerStateNow: PlayerState = PlayerA
+
+  override def save: Unit = {}
+
+  override def load: Unit = {}
 }

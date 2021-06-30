@@ -9,7 +9,9 @@ import de.htwg.se.Skip_Bo.model.GameComponent.GameBaseImpl.Game
 import de.htwg.se.Skip_Bo.model.GameComponent.GameInterface
 import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerBaseImpl.Player
 import de.htwg.se.Skip_Bo.model.PlayerComponent.PlayerInterface
+import de.htwg.se.Skip_Bo.model.fileIOComponent.fileIOInterface
 import net.codingwell.scalaguice.ScalaModule
+import de.htwg.se.Skip_Bo.model.fileIOComponent._
 
 class Skip_BoModule extends AbstractModule with ScalaModule{
 
@@ -29,6 +31,8 @@ class Skip_BoModule extends AbstractModule with ScalaModule{
     bind[List[Card]].annotatedWith( Names.named( "cards" ) ).toInstance( cards)
     bind[List[Player]].annotatedWith( Names.named("players")).toInstance( players )
     bind[List[List[Card]]].annotatedWith( Names.named("stacks")).toInstance( stacks )
+
+    bind[fileIOInterface].to[fileIOJsonImpl.fileIO]
 
   }
 }

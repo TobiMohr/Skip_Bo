@@ -18,6 +18,8 @@ trait ControllerInterface extends Publisher{
   def gameToString(n: Int): String
   def undo: Unit
   def redo: Unit
+  def save: Unit
+  def load: Unit
   def hilfe: String
   def statusText: String
 
@@ -25,6 +27,7 @@ trait ControllerInterface extends Publisher{
   def newGameState:GameState
   def oldGameState: GameState
   def playerState: PlayerState
+  def playerStateNow: PlayerState
 }
 
 

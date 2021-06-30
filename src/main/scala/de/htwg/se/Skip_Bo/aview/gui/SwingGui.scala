@@ -53,6 +53,7 @@ class SwingGui(controller: ControllerInterface) extends Frame {
     contents += new Label("Wohin(Index 1 -> 5): ")
     contents += indices2
 
+
   }
 
   def board(): GridPanel = new GridPanel(4,1) {
@@ -163,6 +164,8 @@ class SwingGui(controller: ControllerInterface) extends Frame {
       contents += new MenuItem(Action("New") {
         controller.startGame(5)
       })
+      contents += new MenuItem(Action("Save") { controller.save })
+      contents += new MenuItem(Action("Load") { controller.load })
       contents += new MenuItem(Action("Quit") {
         System.exit(0)
       })

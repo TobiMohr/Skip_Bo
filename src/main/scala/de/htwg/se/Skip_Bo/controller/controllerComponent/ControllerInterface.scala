@@ -14,7 +14,7 @@ trait ControllerInterface extends Publisher{
   def pushCardHelp(i: Int, j: Int, n: Int): Unit
   def pushCardPlayer(i: Int, n: Int): Unit
   def beenden(n: Int): Unit
-  def refill(j: Int): Unit
+  //def refill(j: Int): Unit
   def gameToString(n: Int): String
   def undo: Unit
   def redo: Unit

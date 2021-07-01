@@ -24,8 +24,11 @@ class PushCardHandCommand (i: Int,j: Int,n: Int,helpst :Boolean, controller : Co
     } else if ((!helpst) && newGame.player(controller.playerState.getPlayer).cards.size == 0) {
       controller.playerState = state.turnChange
     }
-    val newGame2 = newGame.refill(i)
-    controller.game = newGame
+
+    val newGame2 = newGame.refill(i) match {
+      case None => newGame
+      case Some(value) => value
+    }
     controller.game = newGame2
 
   }
@@ -38,12 +41,6 @@ class PushCardHandCommand (i: Int,j: Int,n: Int,helpst :Boolean, controller : Co
     state = new_state
     memento = new_memento
   }
-
-  /*override def redoStep: Unit = memento = controller.game.pushCardHand(i, j, n, helpst) match {
-    case Failure(exception) => controller.game
-    case Success(value) => controller.game = value
-      controller.game
-  }*/
 
   override def redoStep: Unit = {
     val new_memento = controller.game

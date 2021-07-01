@@ -40,13 +40,15 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.pushCardHelp(0, 0, 1) should be()
         controller.pushCardPlayer(0, 1) should be()
         controller.beenden(0) should be()
-        controller.refill(1) should be()
         controller.undo should be()
         controller.redo should be()
+        controller.save should be()
+        controller.load should be()
         controller.gameState should be(IDLE)
         controller.oldGameState should be(IDLE)
         controller.newGameState should be(IDLE)
         controller.playerState should be(PlayerA)
+        controller.playerStateNow should be(PlayerA)
         controller.statusText should be("")
         controller.hilfe should be(
           """---------Hilfe-----------

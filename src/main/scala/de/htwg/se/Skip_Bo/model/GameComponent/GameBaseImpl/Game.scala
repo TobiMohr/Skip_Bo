@@ -131,14 +131,13 @@ case class Game @Inject() (@Named("stacks") stack: List[List[Card]],
     }
   }
 
-  def refill(j: Int): Game = {
-    val game = this
+  def refill(j: Int): Option[Game] = {
     if (stack(j).size == 12) {
       val c = Random.shuffle(stack(j))
       val x = cardsCovered ++ c
-      copy(stack = stack.updated(j, List.empty), cardsCovered = x)
+      Some(copy(stack = stack.updated(j, List.empty), cardsCovered = x))
     } else {
-      game
+      None
     }
 
 

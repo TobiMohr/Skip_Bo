@@ -77,9 +77,12 @@ class Controller @Inject() (var game: GameInterface) extends ControllerInterface
     gameState = NEXT
   }
 
-  def refill(j:Int): Unit = {
-    game = game.refill(j)
-  }
+  /*def refill(j:Int): Unit = {
+    game.refill(j) match {
+      case None => game = game
+      case Some(newGame) => game = newGame
+    }
+  }*/
 
   def gameToString(n:Int): String = game.toString(n)
 

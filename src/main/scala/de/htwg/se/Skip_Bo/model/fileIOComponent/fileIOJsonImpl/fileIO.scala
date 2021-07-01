@@ -116,10 +116,11 @@ class fileIO extends fileIOInterface {
     }
     sp1 = sp1.reverse
 
-    val p1n = (json \\ "name1").toString()
+    val p1n = (json \\ "name1")(0)
+    val p1name = (p1n \"Type").as[String]
 
 
-    val pl1 = Player(p1n, cp1, List(hs1p1, hs2p1, hs3p1, hs4p1), sp1)
+    val pl1 = Player(p1name, cp1, List(hs1p1, hs2p1, hs3p1, hs4p1), sp1)
 
     for (index <- 0 until p2c){
       val cardtmp = getCard(json, "card11", index)
@@ -157,9 +158,10 @@ class fileIO extends fileIOInterface {
     }
     sp2 = sp2.reverse
 
-    val p2n = (json \\ "name2").toString()
+    val p2n = (json \\ "name2")(0)
+    val p2name = (p2n \ "Type").as[String]
 
-    val pl2 = Player(p2n, cp2, List(hs1p2, hs2p2, hs3p2, hs4p2), sp2)
+    val pl2 = Player(p2name, cp2, List(hs1p2, hs2p2, hs3p2, hs4p2), sp2)
 
     for (index <- 0 until cC){
       val cardtmp = getCard(json, "card17", index)
@@ -345,9 +347,9 @@ class fileIO extends fileIOInterface {
               }
             ),
             "hstack4" -> Json.toJson(
-              for (card <- player1.helpstack(3).indices) yield {
+              for (card <- player2.helpstack(3).indices) yield {
                 Json.obj(
-                  "card15" -> player1.helpstack(3)(card).toString
+                  "card15" -> player2.helpstack(3)(card).toString
                 )
               }
             )

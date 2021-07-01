@@ -15,7 +15,7 @@ class Controller(var game: GameInterface) extends ControllerInterface{
 
   override def beenden(n: Int): Unit = { }
 
-  override def refill(j: Int): Unit = { }
+  //override def refill(j: Int): Unit = { }
 
   override def gameToString(n: Int): String = game.toString(n)
 

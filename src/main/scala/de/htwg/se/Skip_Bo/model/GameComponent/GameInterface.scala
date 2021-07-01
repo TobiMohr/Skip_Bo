@@ -17,7 +17,7 @@ trait GameInterface{
   def pushCardPlayer(i: Int, n: Int): Try[GameInterface]
   def pull(n: Int): GameInterface
   def checkCardHand(card: Card, stack: List[Card]): Boolean
-  def refill(j: Int): GameInterface
+  def refill(j: Int): Option[GameInterface]
   def checkGameState(): GameInterface
   def toString(n: Int): String
 }

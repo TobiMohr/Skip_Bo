@@ -1,6 +1,7 @@
 package controller.controllerBaseImpl
 
-import de.htwg.se.Skip_Bo.controller.controllerComponent.GameState.{GameState, IDLE, NEXT, PLACEHS, PLACES, PLACESS, START}
+import de.htwg.se.Skip_Bo.controller.controllerComponent.GameState.{GameState, IDLE, LOADED, NEXT, PLACEHS, PLACES, PLACESS, SAVED, START}
+import de.htwg.se.Skip_Bo.controller.controllerComponent.PlayerA
 import de.htwg.se.Skip_Bo.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.Skip_Bo.model.CardComponent
 import de.htwg.se.Skip_Bo.model.CardComponent.{Card, Value}
@@ -120,7 +121,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       "refill" in {
         controller.undo
         controller.pushCardPlayer(3, 0)
-        game should be(game.refill(3))
+        controller.game.stack(3).size should be(0)
         controller.game.refill(3)
         controller.game.stack(3).size should be(0)
         controller.undo
@@ -167,21 +168,31 @@ class ControllerSpec extends AnyWordSpec with Matchers {
 
 
       listenTo(controller)
-      "refill" in {
-        controller.refill(1) should be()
-        controller.game should be(
-          Game(List(List(CardComponent.Card(Value.Three), CardComponent.Card(Value.Two), CardComponent.Card(Value.One)),
-            List(CardComponent.Card(Value.Two), CardComponent.Card(Value.Joker)),
-            List(CardComponent.Card(Value.One)),
-            List(CardComponent.Card(Value.Eleven), CardComponent.Card(Value.Ten), CardComponent.Card(Value.Nine), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Six)
-              , CardComponent.Card(Value.Five), CardComponent.Card(Value.Four), CardComponent.Card(Value.Joker), CardComponent.Card(Value.Two), CardComponent.Card(Value.One))),
-            List(player1, player2),
-            List(CardComponent.Card(Value.Three), CardComponent.Card(Value.Seven), CardComponent.Card(Value.Eight), CardComponent.Card(Value.Twelve), CardComponent.Card(Value.Joker),
-              CardComponent.Card(Value.Five), CardComponent.Card(Value.Six), CardComponent.Card(Value.Nine), CardComponent.Card(Value.Eight)))
-        )
+      "be able to safe the game" in {
+        controller.save
+        controller.gameState should be(SAVED)
+        controller.playerStateNow should be(PlayerA)
+
       }
       "end turn after placing all handcards" in {
         controller.pushCardHand(0, 0, 1, false) should be(controller.beenden(0))
+      }
+      "load the saved game" in {
+        controller.load
+        controller.playerState should be(PlayerA)
+        controller.gameState should be(LOADED)
+        controller.game.stack should be(game.stack)
+        controller.game.cardsCovered should be(game.cardsCovered)
+        controller.game.player(0).name should be(game.player(0).name)
+        controller.game.player(0).cards should be(game.player(0).cards)
+        controller.game.player(0).helpstack should be(game.player(0).helpstack)
+        controller.game.player(0).stack should be(game.player(0).stack)
+        controller.game.player(1).name should be(game.player(1).name)
+        controller.game.player(1).cards should be(game.player(1).cards)
+        controller.game.player(1).helpstack should be(game.player(1).helpstack)
+        controller.game.player(1).stack should be(game.player(1).stack)
+        controller.game should be(game)
+
       }
       "win game after emptying stack" in {
         controller.pushCardPlayer(2, 1)

@@ -16,7 +16,10 @@ class PushCardPlayerCommand (i: Int, n: Int, controller: Controller) extends Com
       case Success(value) => value
 
     }
-    val newGame2 = newGame.refill(i)
+    val newGame2 = newGame.refill(i) match {
+      case None => newGame
+      case Some(value) => value
+    }
 
     controller.game = newGame2
   }
@@ -34,7 +37,10 @@ class PushCardPlayerCommand (i: Int, n: Int, controller: Controller) extends Com
       case Success(value) => value
 
     }
-    val newGame2 = newGame.refill(i)
+    val newGame2 = newGame.refill(i) match {
+      case None => newGame
+      case Some(value) => value
+    }
     controller.game = newGame2
   }
 }

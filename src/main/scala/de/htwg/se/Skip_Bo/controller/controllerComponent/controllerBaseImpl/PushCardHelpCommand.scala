@@ -12,7 +12,7 @@ class PushCardHelpCommand (i: Int,j:Int,n: Int, controller: Controller) extends 
   override def doStep: Unit = {
     memento = controller.game
     val newGame = controller.game.pushCardHelp(i, j, n) match {
-      case Failure(exception) => controller.game
+      case Failure(_) => controller.game
       case Success(value) => value
 
     }
@@ -32,7 +32,7 @@ class PushCardHelpCommand (i: Int,j:Int,n: Int, controller: Controller) extends 
   override def redoStep: Unit = {
     memento = controller.game
     val newGame = controller.game.pushCardHelp(i, j, n) match {
-      case Failure(exception) => controller.game
+      case Failure(_) => controller.game
       case Success(value) => value
 
     }

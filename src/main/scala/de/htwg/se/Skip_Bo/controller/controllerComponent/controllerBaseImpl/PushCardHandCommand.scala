@@ -15,7 +15,7 @@ class PushCardHandCommand (i: Int,j: Int,n: Int,helpst :Boolean, controller : Co
     state = controller.playerState
     memento = controller.game
     val newGame = controller.game.pushCardHand(i, j, n, helpst) match {
-      case Failure(exception) => controller.game
+      case Failure(_) => controller.game
       case Success(value) => value
 
     }

@@ -74,22 +74,22 @@ class SwingGui(controller: ControllerInterface) extends Frame {
     } else {
       contents += new Label(
         if(controller.game.player(controller.playerState.getPlayer).cards.size == 5){
-          "Handkarten: | " + controller.game.player(controller.playerState.getPlayer).cards(0).toString + " || " +
-            controller.game.player(controller.playerState.getPlayer).cards(1).toString + "|| " +
-            controller.game.player(controller.playerState.getPlayer).cards(2).toString + "|| " +
-            controller.game.player(controller.playerState.getPlayer).cards(3).toString + "|| " +
+          "Handkarten: | " + controller.game.player(controller.playerState.getPlayer).cards(0).toString + " | | " +
+            controller.game.player(controller.playerState.getPlayer).cards(1).toString + " | | " +
+            controller.game.player(controller.playerState.getPlayer).cards(2).toString + " | | " +
+            controller.game.player(controller.playerState.getPlayer).cards(3).toString + " | | " +
             controller.game.player(controller.playerState.getPlayer).cards(4).toString + " |"
         } else if (controller.game.player(controller.playerState.getPlayer).cards.size == 4){
-          "Handkarten: | " + controller.game.player(controller.playerState.getPlayer).cards(0).toString + " || " +
-            controller.game.player(controller.playerState.getPlayer).cards(1).toString + "|| " +
-            controller.game.player(controller.playerState.getPlayer).cards(2).toString + "|| " +
+          "Handkarten: | " + controller.game.player(controller.playerState.getPlayer).cards(0).toString + " | | " +
+            controller.game.player(controller.playerState.getPlayer).cards(1).toString + " | | " +
+            controller.game.player(controller.playerState.getPlayer).cards(2).toString + " | | " +
             controller.game.player(controller.playerState.getPlayer).cards(3).toString + " |"
         } else if (controller.game.player(controller.playerState.getPlayer).cards.size == 3) {
-          "Handkarten: | " + controller.game.player(controller.playerState.getPlayer).cards(0).toString + " || " +
-            controller.game.player(controller.playerState.getPlayer).cards(1).toString + "|| " +
+          "Handkarten: | " + controller.game.player(controller.playerState.getPlayer).cards(0).toString + " | | " +
+            controller.game.player(controller.playerState.getPlayer).cards(1).toString + " | | " +
             controller.game.player(controller.playerState.getPlayer).cards(2).toString + " |"
         } else if (controller.game.player(controller.playerState.getPlayer).cards.size == 2) {
-          "Handkarten: | " + controller.game.player(controller.playerState.getPlayer).cards(0).toString + " || " +
+          "Handkarten: | " + controller.game.player(controller.playerState.getPlayer).cards(0).toString + " | | " +
             controller.game.player(controller.playerState.getPlayer).cards(1).toString + " |"
         } else if (controller.game.player(controller.playerState.getPlayer).cards.size == 1){
           "Handkarten: | " + controller.game.player(controller.playerState.getPlayer).cards(0).toString + " |"

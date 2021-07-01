@@ -8,11 +8,10 @@ import scala.io.StdIn.readLine
 
 object  Skip_Bo {
   val injector = Guice.createInjector(new Skip_BoModule)
-  val controller = injector.getInstance(classOf[ControllerInterface])//new Controller(Game())
+  val controller = injector.getInstance(classOf[ControllerInterface])
   val tui = new TUI(controller)
   val gui = new SwingGui(controller)
-  //controller.publish(new CardPlaced)
-  //controller.notifyObservers
+
 
   def main(args: Array[String]): Unit = {
 

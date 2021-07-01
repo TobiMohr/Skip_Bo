@@ -170,15 +170,15 @@ class fileIO extends fileIOInterface {
   def addCard(json: JsValue, s: String, index:Int, stack: List[Card]): List[Card] = {
     var string: String = ""
     val card = (json \\ s)(index)
-    string = (card \ "Type").as[String]
+    string = (card \ "Card").as[String]
     val cardtmp: Card = Card(stringToValue(string))
     val newStack = cardtmp +: stack
     newStack
   }
 
   implicit val cardWrites = new Writes[String] {
-    def writes(card: String) = Json.obj(
-      "Type" -> card
+    def writes(card: String): JsObject = Json.obj(
+      "Card" -> card
     )
   }
 
